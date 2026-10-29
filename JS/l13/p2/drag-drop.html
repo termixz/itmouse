@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and Drop в JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .draggable {
+            padding: 15px;
+            margin: 5px;
+            background-color: #3498db;
+            color: white;
+            cursor: move;
+            transition: opacity 0.3s;
+        }
+        .draggable.dragging {
+            opacity: 0.5;
+        }
+        .drop-zone {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px dashed #ccc;
+            min-height: 100px;
+            transition: all 0.3s;
+        }
+        .drop-zone.highlight {
+            background-color: #f0f7ff;
+            border-color: #3498db;
+        }
+        #dragExample .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        #dragExample .item {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            border-radius: 5px;
+            cursor: move;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Drag and Drop</h1>
+    
+    <div class="navigation">
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="intro.html">Введение</a></li>
+            <li><a href="event-handlers.html">Методы обработки</a></li>
+            <li><a href="event-object.html">Объект Event</a></li>
+            <li><a href="mouse-events.html">События мыши</a></li>
+            <li><a href="keyboard-events.html">События клавиатуры</a></li>
+            <li><a href="form-events.html">События форм</a></li>
+            <li><a href="load-events.html">События загрузки</a></li>
+            <li><a href="drag-drop.html" class="active">Drag and Drop</a></li>
+        </ul>
+    </div>
+
+    <h2>Перетаскивание элементов (Drag and Drop)</h2>
+    <p>
+        Drag and Drop API позволяет создавать интерфейсы с поддержкой перетаскивания элементов.
+        Он включает набор событий и методов для реализации функциональности перетаскивания.
+    </p>
+    
+    <h3>Основные события Drag and Drop:</h3>
+    <table>
+        <tr>
+            <th>Событие</th>
+            <th>Описание</th>
+        </tr>
+        <tr>
+            <td>dragstart</td>
+            <td>Возникает при начале перетаскивания элемента</td>
+        </tr>
+        <tr>
+            <td>drag</td>
+            <td>Возникает при перетаскивании элемента</td>
+        </tr>
+        <tr>
+            <td>dragend</td>
+            <td>Возникает при завершении перетаскивания</td>
+        </tr>
+        <tr>
+            <td>dragenter</td>
+            <td>Возникает, когда перетаскиваемый элемент входит в допустимую область для сброса</td>
+        </tr>
+        <tr>
+            <td>dragover</td>
+            <td>Возникает, когда перетаскиваемый элемент находится над допустимой областью для сброса</td>
+        </tr>
+        <tr>
+            <td>dragleave</td>
+            <td>Возникает, когда перетаскиваемый элемент покидает допустимую область для сброса</td>
+        </tr>
+        <tr>
+            <td>drop</td>
+            <td>Возникает, когда перетаскиваемый элемент сбрасывается в допустимую область</td>
+        </tr>
+    </table>
+    
+    <h3>Визуальные эффекты и копирование при перетаскивании</h3>
+    
+    <p>
+        При реализации Drag and Drop важную роль играет объект <code>dataTransfer</code>, который 
+        позволяет управлять поведением и визуальными эффектами при перетаскивании.
+    </p>
+    
+    <h4>Свойства объекта dataTransfer для эффектов:</h4>
+    
+    <ul>
+        <li>
+            <strong>effectAllowed</strong> - определяет разрешенные типы операций:
+            <ul>
+                <li><code>copy</code> - копирование элемента</li>
+                <li><code>move</code> - перемещение элемента (по умолчанию)</li>
+                <li><code>link</code> - создание ссылки на элемент</li>
+                <li><code>copyMove</code>, <code>copyLink</code>, <code>linkMove</code>, <code>all</code> - комбинации</li>
+                <li><code>none</code> - запрет операций</li>
+            </ul>
+        </li>
+        <li>
+            <strong>dropEffect</strong> - определяет текущую операцию:
+            <ul>
+                <li><code>copy</code> - копирование (обычно показывает значок "+") </li>
+                <li><code>move</code> - перемещение</li>
+                <li><code>link</code> - создание ссылки</li>
+                <li><code>none</code> - запрет (обычно показывает перечеркнутый значок)</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h4>Стратегии копирования элементов:</h4>
+    
+    <p>
+        Существует несколько способов реализации копирования элементов при перетаскивании:
+    </p>
+    
+    <ol>
+        <li>
+            <strong>Клонирование DOM-элемента</strong>: <code>const clone = element.cloneNode(true)</code>
+            <p>Создает полную копию элемента со всеми потомками и атрибутами.</p>
+        </li>
+        <li>
+            <strong>Передача HTML через dataTransfer</strong>: <code>event.dataTransfer.setData('text/html', element.outerHTML)</code>
+            <p>Позволяет воссоздать элемент в новом месте с его структурой.</p>
+        </li>
+        <li>
+            <strong>Передача данных в JSON-формате</strong>:
+            <p>Удобно для передачи структурированных данных, которые затем используются для создания нового элемента.</p>
+            <pre><code>event.dataTransfer.setData('application/json', JSON.stringify({
+    id: element.id,
+    content: element.textContent,
+    color: element.style.backgroundColor
+}));</code></pre>
+        </li>
+    </ol>
+    
+    <h4>Визуальные эффекты при перетаскивании:</h4>
+    
+    <p>
+        Для улучшения пользовательского опыта важно добавлять визуальную обратную связь:
+    </p>
+    
+    <ul>
+        <li>
+            <strong>Пользовательское изображение</strong>:
+            <p>Метод <code>setDragImage(element, x, y)</code> позволяет задать элемент, 
+            который будет отображаться под курсором при перетаскивании.</p>
+        </li>
+        <li>
+            <strong>Подсветка области сброса</strong>:
+            <p>Изменение стилей зон сброса при событиях <code>dragenter</code> и <code>dragleave</code>.</p>
+        </li>
+        <li>
+            <strong>Изменение прозрачности</strong>:
+            <p>Снижение непрозрачности перетаскиваемого элемента для визуальной индикации.</p>
+        </li>
+        <li>
+            <strong>Анимация появления</strong>:
+            <p>Добавление CSS-анимаций при добавлении нового элемента в зону сброса.</p>
+            <pre><code>@keyframes appear {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.new-element {
+    animation: appear 0.3s ease-out;
+}</code></pre>
+        </li>
+    </ul>
+    
+    <div class="example">
+        <h3>Пример простого Drag and Drop:</h3>
+        
+        <div class="drop-zone" id="dropZone1">
+            <div class="draggable" draggable="true" id="draggable1">Элемент 1 (перетащите меня)</div>
+            <div class="draggable" draggable="true" id="draggable2">Элемент 2 (перетащите меня)</div>
+        </div>
+        
+        <div class="drop-zone" id="dropZone2">
+            Зона для сброса
+        </div>
+        
+        <div class="output" id="dragOutput"></div>
+        
+        <script>
+            const draggables = document.querySelectorAll('.draggable');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            const dragOutput = document.getElementById('dragOutput');
+            
+            // Настраиваем перетаскиваемые элементы
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', function() {
+                    draggable.classList.add('dragging');
+                    // Сохраняем ID элемента для передачи при перетаскивании
+                    event.dataTransfer.setData('text/plain', draggable.id);
+                    dragOutput.textContent = 'Начало перетаскивания: ' + draggable.textContent;
+                });
+                
+                draggable.addEventListener('dragend', function() {
+                    draggable.classList.remove('dragging');
+                    dragOutput.textContent = 'Завершено перетаскивание: ' + draggable.textContent;
+      
+                });
+            });
+            
+            // Настраиваем зоны для сброса
+            dropZones.forEach(dropZone => {
+                // Разрешаем сброс элементов
+                dropZone.addEventListener('dragover', function(event) {
+                    event.preventDefault(); // Обязательно для разрешения сброса
+                    dropZone.classList.add('highlight');
+                });
+                
+                dropZone.addEventListener('dragenter', function(event) {
+                    event.preventDefault();
+                    dropZone.classList.add('highlight');
+                });
+                
+                dropZone.addEventListener('dragleave', function() {
+                    dropZone.classList.remove('highlight');
+                });
+                
+                dropZone.addEventListener('drop', function(event) {
+                    event.preventDefault();
+                    dropZone.classList.remove('highlight');
+                    
+                    // Получаем ID перетаскиваемого элемента
+                    const draggableId = event.dataTransfer.getData('text/plain');
+                    const draggable = document.getElementById(draggableId);
+                    
+                    // Добавляем элемент в зону сброса
+                    dropZone.appendChild(draggable);
+                    
+                    dragOutput.textContent = 'Элемент ' + draggable.textContent + ' сброшен в зону';
+                });
+            });
+        </script>
+        
+        <pre><code>// Настраиваем перетаскиваемые элементы
+const draggables = document.querySelectorAll('.draggable');
+draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', function(event) {
+        draggable.classList.add('dragging');
+        // Сохраняем ID элемента для передачи при перетаскивании
+        event.dataTransfer.setData('text/plain', draggable.id);
+    });
+    
+    draggable.addEventListener('dragend', function() {
+        draggable.classList.remove('dragging');
+    });
+});
+
+// Настраиваем зоны для сброса
+const dropZones = document.querySelectorAll('.drop-zone');
+dropZones.forEach(dropZone => {
+    // Разрешаем сброс элементов
+    dropZone.addEventListener('dragover', function(event) {
+        event.preventDefault(); // Обязательно для разрешения сброса
+        dropZone.classList.add('highlight');
+    });
+    
+    dropZone.addEventListener('dragenter', function(event) {
+        event.preventDefault();
+        dropZone.classList.add('highlight');
+    });
+    
+    dropZone.addEventListener('dragleave', function() {
+        dropZone.classList.remove('highlight');
+    });
+    
+    dropZone.addEventListener('drop', function(event) {
+        event.preventDefault();
+        dropZone.classList.remove('highlight');
+        
+        // Получаем ID перетаскиваемого элемента
+        const draggableId = event.dataTransfer.getData('text/plain');
+        const draggable = document.getElementById(draggableId);
+        
+        // Добавляем элемент в зону сброса
+        dropZone.appendChild(draggable);
+    });
+});</code></pre>
+    </div>
+
+    <h3>Объект DataTransfer</h3>
+    <p>
+        Объект <code>dataTransfer</code> используется для хранения данных, передаваемых при операции перетаскивания.
+    </p>
+    <div class="example">
+        <h4>Основные методы объекта dataTransfer:</h4>
+        <ul>
+            <li><code>setData(format, data)</code> - устанавливает данные в указанном формате</li>
+            <li><code>getData(format)</code> - получает данные в указанном формате</li>
+            <li><code>clearData()</code> - очищает все данные</li>
+            <li><code>setDragImage(element, x, y)</code> - устанавливает изображение, отображаемое во время перетаскивания</li>
+        </ul>
+        <pre><code>// Пример использования dataTransfer
+dragElement.addEventListener('dragstart', function(event) {
+    // Сохраняем данные
+    event.dataTransfer.setData('text/plain', 'id123');
+    event.dataTransfer.setData('application/json', JSON.stringify({id: 123, name: 'Элемент'}));
+    
+    // Устанавливаем пользовательское изображение для перетаскивания
+    const dragIcon = document.createElement('img');
+    dragIcon.src = 'drag-icon.png';
+    event.dataTransfer.setDragImage(dragIcon, 0, 0);
+});
+
+// Получение данных при сбросе
+dropZone.addEventListener('drop', function(event) {
+    const id = event.dataTransfer.getData('text/plain');
+    const jsonData = JSON.parse(event.dataTransfer.getData('application/json'));
+    console.log(id, jsonData);
+});</code></pre>
+    </div>
+
+    <h3>Продвинутый пример: сортировка элементов</h3>
+    <div class="example" id="dragExample">
+        <style>
+            #dragExample .container {
+                width: 100%;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border-radius: 5px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            #dragExample .item {
+                width: 100px;
+                height: 100px;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                color: white;
+                border-radius: 5px;
+                cursor: move;
+                user-select: none;
+            }
+            #dragExample .item.dragging {
+                opacity: 0.6;
+            }
+        </style>
+
+        <div class="container">
+            <div class="item" draggable="true" style="background-color: #e74c3c;">Элемент 1</div>
+            <div class="item" draggable="true" style="background-color: #3498db;">Элемент 2</div>
+            <div class="item" draggable="true" style="background-color: #2ecc71;">Элемент 3</div>
+            <div class="item" draggable="true" style="background-color: #f39c12;">Элемент 4</div>
+            <div class="item" draggable="true" style="background-color: #9b59b6;">Элемент 5</div>
+            <div class="item" draggable="true" style="background-color: #1abc9c;">Элемент 6</div>
+        </div>
+        
+        <div id="dragStatus" style="margin-top: 10px; font-weight: bold;"></div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const container = document.querySelector('#dragExample .container');
+                const items = document.querySelectorAll('#dragExample .item');
+                const status = document.getElementById('dragStatus');
+                
+                let draggedItem = null;
+                
+                // Настраиваем события для каждого элемента
+                items.forEach(item => {
+                    // Начало перетаскивания
+                    item.addEventListener('dragstart', function() {
+                        draggedItem = this;
+                        this.classList.add('dragging');
+                        this.style.opacity = '0.5';
+                        
+                        status.textContent = 'Перетаскивание: ' + this.textContent;
+                        status.style.color = this.style.backgroundColor;
+                    });
+                    
+                    // Конец перетаскивания
+                    item.addEventListener('dragend', function() {
+                        this.style.opacity = '1';
+                        this.classList.remove('dragging');
+                        draggedItem = null;
+                        
+                        status.textContent = 'Сортировка завершена';
+                        status.style.color = '';
+                        setTimeout(() => status.textContent = '', 1500);
+                    });
+                    
+                    // Перетаскивание над элементом
+                    item.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                    });
+                    
+                    // Сброс на элемент
+                    item.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        
+                        if (this !== draggedItem) {
+                            // Определяем, вставлять до или после текущего элемента
+                            const rect = this.getBoundingClientRect();
+                            const middleX = rect.left + rect.width / 2;
+                            
+                            if (e.clientX < middleX) {
+                                // Если курсор левее середины, вставляем перед
+                                container.insertBefore(draggedItem, this);
+                            } else {
+                                // Если курсор правее середины, вставляем после
+                                const nextSibling = this.nextElementSibling;
+                                if (nextSibling) {
+                                    container.insertBefore(draggedItem, nextSibling);
+                                } else {
+                                    container.appendChild(draggedItem);
+                                }
+                            }
+                        }
+                    });
+                });
+                
+                // Обработка событий контейнера
+                container.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                });
+                
+                container.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    
+                    // Если перетаскивание происходит на пустое место контейнера
+                    if (draggedItem && e.target === container) {
+                        container.appendChild(draggedItem);
+                    }
+                });
+            });
+        </script>
+        
+        <pre><code>// Простой код для сортировки элементов
+const container = document.querySelector('.container');
+const items = document.querySelectorAll('.item');
+
+let draggedItem = null;
+
+// Настраиваем события для каждого элемента
+items.forEach(item => {
+    // Начало перетаскивания
+    item.addEventListener('dragstart', function() {
+        draggedItem = this;
+        this.classList.add('dragging');
+        this.style.opacity = '0.5';
+    });
+    
+    // Конец перетаскивания
+    item.addEventListener('dragend', function() {
+        this.style.opacity = '1';
+        this.classList.remove('dragging');
+        draggedItem = null;
+    });
+    
+    // Разрешаем сброс на элемент
+    item.addEventListener('dragover', function(e) {
+        e.preventDefault();
+    });
+    
+    // Сброс на элемент
+    item.addEventListener('drop', function(e) {
+        e.preventDefault();
+        
+        if (this !== draggedItem) {
+            // Определяем, вставлять до или после текущего элемента
+            const rect = this.getBoundingClientRect();
+            const middleX = rect.left + rect.width / 2;
+            
+            if (e.clientX < middleX) {
+                // Вставляем перед
+                container.insertBefore(draggedItem, this);
+            } else {
+                // Вставляем после
+                const nextSibling = this.nextElementSibling;
+                if (nextSibling) {
+                    container.insertBefore(draggedItem, nextSibling);
+                } else {
+                    container.appendChild(draggedItem);
+                }
+            }
+        }
+    });
+});
+
+// Обработка сброса на пустое место контейнера
+container.addEventListener('dragover', function(e) {
+    e.preventDefault();
+});
+
+container.addEventListener('drop', function(e) {
+    e.preventDefault();
+    
+    if (draggedItem && e.target === container) {
+        container.appendChild(draggedItem);
+    }
+});</code></pre>
+    </div>
+
+    <h3>Пример: Копирование элементов при перетаскивании</h3>
+    <p>
+        В этом примере показано, как реализовать копирование элементов из одной области в другую 
+        с помощью Drag and Drop. При перетаскивании элемента из правой колонки в левую 
+        происходит его копирование, а не перемещение.
+    </p>
+    
+    <div class="example" style="overflow: hidden;">
+        <div style="display: flex; gap: 20px;">
+            <div id="targetContainer" class="drop-zone" style="flex: 1; min-height: 300px; display: flex; flex-direction: column; gap: 10px;">
+                <h4 style="margin: 0;">Перетащите сюда элементы</h4>
+            </div>
+            
+            <div id="sourceContainer" style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+                <h4 style="margin: 0;">Доступные элементы</h4>
+                <div class="source-item" draggable="true" style="padding: 15px; background-color: #e74c3c; color: white; cursor: move;">Элемент 1</div>
+                <div class="source-item" draggable="true" style="padding: 15px; background-color: #3498db; color: white; cursor: move;">Элемент 2</div>
+                <div class="source-item" draggable="true" style="padding: 15px; background-color: #2ecc71; color: white; cursor: move;">Элемент 3</div>
+                <div class="source-item" draggable="true" style="padding: 15px; background-color: #f39c12; color: white; cursor: move;">Элемент 4</div>
+                <div class="source-item" draggable="true" style="padding: 15px; background-color: #9b59b6; color: white; cursor: move;">Элемент 5</div>
+            </div>
+        </div>
+        
+        <div id="copyOutput" style="margin-top: 10px; font-weight: bold;"></div>
+        
+        <script>
+            const sourceItems = document.querySelectorAll('.source-item');
+            const targetContainer = document.getElementById('targetContainer');
+            const copyOutput = document.getElementById('copyOutput');
+            
+            // Инициализируем счетчик для уникальных ID
+            let copyCounter = 0;
+            
+            // Настраиваем исходные элементы
+            sourceItems.forEach(item => {
+                item.addEventListener('dragstart', function(event) {
+                    // Сохраняем HTML элемента для копирования
+                    event.dataTransfer.setData('text/html', this.outerHTML);
+                    // Сохраняем цвет фона для нового элемента
+                    event.dataTransfer.setData('text/bgcolor', this.style.backgroundColor);
+                    
+                    // Устанавливаем эффект копирования
+                    event.dataTransfer.effectAllowed = 'copy';
+                });
+            });
+            
+            // Настраиваем контейнер-приемник
+            targetContainer.addEventListener('dragover', function(event) {
+                event.preventDefault(); // Разрешаем сброс
+                this.classList.add('highlight');
+                
+                // Указываем, что выполняется копирование
+                event.dataTransfer.dropEffect = 'copy';
+            });
+            
+            targetContainer.addEventListener('dragleave', function() {
+                this.classList.remove('highlight');
+            });
+            
+            targetContainer.addEventListener('drop', function(event) {
+                event.preventDefault();
+                this.classList.remove('highlight');
+                
+                // Получаем данные элемента
+                const htmlData = event.dataTransfer.getData('text/html');
+                const bgColor = event.dataTransfer.getData('text/bgcolor');
+                
+                if (htmlData) {
+                    // Создаем элемент-контейнер для временного хранения HTML
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = htmlData;
+                    
+                    // Получаем первый элемент
+                    const newItem = tempDiv.firstChild;
+                    
+                    // Генерируем уникальный ID для нового элемента
+                    copyCounter++;
+                    const uniqueId = 'copied-item-' + copyCounter;
+                    newItem.id = uniqueId;
+                    
+                    // Добавляем текст "Копия" к содержимому
+                    newItem.innerHTML += ' (Копия)';
+                    
+                    // Добавляем тень, чтобы выделить копию
+                    newItem.style.boxShadow = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)';
+                    
+                    // Добавляем возможность удаления при клике
+                    newItem.addEventListener('click', function() {
+                        if (confirm('Удалить этот элемент?')) {
+                            this.remove();
+                            copyOutput.textContent = 'Элемент удален';
+                            copyOutput.style.color = '#e74c3c';
+                            setTimeout(() => copyOutput.textContent = '', 2000);
+                        }
+                    });
+                    
+                    // Добавляем элемент в контейнер
+                    this.appendChild(newItem);
+                    
+                    // Выводим сообщение
+                    copyOutput.textContent = 'Элемент скопирован в левую колонку';
+                    copyOutput.style.color = '#2ecc71';
+                    setTimeout(() => copyOutput.textContent = '', 2000);
+                }
+            });
+        </script>
+        
+        <pre><code>// Копирование элементов при перетаскивании
+
+// Получаем элементы
+const sourceItems = document.querySelectorAll('.source-item');
+const targetContainer = document.getElementById('targetContainer');
+
+// Настраиваем исходные элементы
+sourceItems.forEach(item => {
+    item.addEventListener('dragstart', function(event) {
+        // Сохраняем HTML элемента для копирования
+        event.dataTransfer.setData('text/html', this.outerHTML);
+        // Сохраняем цвет фона
+        event.dataTransfer.setData('text/bgcolor', this.style.backgroundColor);
+        
+        // Устанавливаем эффект копирования
+        event.dataTransfer.effectAllowed = 'copy';
+    });
+});
+
+// Настраиваем контейнер-приемник
+targetContainer.addEventListener('dragover', function(event) {
+    event.preventDefault(); // Разрешаем сброс
+    
+    // Указываем, что выполняется копирование
+    event.dataTransfer.dropEffect = 'copy';
+});
+
+targetContainer.addEventListener('drop', function(event) {
+    event.preventDefault();
+    
+    // Получаем данные элемента
+    const htmlData = event.dataTransfer.getData('text/html');
+    
+    if (htmlData) {
+        // Создаем временный контейнер
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = htmlData;
+        
+        // Получаем новый элемент
+        const newItem = tempDiv.firstChild;
+        
+        // Добавляем текст "Копия" к содержимому
+        newItem.innerHTML += ' (Копия)';
+        
+        // Добавляем элемент в контейнер
+        this.appendChild(newItem);
+    }
+});</code></pre>
+    </div>
+
+    <div class="note">
+        <p><strong>Следующий шаг:</strong> Теперь, когда вы знаете о Drag and Drop, вы можете использовать эти знания в своих проектах.</p>
+    </div>
+
+    <h3>Пример перемещения элемента в произвольную позицию</h3>
+    <div class="example">
+        <style>
+            #playground {
+                position: relative;
+                width: 100%;
+                height: 300px;
+                background-color: #f0f0f0;
+                border: 2px dashed #ccc;
+                margin-bottom: 10px;
+                overflow: hidden;
+            }
+            #movableBox {
+                position: absolute;
+                width: 80px;
+                height: 80px;
+                background-color: #3498db;
+                cursor: move;
+                user-select: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                transition: box-shadow 0.2s;
+                top: 20px;
+                left: 20px;
+            }
+            #movableBox:hover {
+                box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            }
+            #movableBox.moving {
+                opacity: 0.8;
+                box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            }
+            #positionInfo {
+                font-family: monospace;
+                margin-top: 5px;
+            }
+        </style>
+        
+        <p>Перетащите синий квадрат в любое место на поле:</p>
+        
+        <div id="playground">
+            <div id="movableBox">Перетащи меня</div>
+        </div>
+        
+        <div id="positionInfo">Позиция: X: 20px, Y: 20px</div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const box = document.getElementById('movableBox');
+                const playground = document.getElementById('playground');
+                const positionInfo = document.getElementById('positionInfo');
+                
+                let isDragging = false;
+                let offsetX, offsetY;
+                
+                // Начало перемещения
+                box.addEventListener('mousedown', function(e) {
+                    isDragging = true;
+                    box.classList.add('moving');
+                    
+                    // Вычисляем смещение от точки клика до левого верхнего угла элемента
+                    const rect = box.getBoundingClientRect();
+                    offsetX = e.clientX - rect.left;
+                    offsetY = e.clientY - rect.top;
+                });
+                
+                // Перемещение элемента
+                document.addEventListener('mousemove', function(e) {
+                    if (!isDragging) return;
+                    
+                    // Вычисляем новые координаты с учетом смещения и границ поля
+                    const playgroundRect = playground.getBoundingClientRect();
+                    const boxWidth = box.offsetWidth;
+                    const boxHeight = box.offsetHeight;
+                    
+                    let newLeft = e.clientX - playgroundRect.left - offsetX;
+                    let newTop = e.clientY - playgroundRect.top - offsetY;
+                    
+                    // Ограничиваем позицию границами поля
+                    newLeft = Math.max(0, Math.min(newLeft, playgroundRect.width - boxWidth));
+                    newTop = Math.max(0, Math.min(newTop, playgroundRect.height - boxHeight));
+                    
+                    // Применяем новую позицию
+                    box.style.left = newLeft + 'px';
+                    box.style.top = newTop + 'px';
+                    
+                    // Обновляем информацию о позиции
+                    positionInfo.textContent = `Позиция: X: ${Math.round(newLeft)}px, Y: ${Math.round(newTop)}px`;
+                });
+                
+                // Окончание перемещения
+                document.addEventListener('mouseup', function() {
+                    if (isDragging) {
+                        box.classList.remove('moving');
+                        isDragging = false;
+                    }
+                });
+                
+                // Предотвращаем стандартное перетаскивание
+                box.addEventListener('dragstart', function(e) {
+                    e.preventDefault();
+                });
+            });
+        </script>
+        
+        <pre><code>// Код для перемещения элемента в произвольную позицию
+const box = document.getElementById('movableBox');
+const playground = document.getElementById('playground');
+const positionInfo = document.getElementById('positionInfo');
+
+let isDragging = false;
+let offsetX, offsetY;
+
+// Начало перемещения
+box.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    
+    // Вычисляем смещение от точки клика до левого верхнего угла элемента
+    const rect = box.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+});
+
+// Перемещение элемента
+document.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    
+    // Вычисляем новые координаты с учетом смещения и границ поля
+    const playgroundRect = playground.getBoundingClientRect();
+    const boxWidth = box.offsetWidth;
+    const boxHeight = box.offsetHeight;
+    
+    let newLeft = e.clientX - playgroundRect.left - offsetX;
+    let newTop = e.clientY - playgroundRect.top - offsetY;
+    
+    // Ограничиваем позицию границами поля
+    newLeft = Math.max(0, Math.min(newLeft, playgroundRect.width - boxWidth));
+    newTop = Math.max(0, Math.min(newTop, playgroundRect.height - boxHeight));
+    
+    // Применяем новую позицию
+    box.style.left = newLeft + 'px';
+    box.style.top = newTop + 'px';
+});
+
+// Окончание перемещения
+document.addEventListener('mouseup', function() {
+    isDragging = false;
+});
+
+// Предотвращаем стандартное перетаскивание
+box.addEventListener('dragstart', function(e) {
+    e.preventDefault();
+});</code></pre>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
+
+    <script>
+        // Показать/скрыть кнопку "наверх" при прокрутке
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        // Прокрутка вверх при клике на кнопку
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html> 

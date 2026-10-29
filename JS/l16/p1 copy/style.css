@@ -1,0 +1,87 @@
+:root {
+    --bg-color: #f4f4f4;
+    --container-bg: aliceblue;
+    --text-color: #000000;
+    --btn-all-bg: #d1d1d1;
+}
+
+#copy {
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    font-size: 20px;
+    width: 35px;
+    height: 35px;
+    line-height: 1;
+}
+
+html, body {
+    margin: 0;
+    padding: 20px 0;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+button {
+    display: block;
+    color: var(--text-color);
+    background-color: var(--btn-all-bg);
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 8px 16px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+input {
+    display: block;
+    color: var(--text-color);
+    background-color: white;
+    border: 1px solid #ccc;
+    outline: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+input[type="radio"],input[type="checkbox"] {
+    display: inline-block;
+    width: auto;
+    margin: 0 5px 0 0; 
+    cursor: pointer;
+}
+
+
+input[type="radio"] + label, input[type="checkbox"] + label {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px; 
+    cursor: pointer;
+}
+textarea {
+    display: block; 
+    width: 100%;
+    max-width: 400px; 
+    margin-top: 10px; 
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+label[for="comm"] {
+    display: block;
+    width: 100%;
+}

@@ -1,0 +1,128 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px 0;
+}
+
+.card {
+    width: 85%;
+    max-width: 850px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 25px 30px;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #1a202c;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1a202c;
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #2d3748;
+}
+
+input[type="text"],
+input[type="date"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 90px;
+    padding: 8px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    resize: vertical;
+    margin-bottom: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:hover,
+input[type="date"]:hover,
+input[type="text"]:focus,
+input[type="date"]:focus,
+textarea:hover,
+textarea:focus {
+    border-color: #66afe9;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+input[type="submit"] {
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 13px;
+    transition: background-color 0.2s;
+}
+
+input[type="submit"]:hover {
+    background-color: #3e8e41;
+}
+
+.errorlist {
+    list-style: none;
+    padding: 10px 14px;
+    margin: 0 0 14px 0;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    background-color: #fdecea;
+    color: #b02a37;
+    font-size: 13px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #d3d3d3;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 14px;
+}
+
+th {
+    background-color: #e6e6e6;
+    font-weight: bold;
+    color: #1a202c;
+}
+
+td {
+    background-color: #ffffff;
+    vertical-align: top;
+    word-wrap: break-word;
+}

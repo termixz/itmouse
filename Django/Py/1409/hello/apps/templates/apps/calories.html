@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Счётчик калорий</title>
+    <link rel="stylesheet" href="{% static 'apps/css/calories.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1> Счётчик калорий</h1>
+        <p class="subtitle">Выберите продукты, укажите их вес и узнайте калорийность вашего дня.</p>
+
+        {% if total_kcal is not None %}
+            <section class="result
+                {% if overspent %}over{% else %}ok{% endif %}">
+                <h2>Итог дня</h2>
+                <table>
+                    <tr>
+                        <th>Продукт</th>
+                        <th>Вес</th>
+                        <th>Ккал</th>
+                    </tr>
+                    {% for item in eaten %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.grams }} г</td>
+                        <td>{{ item.kcal }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="total-row">
+                        <td colspan="2">Всего:</td>
+                        <td><b>{{ total_kcal }} ккал</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Норма за день:</td>
+                        <td>{{ daily_limit }} ккал</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Осталось:</td>
+                        <td>
+                            {% if overspent %}
+                                превышение на {{ over_by }} ккал
+                            {% else %}
+                                {{ left_kcal }} ккал
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+                <p class="verdict">
+                    {% if overspent %}
+                        Норма превышена — стоит пройтись пешком 🚶
+                    {% else %}
+                        Отлично, вы в пределах нормы! ✅
+                    {% endif %}
+                </p>
+            </section>
+        {% endif %}
+
+        <form method="post" class="calorie-form">
+            {% csrf_token %}
+            <div class="limit">
+                <label for="daily_limit">Дневная норма, ккал:</label>
+                <input type="number" id="daily_limit" name="daily_limit"
+                       value="{{ daily_limit|default:2000 }}" min="0">
+            </div>
+
+            <div class="products">
+                {% for name, kcal in products.items %}
+                <div class="product">
+                    <span class="product-name">{{ name }} <small>({{ kcal }} ккал / 100 г)</small></span>
+                    <input type="number" name="grams_{{ name }}"
+                           placeholder="граммы" min="0" step="10">
+                </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit">Посчитать калории</button>
+        </form>
+
+        <a class="back-link" href="/">На главную</a>
+    </div>
+</body>
+</html>

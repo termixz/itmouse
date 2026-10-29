@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практические задания по работе с DOM</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        .task {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .task h2 {
+            color: #2980b9;
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .task-description {
+            margin-bottom: 15px;
+        }
+        .sandbox {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .code-container {
+            background-color: #f0f0f0;
+            border-left: 4px solid #2980b9;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .result-container {
+            margin-top: 15px;
+            min-height: 50px;
+            padding: 10px;
+            border: 1px dashed #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .task-complete {
+            color: green;
+            font-weight: bold;
+            display: none;
+        }
+        input, select {
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>8 практических заданий по созданию и удалению DOM-элементов</h1>
+        
+        <!-- Задание 1 -->
+        <div class="task" id="task1">
+            <h2>Задание 1: Добавление элемента в контейнер</h2>
+            <div class="task-description">
+                <p>Создайте функцию, которая добавляет в контейнер новый абзац с текстом "Новый параграф N", где N - порядковый номер добавленного параграфа.</p>
+            </div>
+            
+            <div class="sandbox">
+                <button onclick="addParagraph()">Добавить параграф</button>
+                <div id="container1" class="result-container">
+                    <!-- Сюда будут добавляться параграфы -->
+                </div>
+                
+                <div class="code-container">
+                    <pre><code>// Получаем ссылку на контейнер
+const container = document.getElementById('container1');
+
+// Инициализируем счетчик
+let paragraphCounter = 0;
+
+// Функция для добавления параграфа
+function addParagraph() {
+    // Ваш код здесь:
+    // 1. Увеличьте счетчик
+    // 2. Создайте новый элемент параграфа (тег p)
+    // 3. Задайте текст параграфа "Новый параграф N", где N - значение счетчика
+    // 4. Добавьте параграф в контейнер
+    
+}</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Задание 2 -->
+        <div class="task" id="task2">
+            <h2>Задание 2: Создание списка из массива данных</h2>
+            <div class="task-description">
+                <p>Создайте функцию, которая формирует маркированный список (ul) на основе данных из массива. Каждый элемент массива должен стать элементом списка (li).</p>
+            </div>
+            
+            <div class="sandbox">
+                <button onclick="createList()">Создать список</button>
+                <div id="listContainer" class="result-container">
+                    <!-- Здесь появится список -->
+                </div>
+                
+                <div class="code-container">
+                    <pre><code>// Данные для списка
+const fruits = ['Яблоко', 'Банан', 'Апельсин', 'Груша', 'Киви', 'Манго'];
+
+// Получаем ссылку на контейнер
+const listContainer = document.getElementById('listContainer');
+
+// Функция для создания списка
+function createList() {
+    // Ваш код здесь:
+    // 1. Создайте элемент ul
+    // 2. Пройдитесь по массиву fruits, создавая для каждого элемента li
+    // 3. Добавьте каждый li в ul
+    // 4. Очистите контейнер listContainer перед добавлением списка
+    // 5. Добавьте готовый список в контейнер
+    
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Задание 3 -->
+        <div class="task" id="task3">
+            <h2>Задание 3: Удаление элементов</h2>
+            <div class="task-description">
+                <p>Создайте функцию для создания элементов и функцию для удаления выбранного элемента по его ID.</p>
+            </div>
+            
+            <div class="sandbox">
+                <button onclick="createItems()">Создать элементы</button>
+                <div id="itemsContainer" class="result-container">
+                    <!-- Здесь появятся элементы -->
+                </div>
+                <div style="margin-top: 10px;">
+                    <input type="number" id="itemToDelete" min="1" max="5" value="1" placeholder="Номер элемента (1-5)">
+                    <button onclick="removeItem()">Удалить элемент</button>
+                </div>
+                
+                <div class="code-container">
+                    <pre><code>// Получаем ссылки на элементы
+const itemsContainer = document.getElementById('itemsContainer');
+const itemToDelete = document.getElementById('itemToDelete');
+
+// Функция для создания элементов
+function createItems() {
+    // Очищаем контейнер перед добавлением новых элементов
+    itemsContainer.innerHTML = '';
+    
+    // Создаем 5 элементов
+    for (let i = 1; i <= 5; i++) {
+        const item = document.createElement('div');
+        item.textContent = 'Элемент ' + i;
+        item.id = 'item-' + i;
+        item.style.padding = '10px';
+        item.style.margin = '5px';
+        item.style.backgroundColor = '#e0e0e0';
+        
+        // Добавляем элемент в контейнер
+        itemsContainer.appendChild(item);
+    }
+}
+
+// Функция для удаления элемента
+function removeItem() {
+    // Ваш код здесь:
+    // 1. Получите номер элемента из поля ввода
+    // 2. Найдите элемент по его id ('item-' + номер)
+    // 3. Если элемент найден, удалите его из DOM
+    
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Задание 4 -->
+        <div class="task" id="task4">
+            <h2>Задание 4: Вставка элемента перед другим элементом</h2>
+            <div class="task-description">
+                <p>Создайте функцию для вставки нового элемента перед указанным элементом в списке.</p>
+            </div>
+            
+            <div class="sandbox">
+                <div id="list4" class="result-container">
+                    <div>Элемент 1</div>
+                    <div>Элемент 2</div>
+                    <div>Элемент 3</div>
+                </div>
+                <input type="text" id="newItemText" placeholder="Текст нового элемента">
+                <input type="number" id="positionInput" min="1" max="3" value="1" placeholder="Позиция (1-3)">
+                <button onclick="insertBeforeElement()">Вставить перед указанной позицией</button>
+                
+                <div class="code-container">
+                    <pre><code>// Получаем ссылки на элементы
+const list4 = document.getElementById('list4');
+const newItemText = document.getElementById('newItemText');
+const positionInput = document.getElementById('positionInput');
+
+// Функция для вставки элемента
+function insertBeforeElement() {
+    // Получаем значения из полей ввода
+    const text = newItemText.value.trim();
+    const position = parseInt(positionInput.value);
+    
+    if (text === '') {
+        alert('Введите текст нового элемента');
+        return;
+    }
+    
+    // Ваш код здесь:
+    // 1. Создайте новый элемент div с текстом из поля ввода
+    // 2. Найдите элемент в списке по указанной позиции (с индексом position-1)
+    // 3. Используйте метод insertBefore для вставки нового элемента
+    //    перед найденным элементом
+    
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Задание 5 -->
+        <div class="task" id="task5">
+            <h2>Задание 5: Замена одного элемента другим</h2>
+            <div class="task-description">
+                <p>Создайте функцию для замены выбранного элемента новым элементом.</p>
+            </div>
+            
+            <div class="sandbox">
+                <div id="list5" class="result-container">
+                    <div>Элемент A</div>
+                    <div>Элемент B</div>
+                    <div>Элемент C</div>
+                </div>
+                <select id="elementSelect">
+                    <option value="0">Элемент A</option>
+                    <option value="1">Элемент B</option>
+                    <option value="2">Элемент C</option>
+                </select>
+                <input type="text" id="replacementText" placeholder="Текст нового элемента">
+                <button onclick="replaceElement()">Заменить элемент</button>
+                
+                <div class="code-container">
+                    <pre><code>// Получаем ссылки на элементы
+const list5 = document.getElementById('list5');
+const elementSelect = document.getElementById('elementSelect');
+const replacementText = document.getElementById('replacementText');
+
+// Функция для замены элемента
+function replaceElement() {
+    // Получаем значения из полей ввода
+    const text = replacementText.value.trim();
+    const index = parseInt(elementSelect.value);
+    
+    if (text === '') {
+        alert('Введите текст нового элемента');
+        return;
+    }
+    
+    // Ваш код здесь:
+    // 1. Создайте новый элемент div с текстом из поля ввода
+    // 2. Найдите элемент для замены по индексу из выпадающего списка
+    // 3. Используйте метод replaceChild для замены элемента
+    
+}</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Задание 6 -->
+        <div class="task" id="task6">
+            <h2>Задание 6: Создание таблицы данных</h2>
+            <div class="task-description">
+                <p>Создайте функцию, которая создает таблицу на основе массива объектов с данными пользователей.</p>
+            </div>
+            
+            <div class="sandbox">
+                <button onclick="createTable()">Создать таблицу</button>
+                <div id="tableContainer" class="result-container">
+                    <!-- Здесь появится таблица -->
+                </div>
+                
+                <div class="code-container">
+                    <pre><code>// Данные для таблицы
+const users = [
+    { id: 1, name: 'Иван', age: 28, email: 'ivan@example.com' },
+    { id: 2, name: 'Мария', age: 24, email: 'maria@example.com' },
+    { id: 3, name: 'Алексей', age: 32, email: 'alex@example.com' },
+    { id: 4, name: 'Ольга', age: 29, email: 'olga@example.com' }
+];
+
+// Получаем ссылку на контейнер
+const tableContainer = document.getElementById('tableContainer');
+
+// Функция для создания таблицы
+function createTable() {
+    // Ваш код здесь:
+    // 1. Создайте элемент table
+    // 2. Создайте заголовок таблицы (thead > tr > th) с колонками 'ID', 'Имя', 'Возраст', 'Email'
+    // 3. Создайте тело таблицы (tbody)
+    // 4. Переберите массив users и для каждого пользователя создайте строку (tr) 
+    //    с его данными (td)
+    // 5. Добавьте таблицу в контейнер (очистив его предварительно)
+    
+}</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Задание 7 -->
+        <div class="task" id="task7">
+            <h2>Задание 7: Удаление всех дочерних элементов</h2>
+            <div class="task-description">
+                <p>Создайте две разные функции для удаления всех дочерних элементов из контейнера.</p>
+            </div>
+            
+            <div class="sandbox">
+                <button onclick="createElements()">Создать элементы</button>
+                <button onclick="removeAllMethod1()">Удалить все (способ 1)</button>
+                <button onclick="removeAllMethod2()">Удалить все (способ 2)</button>
+                <div id="container7" class="result-container">
+                    <!-- Здесь будут элементы -->
+                </div>
+                
+                <div class="code-container">
+                    <pre><code>// Получаем ссылку на контейнер
+const container7 = document.getElementById('container7');
+
+// Функция для создания элементов
+function createElements() {
+    // Очищаем контейнер
+    container7.innerHTML = '';
+    
+    // Создаем несколько элементов
+    for (let i = 1; i <= 5; i++) {
+        const div = document.createElement('div');
+        div.textContent = 'Элемент ' + i;
+        div.style.padding = '5px';
+        div.style.margin = '5px';
+        div.style.backgroundColor = '#e0e0e0';
+        container7.appendChild(div);
+    }
+}
+
+// Способ 1: Удаление всех дочерних элементов
+function removeAllMethod1() {
+    // Ваш код здесь:
+    // Используйте свойство innerHTML для удаления всех элементов
+    
+}
+
+// Способ 2: Удаление всех дочерних элементов
+function removeAllMethod2() {
+    // Ваш код здесь:
+    // Используйте цикл while с firstChild/firstElementChild для удаления элементов по одному
+    
+}</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Задание 8 -->
+        <div class="task" id="task8">
+            <h2>Задание 8: Добавление содержимого в существующие элементы</h2>
+            <div class="task-description">
+                <p>Создайте функции для добавления текста и HTML-содержимого в существующие элементы разными способами.</p>
+            </div>
+            
+            <div class="sandbox">
+                <div id="container8" class="result-container">
+                    <div id="text-element">Текстовый элемент: </div>
+                    <div id="html-element">HTML элемент: </div>
+                </div>
+                <input type="text" id="contentInput" placeholder="Введите содержимое">
+                <button onclick="addAsText()">Добавить как текст</button>
+                <button onclick="addAsHtml()">Добавить как HTML</button>
+                
+                <div class="code-container">
+                    <pre><code>// Получаем ссылки на элементы
+const textElement = document.getElementById('text-element');
+const htmlElement = document.getElementById('html-element');
+const contentInput = document.getElementById('contentInput');
+
+// Функция для добавления как текст
+function addAsText() {
+    const content = contentInput.value;
+    if (content.trim() === '') {
+        alert('Введите содержимое');
+        return;
+    }
+    
+    // Ваш код здесь:
+    // Используйте свойство textContent для добавления содержимого как текст
+    // Добавьте содержимое к существующему тексту в textElement, а не замените его
+    
+}
+
+// Функция для добавления как HTML
+function addAsHtml() {
+    const content = contentInput.value;
+    if (content.trim() === '') {
+        alert('Введите содержимое');
+        return;
+    }
+    
+    // Ваш код здесь:
+    // Используйте свойство innerHTML для добавления содержимого как HTML
+    // Добавьте содержимое к существующему HTML в htmlElement, а не замените его
+    
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('container1');
+        let counter = 0;
+        function addParagraph() {
+            counter++
+            let paragraph = document.createElement('p');
+            paragraph.textContent = `Новый параграф ${counter}`;
+            container.appendChild(paragraph);
+        }
+        const fruits = ['Яблоко', 'Банан', 'Апельсин', 'Груша', 'Киви', 'Манго'];
+        const listContainer = document.getElementById('listContainer');
+        function createList() {
+            let ul = document.createElement('ul');
+            fruits.forEach(fruit => {
+                let li = document.createElement('li');
+                li.textContent = fruit;
+                ul.appendChild(li);
+            })
+            listContainer.innerHTML = '';
+            listContainer.appendChild(ul);
+        }
+        const itemsContainer = document.getElementById('itemsContainer');
+        const itemToDelete = document.getElementById('itemToDelete');
+        function createItems() {
+            itemsContainer.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const item = document.createElement('div');
+                item.textContent = 'Элемент ' + i;
+                item.id = 'item-' + i;
+                item.style.padding = '10px';
+                item.style.margin = '5px';
+                item.style.backgroundColor = '#e0e0e0';
+                itemsContainer.appendChild(item);
+            }
+        }
+        function removeItem() {
+            let id = document.getElementById('itemToDelete').value;
+            let elementtoDel = document.getElementById('item-' + id);
+            if(elementtoDel){
+                elementtoDel.remove();
+            }
+        }
+        const list4 = document.getElementById('list4');
+        const newItemText = document.getElementById('newItemText');
+        const positionInput = document.getElementById('positionInput');
+        function insertBeforeElement() {
+            const text = newItemText.value.trim();
+            const position = parseInt(positionInput.value);
+            if (text === '') {
+                alert('Введите текст нового элемента');
+                return;
+            }
+            let div = document.createElement('div');
+            div.textContent = text;
+            let el = list4.children[position-1];
+            list4.insertBefore(div, el);
+        }
+        const list5 = document.getElementById('list5');
+        const elementSelect = document.getElementById('elementSelect');
+        const replacementText = document.getElementById('replacementText');
+        function replaceElement() {
+            const text = replacementText.value.trim();
+            const index = parseInt(elementSelect.value);
+            if (text === '') {
+                alert('Введите текст нового элемента');
+                return;
+            }
+            let div = document.createElement('div');
+            div.textContent = text;
+            let el = list5.children[index];
+            list5.replaceChild(div, el);
+        }
+        const users = [
+            { id: 1, name: 'Иван', age: 28, email: 'ivan@example.com' },
+            { id: 2, name: 'Мария', age: 24, email: 'maria@example.com' },
+            { id: 3, name: 'Алексей', age: 32, email: 'alex@example.com' },
+            { id: 4, name: 'Ольга', age: 29, email: 'olga@example.com' }
+        ];
+        const tableContainer = document.getElementById('tableContainer');
+        function createTable() {
+            tableContainer.innerHTML = '';
+
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+            
+            const headerRow = document.createElement('tr');
+            const headers = ['ID', 'Name', 'Age', 'Email'];
+            
+            headers.forEach(text => {
+                const th = document.createElement('th');
+                th.textContent = text;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                
+                Object.values(user).forEach(value => {
+                    const td = document.createElement('td');
+                    td.textContent = value;
+                    row.appendChild(td);
+                });
+                
+                tbody.appendChild(row);
+            });
+
+            table.appendChild(tbody);
+            tableContainer.appendChild(table);
+        }
+        const container7 = document.getElementById('container7');
+        function createElements() {
+            container7.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const div = document.createElement('div');
+                div.textContent = 'Элемент ' + i;
+                div.style.padding = '5px';
+                div.style.margin = '5px';
+                div.style.backgroundColor = '#e0e0e0';
+                container7.appendChild(div);
+            }
+        }
+        function removeAllMethod1() {
+            container7.innerHTML = '';
+        }
+        function removeAllMethod2() {
+            while(!container7.children.lenght > 0){
+                container7.firstElementChild.remove();
+            }
+        }
+        const textElement = document.getElementById('text-element');
+        const htmlElement = document.getElementById('html-element');
+        const contentInput = document.getElementById('contentInput');
+        function addAsText() {
+            const content = contentInput.value;
+            if (content.trim() === '') {
+                alert('Введите содержимое');
+                return;
+            }
+            
+            textElement.textContent = textElement.textContent + content;
+
+        }
+        function addAsHtml() {
+            const content = contentInput.value;
+            if (content.trim() === '') {
+                alert('Введите содержимое');
+                return;
+            }
+            htmlElement.innerHTML = htmlElement.innerHTML + content;
+            
+        }
+    </script>
+</body>
+</html> 

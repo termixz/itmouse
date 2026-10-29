@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Мой список задач</title>
+</head>
+<body>
+    <form id="mainForm">
+        <h4>Личная информация</h4>
+        <label for="name">Name:</label>
+        <input id="name" name="userName" required minlength="2">
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="userEmail" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="userPassword" required minlength="6">
+        
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="userAge" required min="1" max="120">
+        
+        <label for="telephone">Telephone number:</label>
+        <input type="tel" id="telephone" name="userPhone" required pattern="^\+.*[0-9]{10,12}">
+        
+        <label for="Web-site">Web-site:</label>
+        <input type="url" id="Web-site" name="userWebsite" required placeholder="https://example.com">
+        
+        <label for="birthday">Birthday:</label>
+        <input type="date" id="birthday" name="userBirthday" required>
+
+        <h4>Пол</h4>
+        <div class="radio-group">
+            <input type="radio" name="gender" value="male" id="male" required>
+            <label for="male">Male</label>
+            <br>
+            <input type="radio" name="gender" value="female" id="female">
+            <label for="female">Female</label>
+            <br>
+            <input type="radio" name="gender" value="other" id="other">
+            <label for="other">Other</label>
+        </div>
+
+        <h4>Hobbies</h4>
+        <input type="checkbox" name="hobbies" value="reading" id="reading">
+        <label for="reading">Reading</label>
+        
+        <input type="checkbox" name="hobbies" value="sports" id="sports">
+        <label for="sports">Sport</label>
+        
+        <input type="checkbox" name="hobbies" value="music" id="music">
+        <label for="music">Music</label>
+        
+        <input type="checkbox" name="hobbies" value="programming" id="programming">
+        <label for="programming">Programming</label>
+
+        <h4>Страна</h4>
+        <select name="country" required>
+            <option value="">----Choose a country----</option>
+            <option value="Russia">Russia</option>
+            <option value="USA">USA</option>
+            <option value="Germany">Germany</option>
+            <option value="France">France</option>
+            <option value="UK">UK</option>
+            <option value="Japan">Japan</option>
+            <option value="Belarus">Belarus</option>
+        </select>
+
+        <h4>Skills of programming</h4>
+        <select name="skills" multiple size="5" required>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="js">JavaScript</option>
+            <option value="php">PHP</option>
+            <option value="python">Python</option>
+        </select>
+
+        <h4>Comments</h4>
+        <label for="comm">Tell about you:</label>
+        <textarea name="comments" id="comm" rows="3" cols="40" placeholder="Your text..." required></textarea>
+
+        <h4>Actions</h4>
+        <button type="submit" id="submitBtn">Show all form data</button>
+    </form>
+
+    <div id="resultContainer"></div>
+
+    <script type="text/javascript" src="scripts.js"></script>
+</body>
+</html>

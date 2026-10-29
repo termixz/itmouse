@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>События Мыши в JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>События Мыши</h1>
+    
+    <div class="navigation">
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="intro.html">Введение</a></li>
+            <li><a href="event-handlers.html">Методы обработки</a></li>
+            <li><a href="event-object.html">Объект Event</a></li>
+            <li><a href="mouse-events.html" class="active">События мыши</a></li>
+            <li><a href="keyboard-events.html">События клавиатуры</a></li>
+            <li><a href="form-events.html">События форм</a></li>
+            <li><a href="load-events.html">События загрузки</a></li>
+            <li><a href="drag-drop.html">Drag and Drop</a></li>
+        </ul>
+    </div>
+
+    <h2>События Мыши</h2>
+    <p>
+        События мыши позволяют отслеживать движение курсора и взаимодействие пользователя с мышью.
+    </p>
+    
+    <h3>Основные события мыши:</h3>
+    <ul>
+        <li><strong>click</strong> - возникает при клике мышью (нажатие и отпускание)</li>
+        <li><strong>dblclick</strong> - возникает при двойном клике</li>
+        <li><strong>mousedown</strong> - возникает при нажатии кнопки мыши</li>
+        <li><strong>mouseup</strong> - возникает при отпускании кнопки мыши</li>
+        <li><strong>mousemove</strong> - возникает при движении мыши</li>
+        <li><strong>mouseover</strong> - возникает при наведении курсора на элемент</li>
+        <li><strong>mouseout</strong> - возникает при уходе курсора с элемента</li>
+        <li><strong>mouseenter</strong> - возникает при входе курсора в элемент (не всплывает)</li>
+        <li><strong>mouseleave</strong> - возникает при выходе курсора из элемента (не всплывает)</li>
+        <li><strong>contextmenu</strong> - возникает при вызове контекстного меню (правый клик)</li>
+        <li><strong>wheel</strong> - возникает при использовании колеса мыши</li>
+    </ul>
+    
+    <h3>Пример использования событий мыши</h3>
+    <p>Вот простой пример обработки события клика мыши:</p>
+    
+    <div class="example">
+        <div id="clickDemo" style="width: 200px; height: 100px; 
+                            background-color: #3498db; display: flex; align-items: center; 
+                            justify-content: center; color: white; cursor: pointer; margin: 20px auto;">
+            Нажмите на меня
+        </div>
+        <div id="clickOutput" style="text-align: center; 
+                             margin-top: 10px; 
+                             font-family: monospace;">
+                             Статус: ожидание клика
+        </div>
+        
+        <pre><code>// 1. Получаем ссылку на элемент, с которым будем работать
+const button = document.getElementById('clickDemo');
+const output = document.getElementById('clickOutput');
+
+// 2. Добавляем обработчик события click
+button.addEventListener('click', function(event) {
+    // 3. Эта функция будет вызвана при клике
+    
+    // 4. Получаем информацию о событии
+    const x = event.clientX; // X-координата клика относительно окна
+    const y = event.clientY; // Y-координата клика относительно окна
+    
+    // 5. Получаем координаты относительно самого элемента
+    const offsetX = event.offsetX;
+    const offsetY = event.offsetY;
+    
+    // 6. Выводим информацию о событии
+    output.innerHTML = `Клик на координатах: X=${x}, Y=${y}<br>
+                        Внутри элемента: X=${offsetX}, Y=${offsetY}`;
+    
+    // 7. Изменяем стиль элемента для визуальной обратной связи
+    // Переключаем цвет при каждом клике
+    if (button.style.backgroundColor === 'rgb(231, 76, 60)') {
+        button.style.backgroundColor = '#3498db';
+    } else {
+        button.style.backgroundColor = '#e74c3c';
+    }
+});</code></pre>
+        
+        <script>
+            // Реализация примера
+            const clickDemo = document.getElementById('clickDemo');
+            const clickOutput = document.getElementById('clickOutput');
+            
+            clickDemo.addEventListener('click', function(event) {
+                // Получаем координаты клика
+                const x = event.clientX;
+                const y = event.clientY;
+                const offsetX = event.offsetX;
+                const offsetY = event.offsetY;
+                
+                // Выводим информацию
+                clickOutput.innerHTML = `Клик на координатах: X=${x}, Y=${y}<br>
+                                        Внутри элемента: X=${offsetX}, Y=${offsetY}`;
+                
+                // Переключаем цвет при каждом клике
+                if (clickDemo.style.backgroundColor === 'rgb(231, 76, 60)') {
+                    clickDemo.style.backgroundColor = '#3498db';
+                } else {
+                    clickDemo.style.backgroundColor = '#e74c3c';
+                }
+            });
+        </script>
+        
+        <div class="explanation" style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #3498db;">
+            <h4>Объяснение кода:</h4>
+            <ol>
+                <li><strong>Получение элементов</strong> - с помощью <code>document.getElementById()</code> находим элементы, с которыми будем работать.</li>
+                <li><strong>Добавление обработчика</strong> - используем метод <code>addEventListener</code>, который принимает:
+                    <ul>
+                        <li>Название события ('click')</li>
+                        <li>Функцию-обработчик, которая будет вызвана при наступлении события</li>
+                    </ul>
+                </li>
+                <li><strong>Обработчик события</strong> - функция, которая автоматически получает объект события <code>event</code> с информацией о событии.</li>
+                <li><strong>Объект события</strong> - содержит свойства:
+                    <ul>
+                        <li><code>clientX/clientY</code> - координаты относительно окна браузера</li>
+                        <li><code>offsetX/offsetY</code> - координаты относительно самого элемента</li>
+                        <li>и многие другие свойства (target, type, button...)</li>
+                    </ul>
+                </li>
+                <li><strong>Обработка события</strong> - в данном случае мы:
+                    <ul>
+                        <li>Выводим информацию о координатах клика</li>
+                        <li>Переключаем цвет элемента</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+    
+    <h3>Свойства объекта события мыши:</h3>
+    <table>
+        <tr>
+            <th>Свойство</th>
+            <th>Описание</th>
+        </tr>
+        <tr>
+            <td>clientX, clientY</td>
+            <td>Координаты относительно окна браузера</td>
+        </tr>
+        <tr>
+            <td>pageX, pageY</td>
+            <td>Координаты относительно документа</td>
+        </tr>
+        <tr>
+            <td>screenX, screenY</td>
+            <td>Координаты относительно экрана</td>
+        </tr>
+        <tr>
+            <td>offsetX, offsetY</td>
+            <td>Координаты относительно элемента, на котором произошло событие</td>
+        </tr>
+        <tr>
+            <td>button</td>
+            <td>Какая кнопка мыши была нажата (0 - левая, 1 - средняя, 2 - правая)</td>
+        </tr>
+        <tr>
+            <td>buttons</td>
+            <td>Битовая маска нажатых кнопок мыши во время события</td>
+        </tr>
+    </table>
+    
+    <div class="note">
+        <p><strong>Следующий шаг:</strong> Теперь, когда вы знаете о событиях мыши, давайте рассмотрим <a href="keyboard-events.html">события клавиатуры</a>.</p>
+    </div>
+
+    <h2>Дополнительные примеры работы с событиями мыши</h2>
+
+    <div class="example">
+        <h3>1. Отслеживание основных событий мыши</h3>
+        <div style="display: flex; flex-wrap: wrap;">
+            <div style="width: 200px; height: 200px; 
+            background-color: #3498db; margin: 20px; display: flex; 
+            align-items: center; justify-content: center; color: white; 
+            transition: background-color 0.3s;" id="eventBox">Наведите курсор</div>
+
+            <div style="margin: 20px; min-width: 200px; min-height: 50px;" id="eventOutput"></div>
+        </div>
+        
+        <script>
+            const eventBox = document.getElementById('eventBox');
+            const eventOutput = document.getElementById('eventOutput');
+
+            // Клик мышью
+            eventBox.addEventListener('click', function() {
+                eventOutput.innerHTML = 'Событие: click';
+                if (eventBox.style.backgroundColor === 'rgb(231, 76, 60)') {
+                    eventBox.style.backgroundColor = '#3498db';
+                } else {
+                    eventBox.style.backgroundColor = '#e74c3c';
+                }
+            });
+
+            // Наведение мыши
+            eventBox.addEventListener('mouseover', function() {
+                eventOutput.innerHTML = 'Событие: mouseover';
+                eventBox.textContent = 'Курсор над элементом';
+            });
+
+            // Уход мыши с элемента
+            eventBox.addEventListener('mouseout', function() {
+                eventOutput.innerHTML = 'Событие: mouseout';
+                eventBox.textContent = 'Наведите курсор';
+            });
+
+            // Нажатие кнопки мыши
+            eventBox.addEventListener('mousedown', function() {
+                eventOutput.innerHTML = 'Событие: mousedown';
+                eventBox.textContent = 'Кнопка мыши нажата';
+            });
+
+            // Отпускание кнопки мыши
+            eventBox.addEventListener('mouseup', function() {
+                eventOutput.innerHTML = 'Событие: mouseup';
+                eventBox.textContent = 'Кнопка мыши отпущена';
+            });
+        </script>
+        
+        <pre><code>const box = document.getElementById('eventBox');
+const output = document.getElementById('eventOutput');
+
+// Клик мышью
+box.addEventListener('click', function() {
+    output.innerHTML = 'Событие: click';
+    if (box.style.backgroundColor === 'rgb(231, 76, 60)') {
+        box.style.backgroundColor = '#3498db';
+    } else {
+        box.style.backgroundColor = '#e74c3c';
+    }
+});
+
+// Наведение мыши
+box.addEventListener('mouseover', function() {
+    output.innerHTML = 'Событие: mouseover';
+    box.textContent = 'Курсор над элементом';
+});
+
+// Уход мыши с элемента
+box.addEventListener('mouseout', function() {
+    output.innerHTML = 'Событие: mouseout';
+    box.textContent = 'Наведите курсор';
+});
+
+// Нажатие кнопки мыши
+box.addEventListener('mousedown', function() {
+    output.innerHTML = 'Событие: mousedown';
+    box.textContent = 'Кнопка мыши нажата';
+});
+
+// Отпускание кнопки мыши
+box.addEventListener('mouseup', function() {
+    output.innerHTML = 'Событие: mouseup';
+    box.textContent = 'Кнопка мыши отпущена';
+});</code></pre>
+    </div>
+
+    <div class="example">
+        <h3>2. Отслеживание координат мыши</h3>
+        <h4>Перемещайте курсор над областью:</h4>
+        <div style="width: 400px; height: 300px; 
+                    background-color: #f5f5f5; 
+                    border: 1px solid #ddd; 
+                    position: relative; 
+                    overflow: hidden; 
+                    margin: 0 auto;" 
+            id="coordinateTracker">
+            <div style="width: 10px; 
+                        height: 10px; 
+                        border-radius: 50%; 
+                        background-color: red; 
+                        position: absolute; 
+                        transform: translate(-50%, -50%); 
+                        pointer-events: none;" 
+            id="trackerCursor"></div>
+        </div>
+        <div style="margin-top: 10px; font-family: monospace; text-align: center;" id="coordinatesOutput"></div>
+        
+        <script>
+            const coordinateTracker = document.getElementById('coordinateTracker');
+            const trackerCursor = document.getElementById('trackerCursor');
+            const coordinatesOutput = document.getElementById('coordinatesOutput');
+
+            coordinateTracker.addEventListener('mousemove', function(event) {
+                // Получаем координаты мыши относительно окна браузера
+                const clientX = event.clientX;
+                const clientY = event.clientY;
+                
+                // Получаем координаты мыши относительно элемента tracker
+                const offsetX = event.offsetX;
+                const offsetY = event.offsetY;
+                
+                // Обновляем позицию красного круга
+                trackerCursor.style.left = offsetX + 'px';
+                trackerCursor.style.top = offsetY + 'px';
+                
+                // Выводим информацию о координатах
+                coordinatesOutput.innerHTML = `
+                    clientX: ${clientX}, clientY: ${clientY}<br>
+                    offsetX: ${offsetX}, offsetY: ${offsetY}
+                `;
+            });
+
+            coordinateTracker.addEventListener('mouseleave', function() {
+                trackerCursor.style.display = 'none';
+            });
+
+            coordinateTracker.addEventListener('mouseenter', function() {
+                trackerCursor.style.display = 'block';
+            });
+        </script>
+        
+        <pre><code>const tracker = document.getElementById('coordinateTracker');
+const cursor = document.getElementById('trackerCursor');
+const coordinates = document.getElementById('coordinatesOutput');
+
+tracker.addEventListener('mousemove', function(event) {
+    // Получаем координаты мыши относительно окна браузера
+    const clientX = event.clientX;
+    const clientY = event.clientY;
+    
+    // Получаем координаты мыши относительно элемента tracker
+    const offsetX = event.offsetX;
+    const offsetY = event.offsetY;
+    
+    // Обновляем позицию красного круга
+    cursor.style.left = offsetX + 'px';
+    cursor.style.top = offsetY + 'px';
+    
+    // Выводим информацию о координатах
+    coordinates.innerHTML = `
+        clientX: ${clientX}, clientY: ${clientY}<br>
+        offsetX: ${offsetX}, offsetY: ${offsetY}
+    `;
+});
+
+tracker.addEventListener('mouseleave', function() {
+    cursor.style.display = 'none';
+});
+
+tracker.addEventListener('mouseenter', function() {
+    cursor.style.display = 'block';
+});</code></pre>
+    </div>
+
+    <div class="example">
+        <h3>4. Перетаскивание элемента (простой drag and drop)</h3>
+        <div id="simpleDragContainer" 
+            style="width: 500px; height: 300px; 
+                   border: 2px dashed #ccc; 
+                   position: relative; 
+                   margin: 20px auto;">
+            <div id="simpleDraggable" 
+                style="width: 100px; height: 100px; 
+                    position: absolute; left: 50px; top: 50px; 
+                    background-color: #3498db; 
+                    color: white; 
+                    display: flex; align-items: center; justify-content: center; 
+                    cursor: move; 
+                    user-select: none;">Перетащи меня
+            </div>
+        </div>
+        <div id="simpleDragStatus" style="margin: 10px; text-align: center; font-family: monospace;">Координаты: x=50, y=50</div>
+        
+        <script>
+            const simpleDragContainer = document.getElementById('simpleDragContainer');
+            const simpleDraggable = document.getElementById('simpleDraggable');
+            const simpleDragStatus = document.getElementById('simpleDragStatus');
+            
+            let isSimpleDragging = false;
+            let simpleDragOffsetX, simpleDragOffsetY;
+            
+            // Начало перетаскивания
+            simpleDraggable.addEventListener('mousedown', function(e) {
+                isSimpleDragging = true;
+                
+                // Вычисляем смещение от позиции клика до угла элемента
+                simpleDragOffsetX = e.clientX - simpleDraggable.getBoundingClientRect().left;
+                simpleDragOffsetY = e.clientY - simpleDraggable.getBoundingClientRect().top;
+                
+                simpleDraggable.style.opacity = '0.8';
+            });
+            
+            // Процесс перетаскивания
+            document.addEventListener('mousemove', function(e) {
+                if (!isSimpleDragging) return;
+                
+                // Вычисляем новые координаты с учетом смещения
+                const containerRect = simpleDragContainer.getBoundingClientRect();
+                let x = e.clientX - containerRect.left - simpleDragOffsetX;
+                let y = e.clientY - containerRect.top - simpleDragOffsetY;
+                
+                // Ограничиваем перемещение границами контейнера
+                const maxX = containerRect.width - simpleDraggable.offsetWidth;
+                const maxY = containerRect.height - simpleDraggable.offsetHeight;
+                
+                x = Math.max(0, Math.min(x, maxX));
+                y = Math.max(0, Math.min(y, maxY));
+                
+                simpleDraggable.style.left = x + 'px';
+                simpleDraggable.style.top = y + 'px';
+                
+                // Обновляем информацию о координатах
+                simpleDragStatus.textContent = `Координаты: x=${Math.round(x)}, y=${Math.round(y)}`;
+            });
+            
+            // Завершение перетаскивания
+            document.addEventListener('mouseup', function() {
+                if (isSimpleDragging) {
+                    isSimpleDragging = false;
+                    simpleDraggable.style.opacity = '1';
+                }
+            });
+        </script>
+        
+        <pre><code>const container = document.getElementById('simpleDragContainer');
+const draggable = document.getElementById('simpleDraggable');
+const status = document.getElementById('simpleDragStatus');
+
+let isDragging = false;
+let offsetX, offsetY;
+
+// Начало перетаскивания
+draggable.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    
+    // Вычисляем смещение от позиции клика до угла элемента
+    offsetX = e.clientX - draggable.getBoundingClientRect().left;
+    offsetY = e.clientY - draggable.getBoundingClientRect().top;
+    
+    draggable.style.opacity = '0.8';
+});
+
+// Процесс перетаскивания
+document.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    
+    // Вычисляем новые координаты с учетом смещения
+    const containerRect = container.getBoundingClientRect();
+    let x = e.clientX - containerRect.left - offsetX;
+    let y = e.clientY - containerRect.top - offsetY;
+    
+    // Ограничиваем перемещение границами контейнера
+    const maxX = containerRect.width - draggable.offsetWidth;
+    const maxY = containerRect.height - draggable.offsetHeight;
+    
+    x = Math.max(0, Math.min(x, maxX));
+    y = Math.max(0, Math.min(y, maxY));
+    
+    draggable.style.left = x + 'px';
+    draggable.style.top = y + 'px';
+    
+    // Обновляем информацию о координатах
+    status.textContent = `Координаты: x=${Math.round(x)}, y=${Math.round(y)}`;
+});
+
+// Завершение перетаскивания
+document.addEventListener('mouseup', function() {
+    if (isDragging) {
+        isDragging = false;
+        draggable.style.opacity = '1';
+    }
+});</code></pre>
+    </div>
+
+    <div class="example">
+        <h3>5. Ховер-эффекты с изменением фона</h3>
+        <div class="controls" style="text-align: center; margin: 20px;">
+            <button id="hoverResetBtn">Сбросить</button>
+            <input type="color" id="hoverColorPicker" value="#3498db">
+        </div>
+        <div id="hoverGrid" style="display: grid; grid-template-columns: repeat(10, 30px); grid-template-rows: repeat(10, 30px); gap: 2px; margin: 20px auto; width: 320px;"></div>
+        
+        <script>
+            const hoverGrid = document.getElementById('hoverGrid');
+            const hoverResetBtn = document.getElementById('hoverResetBtn');
+            const hoverColorPicker = document.getElementById('hoverColorPicker');
+            
+            // Создаем сетку
+            for (let i = 0; i < 100; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'hover-cell';
+                cell.style.backgroundColor = '#f5f5f5';
+                cell.style.transition = 'background-color 0.3s';
+                hoverGrid.appendChild(cell);
+            }
+            
+            // Делегируем события на сетку
+            hoverGrid.addEventListener('mouseover', function(e) {
+                if (e.target.classList.contains('hover-cell')) {
+                    e.target.style.backgroundColor = hoverColorPicker.value;
+                }
+            });
+            
+            // Добавляем функцию сброса
+            hoverResetBtn.addEventListener('click', function() {
+                document.querySelectorAll('.hover-cell').forEach(cell => {
+                    cell.style.backgroundColor = '#f5f5f5';
+                });
+            });
+        </script>
+        
+        <pre><code>const grid = document.getElementById('hoverGrid');
+const resetBtn = document.getElementById('hoverResetBtn');
+const hoverColor = document.getElementById('hoverColorPicker');
+
+// Создаем сетку
+for (let i = 0; i < 100; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'hover-cell';
+    cell.style.backgroundColor = '#f5f5f5';
+    cell.style.transition = 'background-color 0.3s';
+    grid.appendChild(cell);
+}
+
+// Делегируем события на сетку
+grid.addEventListener('mouseover', function(e) {
+    if (e.target.classList.contains('hover-cell')) {
+        e.target.style.backgroundColor = hoverColor.value;
+    }
+});
+
+// Добавляем функцию сброса
+resetBtn.addEventListener('click', function() {
+    document.querySelectorAll('.hover-cell').forEach(cell => {
+        cell.style.backgroundColor = '#f5f5f5';
+    });
+});</code></pre>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
+
+    <script>
+        // Показать/скрыть кнопку "наверх" при прокрутке
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        // Прокрутка вверх при клике на кнопку
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html> 

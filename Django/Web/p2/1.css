@@ -1,0 +1,20 @@
+.class1{
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    color: aqua;
+    font-size: 30px;
+    margin: 15px;
+    background-color: pink;
+    border: 2px double green
+}
+.class2{
+    font-family: Arial, sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: 40px;
+    color: red;
+    margin-left: 35px;
+    background-color: yellow;
+    border: 3px dashed green
+}

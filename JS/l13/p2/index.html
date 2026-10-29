@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript События - Главная</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>JavaScript События</h1>
+    
+    <div class="navigation">
+        <ul>
+            <li><a href="index.html" class="active">Главная</a></li>
+            <li><a href="intro.html">Введение</a></li>
+            <li><a href="event-handlers.html">Методы обработки</a></li>
+            <li><a href="event-object.html">Объект Event</a></li>
+            <li><a href="mouse-events.html">События мыши</a></li>
+            <li><a href="keyboard-events.html">События клавиатуры</a></li>
+            <li><a href="form-events.html">События форм</a></li>
+            <li><a href="load-events.html">События загрузки</a></li>
+            <li><a href="drag-drop.html">Drag and Drop</a></li>
+        </ul>
+    </div>
+
+    <div class="example">
+        <p>Добро пожаловать в учебное пособие по событиям JavaScript! Этот курс разделен на несколько тематических страниц для удобного изучения:</p>
+        
+        <h3>Содержание курса:</h3>
+        <ul>
+            <li><strong><a href="intro.html">Введение в События JavaScript</a></strong> - основы событий и их типы</li>
+            <li><strong><a href="event-handlers.html">Методы Обработки Событий</a></strong> - способы назначения обработчиков событий</li>
+            <li><strong><a href="event-object.html">Объект Event</a></strong> - работа с объектом события</li>
+            <li><strong><a href="mouse-events.html">События Мыши</a></strong> - работа с мышью и координатами</li>
+            <li><strong><a href="keyboard-events.html">События Клавиатуры</a></strong> - обработка нажатий клавиш</li>
+            <li><strong><a href="form-events.html">События Форм</a></strong> - работа с формами и валидация</li>
+            <li><strong><a href="load-events.html">События Загрузки</a></strong> - обработка событий загрузки страницы</li>
+            <li><strong><a href="drag-drop.html">Drag and Drop</a></strong> - реализация перетаскивания элементов</li>
+        </ul>
+    </div>
+
+    <div class="note">
+        <p><strong>Совет:</strong> Для наилучшего усвоения материала рекомендуется изучать темы последовательно, но вы также можете перейти непосредственно к интересующему вас разделу.</p>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
+
+    <script>
+        // Показать/скрыть кнопку "наверх" при прокрутке
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        // Прокрутка вверх при клике на кнопку
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html> 

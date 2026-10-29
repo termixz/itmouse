@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles4.css' %}">
+    <title>Главная</title>
+</head>
+<body>
+    <h1>Главная</h1>
+    <p style="color: red;">Школа ITMouse</p>
+    <div class="links-list">
+        <a href="http://127.0.0.1:8000/bank">Ссылка на банковские счета</a><br>
+        <a href="http://127.0.0.1:8000/rand">Ссылка на rand</a><br>
+        <a href="http://127.0.0.1:8000/favSport/{{rands}}">Ссылка на ученика {{rands}}</a><br>
+        <a href="http://127.0.0.1:8000/temperature/{{cityid}}">Ссылка на погоду в {{cityname}}</a><br>
+        <a href="http://127.0.0.1:8000/student/{{studentid}}">Ссылка на ученика {{studentname}}</a>
+        <a href="http://127.0.0.1:8000/basket">Список продуктов в корзине</a>
+    </div>
+    <div>
+        <form method="post" action="create/">
+            {% csrf_token %}
+            <p>
+                <label>Введите имя</label><br>
+                <input type="text" name="name">
+            </p>
+            <p>
+                <label>Введите возраст</label><br>
+                <input type="number" name="age">
+            </p>
+            <input type="submit" value="Сохранить">
+        </form>
+        {% if people.count > 0 %}
+        <h2>Список пользователей</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Возраст</th>
+            </tr>
+            {% for person in people %}
+            <tr>
+                <th>{{ person.id }}</th>
+                <th>{{ person.name }}</th>
+                <th>{{ person.age }}</th>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+    <div class="time-box">
+        <h2>Текущее время и дата</h2>
+        <h4>Сегодня: <strong>{% now "j F Y" %}</strong></h4>
+        <h4>Время: <strong>{% now "H:i:s" %}</strong></h4>
+    </div>
+
+</body>
+</html>

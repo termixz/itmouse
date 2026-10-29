@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>События форм в JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .form-example {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            color: #28a745;
+            font-size: 0.875em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+        }
+    </style>
+</head>
+<body>
+    <h1>События форм</h1>
+    
+    <div class="navigation">
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="intro.html">Введение</a></li>
+            <li><a href="event-handlers.html">Методы обработки</a></li>
+            <li><a href="event-object.html">Объект Event</a></li>
+            <li><a href="mouse-events.html">События мыши</a></li>
+            <li><a href="keyboard-events.html">События клавиатуры</a></li>
+            <li><a href="form-events.html" class="active">События форм</a></li>
+            <li><a href="load-events.html">События загрузки</a></li>
+            <li><a href="drag-drop.html">Drag and Drop</a></li>
+        </ul>
+    </div>
+
+    <h2>События форм и полей ввода</h2>
+    <p>
+        События форм позволяют отслеживать взаимодействие пользователя с формами и полями ввода.
+        Это включает в себя фокусировку, изменение значений, отправку формы и другие действия.
+    </p>
+
+    <h3>Основные события форм</h3>
+    <div class="example">
+        <table>
+            <tr>
+                <th>Событие</th>
+                <th>Описание</th>
+            </tr>
+            <tr>
+                <td>focus</td>
+                <td>Срабатывает, когда элемент получает фокус</td>
+            </tr>
+            <tr>
+                <td>blur</td>
+                <td>Срабатывает, когда элемент теряет фокус</td>
+            </tr>
+            <tr>
+                <td>input</td>
+                <td>Срабатывает при каждом изменении значения</td>
+            </tr>
+            <tr>
+                <td>change</td>
+                <td>Срабатывает после изменения значения и потери фокуса</td>
+            </tr>
+            <tr>
+                <td>submit</td>
+                <td>Срабатывает при отправке формы</td>
+            </tr>
+            <tr>
+                <td>reset</td>
+                <td>Срабатывает при сбросе формы</td>
+            </tr>
+        </table>
+    </div>
+
+    <h3>Подробное описание событий форм</h3>
+    <div class="example">
+        <h4>1. События фокуса (focus/blur)</h4>
+        <p>
+            События фокуса позволяют отслеживать, когда пользователь начинает или заканчивает работу с элементом формы:
+        </p>
+        <ul>
+            <li><strong>focusin/focusout</strong> - аналоги focus/blur, но с поддержкой всплытия</li>
+            <li><strong>focus</strong> можно использовать для:
+                <ul>
+                    <li>Показа подсказок или дополнительной информации</li>
+                    <li>Подсветки активного поля</li>
+                    <li>Открытия выпадающих списков</li>
+                </ul>
+            </li>
+            <li><strong>blur</strong> часто применяется для:
+                <ul>
+                    <li>Валидации введенных данных</li>
+                    <li>Автосохранения</li>
+                    <li>Скрытия вспомогательных элементов</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h4>2. События ввода (input/change)</h4>
+        <p>
+            Эти события позволяют отслеживать изменения в полях ввода:
+        </p>
+        <ul>
+            <li><strong>input</strong> - мгновенное отслеживание изменений:
+                <ul>
+                    <li>Подходит для живого поиска</li>
+                    <li>Проверки силы пароля на лету</li>
+                    <li>Подсчёта символов</li>
+                </ul>
+            </li>
+            <li><strong>change</strong> - срабатывает после завершения изменений:
+                <ul>
+                    <li>Удобен для select и checkbox элементов</li>
+                    <li>Используется для финальной валидации</li>
+                    <li>Подходит для сохранения изменений</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h4>3. События отправки формы (submit/reset)</h4>
+        <p>
+            Эти события связаны с отправкой и сбросом данных формы:
+        </p>
+        <ul>
+            <li><strong>submit</strong> - ключевые моменты:
+                <ul>
+                    <li>Срабатывает при нажатии Enter в поле ввода</li>
+                    <li>Вызывается при клике на кнопку type="submit"</li>
+                    <li>Идеально подходит для финальной валидации перед отправкой</li>
+                </ul>
+            </li>
+            <li><strong>reset</strong> - особенности:
+                <ul>
+                    <li>Возвращает все поля к начальным значениям</li>
+                    <li>Редко используется в современных интерфейсах</li>
+                    <li>Требует подтверждения для предотвращения случайного сброса</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="note">
+            <h4>Порядок срабатывания событий:</h4>
+            <ol>
+                <li>focus → пользователь кликает в поле</li>
+                <li>input → пользователь вводит символ</li>
+                <li>input → продолжает ввод</li>
+                <li>change → происходит при потере фокуса, если значение изменилось</li>
+                <li>blur → пользователь покидает поле</li>
+                <li>submit → форма отправляется</li>
+            </ol>
+        </div>
+    </div>
+
+    <h3>Практические примеры</h3>
+    
+    <h4>1. События focus/blur</h4>
+    <div class="example">
+        <div class="form-example">
+            <div class="form-group">
+                <label for="username">Имя пользователя:</label>
+                <input type="text" id="username">
+                <div class="output" id="focusOutput"></div>
+            </div>
+        </div>
+
+        <script>
+            const usernameInput = document.getElementById('username');
+            const focusOutput = document.getElementById('focusOutput');
+
+            usernameInput.addEventListener('focus', function() {
+                this.style.borderColor = '#007bff';
+                focusOutput.textContent = 'Поле в фокусе';
+            });
+
+            usernameInput.addEventListener('blur', function() {
+                this.style.borderColor = '#ddd';
+                focusOutput.textContent = 'Поле потеряло фокус';
+            });
+        </script>
+    </div>
+
+    <pre><code>// HTML
+&lt;div class="form-group">
+    &lt;label for="username">Имя пользователя:&lt;/label>
+    &lt;input type="text" id="username">
+    &lt;div class="output" id="focusOutput">&lt;/div>
+&lt;/div>
+
+// JavaScript
+const usernameInput = document.getElementById('username');
+const focusOutput = document.getElementById('focusOutput');
+
+// Обработка получения фокуса
+usernameInput.addEventListener('focus', function() {
+    this.style.borderColor = '#007bff';
+    focusOutput.textContent = 'Поле в фокусе';
+});
+
+// Обработка потери фокуса
+usernameInput.addEventListener('blur', function() {
+    this.style.borderColor = '#ddd';
+    focusOutput.textContent = 'Поле потеряло фокус';
+});</code></pre>
+
+    <h4>2. Событие input</h4>
+    <div class="example">
+        <div class="form-example">
+            <div class="form-group">
+                <label for="messageInput">Введите сообщение:</label>
+                <input type="text" id="messageInput">
+                <div class="output" id="charCount">Символов: 0</div>
+            </div>
+        </div>
+
+        <script>
+            const messageInput = document.getElementById('messageInput');
+            const charCount = document.getElementById('charCount');
+
+            messageInput.addEventListener('input', function() {
+                charCount.textContent = `Символов: ${this.value.length}`;
+            });
+        </script>
+    </div>
+
+    <pre><code>// HTML
+&lt;div class="form-group">
+    &lt;label for="messageInput">Введите сообщение:&lt;/label>
+    &lt;input type="text" id="messageInput">
+    &lt;div class="output" id="charCount">Символов: 0&lt;/div>
+&lt;/div>
+
+// JavaScript
+const messageInput = document.getElementById('messageInput');
+const charCount = document.getElementById('charCount');
+
+// Обработка события ввода
+messageInput.addEventListener('input', function() {
+    charCount.textContent = `Символов: ${this.value.length}`;
+});</code></pre>
+
+    <h4>3. Событие change</h4>
+    <div class="example">
+        <div class="form-example">
+            <div class="form-group">
+                <label for="colorSelect">Выберите цвет:</label>
+                <select id="colorSelect">
+                    <option value="">Выберите цвет</option>
+                    <option value="red">Красный</option>
+                    <option value="green">Зеленый</option>
+                    <option value="blue">Синий</option>
+                </select>
+                <div class="output" id="colorOutput"></div>
+            </div>
+        </div>
+
+        <script>
+            const colorSelect = document.getElementById('colorSelect');
+            const colorOutput = document.getElementById('colorOutput');
+
+            colorSelect.addEventListener('change', function() {
+                if (this.value) {
+                    colorOutput.textContent = `Выбран цвет: ${this.options[this.selectedIndex].text}`;
+                    colorOutput.style.color = this.value;
+                } else {
+                    colorOutput.textContent = '';
+                }
+            });
+        </script>
+    </div>
+
+    <pre><code>// HTML
+&lt;div class="form-group">
+    &lt;label for="colorSelect">Выберите цвет:&lt;/label>
+    &lt;select id="colorSelect">
+        &lt;option value="">Выберите цвет&lt;/option>
+        &lt;option value="red">Красный&lt;/option>
+        &lt;option value="green">Зеленый&lt;/option>
+        &lt;option value="blue">Синий&lt;/option>
+    &lt;/select>
+    &lt;div class="output" id="colorOutput">&lt;/div>
+&lt;/div>
+
+// JavaScript
+const colorSelect = document.getElementById('colorSelect');
+const colorOutput = document.getElementById('colorOutput');
+
+// Обработка изменения значения
+colorSelect.addEventListener('change', function() {
+    if (this.value) {
+        colorOutput.textContent = `Выбран цвет: ${this.options[this.selectedIndex].text}`;
+        colorOutput.style.color = this.value;
+    } else {
+        colorOutput.textContent = '';
+    }
+});</code></pre>
+
+    <h4>4. События submit/reset</h4>
+    <div class="example">
+        <div class="form-example">
+            <form id="simpleForm">
+                <div class="form-group">
+                    <label for="name">Имя:</label>
+                    <input type="text" id="name" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <button type="submit">Отправить</button>
+                <button type="reset">Сбросить</button>
+            </form>
+            <div class="output" id="formOutput"></div>
+        </div>
+
+        <script>
+            const simpleForm = document.getElementById('simpleForm');
+            const formOutput = document.getElementById('formOutput');
+
+            simpleForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                formOutput.textContent = 'Форма отправлена!';
+                formOutput.style.color = 'green';
+            });
+
+            simpleForm.addEventListener('reset', function() {
+                formOutput.textContent = 'Форма сброшена';
+                formOutput.style.color = 'blue';
+                setTimeout(() => formOutput.textContent = '', 2000);
+            });
+        </script>
+    </div>
+
+    <pre><code>// HTML
+&lt;form id="simpleForm">
+    &lt;div class="form-group">
+        &lt;label for="name">Имя:&lt;/label>
+        &lt;input type="text" id="name" name="name">
+    &lt;/div>
+    &lt;div class="form-group">
+        &lt;label for="email">Email:&lt;/label>
+        &lt;input type="email" id="email" name="email">
+    &lt;/div>
+    &lt;button type="submit">Отправить&lt;/button>
+    &lt;button type="reset">Сбросить&lt;/button>
+&lt;/form>
+&lt;div class="output" id="formOutput">&lt;/div>
+
+// JavaScript
+const simpleForm = document.getElementById('simpleForm');
+const formOutput = document.getElementById('formOutput');
+
+// Обработка отправки формы
+simpleForm.addEventListener('submit', function(e) {
+    e.preventDefault(); // Отменяем стандартную отправку формы
+    formOutput.textContent = 'Форма отправлена!';
+    formOutput.style.color = 'green';
+});
+
+// Обработка сброса формы
+simpleForm.addEventListener('reset', function() {
+    formOutput.textContent = 'Форма сброшена';
+    formOutput.style.color = 'blue';
+    setTimeout(() => formOutput.textContent = '', 2000);
+});</code></pre>
+
+    <div class="note">
+        <h4>Важные моменты при работе с событиями форм:</h4>
+        <ul>
+            <li>Используйте <code>preventDefault()</code> для отмены стандартного поведения формы</li>
+            <li>Применяйте debounce для оптимизации частых событий</li>
+            <li>Проверяйте валидность данных как на клиенте, так и на сервере</li>
+            <li>Обеспечивайте обратную связь пользователю при взаимодействии с формой</li>
+        </ul>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
+
+    <script>
+        // Показать/скрыть кнопку "наверх" при прокрутке
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        // Прокрутка вверх при клике на кнопку
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html> 

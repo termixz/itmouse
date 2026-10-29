@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Объект Event в JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Объект Event</h1>
+    
+    <div class="navigation">
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="intro.html">Введение</a></li>
+            <li><a href="event-handlers.html">Методы обработки</a></li>
+            <li><a href="event-object.html" class="active">Объект Event</a></li>
+            <li><a href="mouse-events.html">События мыши</a></li>
+            <li><a href="keyboard-events.html">События клавиатуры</a></li>
+            <li><a href="form-events.html">События форм</a></li>
+            <li><a href="load-events.html">События загрузки</a></li>
+            <li><a href="drag-drop.html">Drag and Drop</a></li>
+        </ul>
+    </div>
+
+    <h2>Объект Event</h2>
+    <p>
+        При возникновении события создается объект <code>Event</code>, который содержит детали о произошедшем событии 
+        и автоматически передается в функцию-обработчик.
+    </p>
+    
+    <div class="example">
+        <pre><code>button.addEventListener('click', function(event) {
+    console.log(event.type);      // "click"
+    console.log(event.target);    // элемент, на котором произошло событие
+    console.log(event.clientX);   // X-координата клика (для событий мыши)
+    console.log(event.clientY);   // Y-координата клика (для событий мыши)
+});</code></pre>
+        <p>Демонстрация:</p>
+        <button id="demoButton">Нажми меня</button>
+        <div class="output" id="output"></div>
+        <script>
+            document.getElementById('demoButton').addEventListener('click', function(event) {
+                document.getElementById('output').innerHTML = 
+                    'Тип события: ' + event.type + '<br>' +
+                    'Целевой элемент: ' + event.target.tagName + '<br>' +
+                    'Координаты клика: X=' + event.clientX + ', Y=' + event.clientY;
+            });
+        </script>
+    </div>
+
+    <h3>Основные свойства объекта Event</h3>
+    <table>
+        <tr>
+            <th>Свойство</th>
+            <th>Описание</th>
+        </tr>
+        <tr>
+            <td>type</td>
+            <td>Тип события (например, "click", "keydown")</td>
+        </tr>
+        <tr>
+            <td>target</td>
+            <td>Элемент, на котором произошло событие</td>
+        </tr>
+        <tr>
+            <td>timeStamp</td>
+            <td>Время возникновения события</td>
+        </tr>
+        <tr>
+            <td>preventDefault()</td>
+            <td>Метод для отмены действия по умолчанию</td>
+        </tr>
+    </table>
+
+    <h3>Разница между event.target и this</h3>
+    <div class="example">
+        <p>В обработчиках событий важно понимать разницу между <code>event.target</code> и ключевым словом <code>this</code>:</p>
+        
+        <ul>
+            <li><strong>event.target</strong> - элемент, который инициировал событие (на котором произошло событие)</li>
+            <li><strong>this</strong> - элемент, к которому прикреплен обработчик события</li>
+        </ul>
+        
+        <p>Нажмите на любое место в цветных блоках ниже, чтобы увидеть разницу:</p>
+        
+        <div id="targetDemo" style="width: 300px; height: 200px; 
+        background-color: #3498db; padding: 20px; 
+        color: white; margin: 10px auto; position: relative;">
+            Внешний блок
+            <div style="width: 200px; height: 100px; 
+            background-color: #e74c3c; margin: 20px auto; display: flex; 
+            align-items: center; justify-content: center;">
+                Внутренний блок
+            </div>
+        </div>
+        
+        <div class="output" id="targetOutput" style="font-family: monospace; margin-top: 10px;"></div>
+        
+        <script>
+            const targetDemo = document.getElementById('targetDemo');
+            const targetOutput = document.getElementById('targetOutput');
+            
+            // Добавляем обработчик на внешний элемент
+            targetDemo.addEventListener('click', function(event) {
+                // Получаем текст элемента, на котором произошел клик
+                const targetText = event.target.textContent.trim();
+                // Получаем текст элемента, на котором установлен обработчик (this)
+                const thisText = this.textContent.trim().split('\n')[0];
+                
+                // Выводим информацию
+                targetOutput.innerHTML = `
+                    <div><strong>event.target</strong>: ${targetText} (элемент, который был нажат)</div>
+                    <div><strong>this</strong>: ${thisText} (элемент с обработчиком)</div>
+                    <div><strong>target === this</strong>: ${event.target === this ? 'true' : 'false'}</div>
+                `;
+                
+                // Подсвечиваем clicked элемент на короткое время
+                if (event.target !== this) {
+                    const originalColor = event.target.style.backgroundColor;
+                    event.target.style.backgroundColor = '#2ecc71';
+                    
+                    // Возвращаем исходный цвет
+                    if (originalColor) {
+                        if (originalColor === 'rgb(46, 204, 113)') {
+                            event.target.style.backgroundColor = '#e74c3c';
+                        } else {
+                            event.target.style.backgroundColor = originalColor;
+                        }
+                    }
+                }
+            });
+        </script>
+        
+        <pre><code>// HTML структура
+&lt;div id="container"&gt;
+    Внешний блок
+    &lt;div class="inner"&gt;Внутренний блок&lt;/div&gt;
+&lt;/div&gt;
+
+// JavaScript
+const container = document.getElementById('container');
+
+container.addEventListener('click', function(event) {
+    // event.target - элемент, на котором произошел клик
+    console.log('event.target:', event.target.textContent);
+    
+    // this - элемент, на котором установлен обработчик (container)
+    console.log('this:', this.textContent);
+    
+    // Проверка равенства
+    console.log('target === this:', event.target === this);
+});</code></pre>
+        
+        <div class="explanation" style="margin-top: 20px; background-color: #f8f9fa; padding: 15px; border-left: 4px solid #3498db;">
+            <h4>Когда использовать event.target и this?</h4>
+            <ul>
+                <li><strong>event.target</strong> используйте, когда вам нужен конкретный элемент, на котором произошло событие.</li>
+                <li><strong>this</strong> используйте, когда вам нужен элемент, на котором зарегистрирован обработчик.</li>
+            </ul>
+            
+            <p><strong>Важно:</strong> При использовании стрелочных функций <code>this</code> работает иначе. Стрелочные функции не имеют собственного <code>this</code>, поэтому в них <code>this</code> является ссылкой на внешний контекст:</p>
+            
+            <pre><code>// Обычная функция - this указывает на элемент
+element.addEventListener('click', function(event) {
+    console.log(this); // Элемент, к которому прикреплен обработчик
+});
+
+// Стрелочная функция - this НЕ указывает на элемент
+element.addEventListener('click', (event) => {
+    console.log(this); // Window или другой внешний контекст
+});</code></pre>
+        </div>
+    </div>
+
+    <h3>Дополнительные примеры использования this</h3>
+    <div class="example">
+        <p>Рассмотрим различные контексты использования <code>this</code> в обработчиках событий:</p>
+        
+        <div class="demo-buttons">
+            <button class="method-button">Метод объекта</button>
+            <button class="arrow-button">Стрелочная функция</button>
+            <button class="bind-button">Привязанный this</button>
+        </div>
+        <div class="output" id="thisOutput"></div>
+
+        <script>
+            const thisDemo = {
+                name: 'Демо объект',
+                // Метод объекта
+                handleClick: function(event) {
+                    document.getElementById('thisOutput').innerHTML += 
+                        `Метод объекта: this.name = "${this.name}"<br>`;
+                },
+                // Стрелочная функция
+                arrowHandler: (event) => {
+                    document.getElementById('thisOutput').innerHTML += 
+                        `Стрелочная функция: this.name = "${this?.name || 'undefined'}"<br>`;
+                }
+            };
+
+            // Привязываем обработчики
+            document.querySelector('.method-button').addEventListener('click', thisDemo.handleClick);
+            document.querySelector('.arrow-button').addEventListener('click', thisDemo.arrowHandler);
+            document.querySelector('.bind-button').addEventListener('click', thisDemo.handleClick.bind(thisDemo));
+
+            // Очистка вывода при большом количестве текста
+            setInterval(() => {
+                const output = document.getElementById('thisOutput');
+                if (output.innerHTML.length > 500) {
+                    output.innerHTML = '';
+                }
+            }, 5000);
+        </script>
+
+        <div class="explanation" style="margin-top: 20px; background-color: #f8f9fa; padding: 15px; border-left: 4px solid #e74c3c;">
+            <h4>Особенности работы this в разных контекстах</h4>
+            <ul>
+                <li><strong>Обычный обработчик события:</strong> <code>this</code> указывает на элемент, к которому прикреплен обработчик.</li>
+                <li><strong>Метод объекта без привязки:</strong> При использовании метода объекта как обработчика, <code>this</code> теряет контекст объекта и указывает на элемент.</li>
+                <li><strong>Стрелочная функция:</strong> Сохраняет <code>this</code> из внешнего контекста, где была создана.</li>
+                <li><strong>Метод с bind():</strong> <code>this</code> всегда указывает на объект, к которому привязан, независимо от способа вызова.</li>
+            </ul>
+
+            <pre><code>// Примеры различных контекстов this
+const obj = {
+    name: 'Мой объект',
+    
+    // Метод объекта
+    regularMethod: function() {
+        console.log(this.name); // 'Мой объект' только при прямом вызове
+    },
+    
+    // Стрелочная функция
+    arrowMethod: () => {
+        console.log(this.name); // undefined или значение из внешнего контекста
+    },
+    
+    // Метод с привязкой контекста
+    boundMethod: function() {
+        console.log(this.name); // Всегда 'Мой объект' после bind
+    }.bind(this)
+};</code></pre>
+        </div>
+    </div>
+
+    <h3>Глубокое погружение в this</h3>
+    <div class="example">
+        <h4>1. Контекст this в различных ситуациях</h4>
+        
+        <div class="interactive-demo">
+            <div id="thisTestArea" style="border: 2px solid #3498db; padding: 20px; margin: 10px;">
+                <button class="test-button">Тестовая кнопка</button>
+                <div class="inner-block" style="background-color: #ecf0f1; padding: 10px; margin-top: 10px;">
+                    Внутренний блок
+                </div>
+            </div>
+            <div id="thisTestOutput" style="margin-top: 10px; font-family: monospace;"></div>
+        </div>
+
+        <script>
+            // Объект с различными обработчиками
+            const thisExamples = {
+                name: 'Тестовый объект',
+                
+                // 1. Обычная функция как метод
+                regularMethod: function() {
+                    return `this в обычном методе: ${this.name}`;
+                },
+                
+                // 2. Стрелочная функция как метод
+                arrowMethod: () => {
+                    return `this в стрелочной функции: ${this?.name || 'undefined'}`;
+                },
+                
+                // 3. Вложенная функция
+                nestedFunction: function() {
+                    function inner() {
+                        return `this во вложенной функции: ${this?.name || 'window'}`;
+                    }
+                    return inner();
+                },
+                
+                // 4. Вложенная стрелочная функция
+                nestedArrow: function() {
+                    const inner = () => {
+                        return `this во вложенной стрелочной функции: ${this.name}`;
+                    };
+                    return inner();
+                },
+
+                // Инициализация всех демонстраций
+                init: function() {
+                    const testArea = document.getElementById('thisTestArea');
+                    const output = document.getElementById('thisTestOutput');
+                    
+                    // Очистка вывода
+                    const clearOutput = () => {
+                        output.innerHTML = '';
+                    };
+                    
+                    // Добавление результата
+                    const addResult = (text) => {
+                        output.innerHTML += text + '<br>';
+                    };
+
+                    // 1. Прямой вызов метода
+                    testArea.querySelector('.test-button').addEventListener('click', () => {
+                        clearOutput();
+                        addResult('1. ' + this.regularMethod.call(this));
+                        addResult('2. ' + this.arrowMethod());
+                        addResult('3. ' + this.nestedFunction());
+                        addResult('4. ' + this.nestedArrow());
+                    });
+
+                    // 2. Обработчик события с привязкой
+                    testArea.querySelector('.inner-block').addEventListener('click', function(e) {
+                        clearOutput();
+                        addResult(`5. this в обработчике события: ${this.className}`);
+                        addResult(`6. event.target: ${e.target.className}`);
+                    });
+                }
+            };
+
+            // Инициализация примеров
+            thisExamples.init();
+        </script>
+
+        <div class="explanation" style="margin-top: 20px; background-color: #f8f9fa; padding: 15px; border-left: 4px solid #2ecc71;">
+            <h4>Особые случаи работы с this</h4>
+            
+            <h5>1. Потеря контекста</h5>
+            <pre><code>const button = {
+    name: 'Моя кнопка',
+    init: function() {
+        // this теряется в callback-функции
+        document.addEventListener('click', function() {
+            console.log(this.name); // undefined
+        });
+
+        // Решение 1: использование bind
+        document.addEventListener('click', function() {
+            console.log(this.name);
+        }.bind(this));
+
+        // Решение 2: стрелочная функция
+        document.addEventListener('click', () => {
+            console.log(this.name);
+        });
+    }
+};</code></pre>
+
+            <h5>2. Методы класса и this</h5>
+            <pre><code>class Button {
+    constructor(name) {
+        this.name = name;
+        // Привязка в конструкторе
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    // Метод класса
+    handleClick() {
+        console.log(this.name);
+    }
+
+    // Метод с автоматической привязкой (class fields)
+    handleHover = () => {
+        console.log(this.name);
+    }
+}</code></pre>
+
+            <h5>3. this в асинхронном коде</h5>
+            <pre><code>const asyncExample = {
+    name: 'Асинхронный объект',
+    
+    // Потеря контекста в setTimeout
+    wrongWay() {
+        setTimeout(function() {
+            console.log(this.name); // undefined
+        }, 1000);
+    },
+    
+    // Правильный способ
+    rightWay() {
+        setTimeout(() => {
+            console.log(this.name); // 'Асинхронный объект'
+        }, 1000);
+    }
+};</code></pre>
+
+            <div class="tips" style="margin-top: 15px; padding: 10px; background-color: #e8f6f3; border-radius: 5px;">
+                <h5>Советы по работе с this:</h5>
+                <ol>
+                    <li>Используйте стрелочные функции для автоматического сохранения контекста</li>
+                    <li>Применяйте bind() для явной привязки контекста</li>
+                    <li>В классах используйте поля класса со стрелочными функциями для методов-обработчиков</li>
+                    <li>Помните, что this в обычных функциях определяется в момент вызова</li>
+                    <li>В обработчиках событий this указывает на элемент, к которому прикреплен обработчик</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <h3>Предотвращение действий по умолчанию</h3>
+    <div class="example">
+        <p>При клике на ссылку ниже, она не будет открыта (действие по умолчанию отменено):</p>
+        <a href="https://example.com" id="preventDefaultLink">Ссылка с отмененным действием по умолчанию</a>
+        <div class="output" id="preventDefaultOutput"></div>
+        
+        <script>
+            document.getElementById('preventDefaultLink').addEventListener('click', function(event) {
+                event.preventDefault();
+                document.getElementById('preventDefaultOutput').textContent = 'Действие по умолчанию (переход по ссылке) отменено!';
+
+            });
+        </script>
+        
+        <pre><code>document.getElementById('preventDefaultLink').addEventListener('click', function(event) {
+    event.preventDefault(); // Отменяем переход по ссылке
+    console.log('Действие по умолчанию отменено!');
+});</code></pre>
+    </div>
+
+    <div class="note">
+        <p><strong>Следующий шаг:</strong> Теперь, когда вы знаете об объекте Event, давайте рассмотрим <a href="mouse-events.html">события мыши</a>.</p>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
+
+    <script>
+        // Показать/скрыть кнопку "наверх" при прокрутке
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        // Прокрутка вверх при клике на кнопку
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.getElementById("myButton").addEventListener("click", function() {
+            console.log(this.id); // Выведет 'myButton'
+            this.style.backgroundColor = "red"; // Изменит цвет фона кнопки
+          });
+
+
+
+
+    </script>
+</body>
+</html> 

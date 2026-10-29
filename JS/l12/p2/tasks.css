@@ -1,0 +1,108 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+div.container {
+    background-color: aliceblue;
+    width: 650px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* TOP ROW: h2, addTask, switcher */
+.first {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin: 0;
+}
+
+.addTask {
+    margin: 0;
+    background-color: #e2e2e2;
+}
+
+.switcher {
+    margin: 0;
+    background-color: rgb(102, 92, 240);
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+img {
+    width: 30px;
+    height: 30px;
+}
+
+/* LIST SECTION */
+#list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+#list li {
+    background-color: rgb(158, 210, 255);
+    margin-bottom: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+}
+
+/* BOTTOM ROW: showAll, showCompleted */
+.footer-btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+button {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 8px 15px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.showCompleted {
+    background-color: chartreuse;
+    margin: 0;
+}
+
+.showAll {
+    background-color: #d1d1d1;
+    margin: 0;
+}
+
+.deleter {
+    background-color: brown;
+    color: white;
+}
+
+.completer {
+    background-color: chartreuse;
+}
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+}

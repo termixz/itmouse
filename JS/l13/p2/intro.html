@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Введение в JavaScript События</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Введение в JavaScript События</h1>
+    
+    <div class="navigation">
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="intro.html" class="active">Введение</a></li>
+            <li><a href="event-handlers.html">Методы обработки</a></li>
+            <li><a href="event-object.html">Объект Event</a></li>
+            <li><a href="mouse-events.html">События мыши</a></li>
+            <li><a href="keyboard-events.html">События клавиатуры</a></li>
+            <li><a href="form-events.html">События форм</a></li>
+            <li><a href="load-events.html">События загрузки</a></li>
+            <li><a href="drag-drop.html">Drag and Drop</a></li>
+        </ul>
+    </div>
+
+    <h2>Введение в События JavaScript</h2>
+    <p>
+        События в JavaScript представляют собой действия или происшествия, которые происходят в браузере и на которые 
+        JavaScript может реагировать. События позволяют создавать интерактивные веб-страницы, реагирующие на действия пользователя.
+    </p>
+    <p>
+        События могут быть вызваны различными способами:
+    </p>
+    <ul>
+        <li>Действиями пользователя (щелчок мыши, нажатие клавиши, прокрутка)</li>
+        <li>Изменениями в DOM (загрузка страницы, изменение формы)</li>
+        <li>Программно (через JavaScript)</li>
+    </ul>
+
+    <h2>Основные Типы Событий</h2>
+    <table>
+        <tr>
+            <th>Категория</th>
+            <th>События</th>
+            <th>Описание</th>
+        </tr>
+        <tr>
+            <td>События мыши</td>
+            <td>click, dblclick, mousedown, mouseup, mousemove, mouseover, mouseout</td>
+            <td>Реагируют на действия мыши пользователя</td>
+        </tr>
+        <tr>
+            <td>События клавиатуры</td>
+            <td>keydown, keyup, keypress</td>
+            <td>Реагируют на нажатия клавиш</td>
+        </tr>
+        <tr>
+            <td>События формы</td>
+            <td>submit, change, focus, blur</td>
+            <td>Реагируют на взаимодействие с формами</td>
+        </tr>
+        <tr>
+            <td>События документа</td>
+            <td>DOMContentLoaded, load, resize, scroll</td>
+            <td>Реагируют на изменения в документе/окне</td>
+        </tr>
+    </table>
+
+    <div class="note">
+        <p><strong>Важно:</strong> События являются основой интерактивности веб-страницы. Умение эффективно работать с событиями - ключевой навык веб-разработчика.</p>
+    </div>
+
+    <div class="example">
+        <h3>Пример простого использования события:</h3>
+        <button id="simpleButton">Нажми меня</button>
+        <div class="output" id="simpleOutput"></div>
+        
+        <script>
+            document.getElementById('simpleButton').addEventListener('click', function() {
+                document.getElementById('simpleOutput').textContent = 'Кнопка была нажата!';
+            });
+        </script>
+        
+        <pre><code>// Код примера
+document.getElementById('simpleButton').addEventListener('click', function() {
+    document.getElementById('simpleOutput').textContent = 'Кнопка была нажата!';
+});</code></pre>
+    </div>
+
+    <div class="note">
+        <p><strong>Следующий шаг:</strong> Теперь, когда вы знаете основы событий, давайте рассмотрим различные <a href="event-handlers.html">методы обработки событий</a>.</p>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
+
+    <script>
+        // Показать/скрыть кнопку "наверх" при прокрутке
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        // Прокрутка вверх при клике на кнопку
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html> 

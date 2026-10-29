@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Map Page</title>
+    <style>
+        .box {
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        #msgs {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #f9f9f9;
+        }
+        .msg {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .user {
+            align-self: flex-end;
+            background: #007bff;
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+        .ai {
+            align-self: flex-start;
+            background: #e9ecef;
+            color: #1A1A1A;
+            border-bottom-left-radius: 2px;
+            white-space: pre-wrap;
+        }
+        .area {
+            display: flex;
+            padding: 15px;
+            background: #fff;
+            border-top: 1px solid #eee;
+            gap: 10px;
+        }
+        #inp {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+        }
+        #btn, #clear{
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #btn:disabled {
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <main style="padding: 20px;">
+        <div class="box">
+            <div id="msgs"></div>
+            <div class="area">
+                <input type="text" id="inp" placeholder="Спросите что-нибудь о сайте...">
+                <button id="btn">Отправить</button>
+                <button id="clear">Очистить</button>
+            </div>
+        </div>
+    </main>
+    
+    
+    <script src="scripts.js"></script>
+</body>
+</html>

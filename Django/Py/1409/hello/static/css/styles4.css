@@ -1,0 +1,39 @@
+.school-name {
+        color: #d9534f;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+.links-list {
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.links-list a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+.links-list a:hover {
+    text-decoration: underline;
+}
+
+.time-box {
+    width: 30vw;
+    border: 1px solid #5cb85c;
+    background-color: #f9fbf9;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.time-box h2 {
+    margin-top: 0;
+    color: #4cae4c;
+    font-size: 1.2rem;
+}
+
+.time-box h4 {
+    margin: 5px 0;
+    color: #666;
+    font-weight: normal;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Diary</title>
+    <style>
+        #grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; max-width: 400px; }
+        .box { border: 1px solid #ccc; padding: 10px; cursor: pointer; }
+        .today { background: lightgreen; }
+        .note { box-shadow: inset 0 0 5px orange; }
+        #modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 1px solid black; padding: 20px; }
+    </style>
+</head>
+<body>
+    <div>
+        <button id="p"> < </button>
+        <span id="title"></span>
+        <button id="n"> > </button>
+    </div>
+    <div id="grid"></div>
+    <button id="clear" style="background: lightcoral;">Очистить</button>
+
+    <div id="modal">
+        <h3 id="head"></h3>
+        <textarea id="text"></textarea><br>
+        <button id="save">Сохранить</button>
+        <button id="del">Удалить</button>
+        <button id="close">Закрыть</button>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма про учебу</title>
+</head>
+<body>
+    <div>
+        <h2>Профиль</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Сохранить</button>
+            {% if data %}
+            <p>Имя: {{ data.name }}</p>
+            <p>Фамилия: {{ data.lastname }}</p>
+            <p>Возраст: {{ data.age }}</p>
+            <p>Почта: {{ data.email }}</p>
+            <p>Аватарка: {{ data.avatar }}</p>
+            {% endif %}
+        </form>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+const name = 'Aleksandr';
+const age = 12;
+const color = 'blue';
+const hobby = 'Programmer';
+const hobbyage = 4;
+const food = 'nuggets';
+const fooddate = 'ones in two weeks';
+const film = 'Интерстеллар';
+const dream = 'Стать программистом'
+const dreamdate = 8;

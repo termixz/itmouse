@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О Сайте</title>
+    <link rel="stylesheet" href="{% static 'css/styles5.css' %}">
+</head>
+<body>
+    <div class="overlay">
+    <!-- LOGN IN FORM by Omar Dsoky -->
+    <form method="POST">
+    {% csrf_token %}
+       <!--   con = Container  for items in the form-->
+       <div class="con">
+       <!--     Start  header Content  -->
+       <header class="head-form">
+          <h2>Log In</h2>
+          <!--     A welcome message or an explanation of the login form -->
+          <p>login here using your username and password</p>
+       </header>
+       <!--     End  header Content  -->
+       <br>
+       {{ output|safe }}
+        <div style="margin-top: 20px; text-align: center;">
+           <a href="{% url 'form1' %}" style="display: inline-block; padding: 10px 20px; background-color: #ff758c; color: white; text-decoration: none; border-radius: 5px;">
+               Назад к форме
+           </a>
+       </div>
+    <!--   End Conrainer  -->
+      </div>
+
+      <!-- End Form -->
+    </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Map Page</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map { height: 400px; width: 100%; }
+    </style>
+</head>
+<body>
+    <label for="latitude">Latitude:</label>
+    <input id="latitude">
+    <label for="longitude">Longitude:</label>
+    <input id="longitude">
+    <button id="show">Show</button>
+    
+    <h5>Current coordinates</h5>
+    <p id="clatitude">Latitude:</p>
+    <p id="clongitude">Longitude:</p>
+    
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>

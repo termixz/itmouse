@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Меню Пиццерии</title>
+    <link rel="stylesheet" href="{% static 'css/styles2.css' %}">
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ id0.name }}</td>
+                <td>{{ id0.description }}</td>
+                <td>{{ id0.cost }}</td>
+            </tr>
+            <tr>
+                <td>{{ id1.name }}</td>
+                <td>{{ id1.description }}</td>
+                <td>{{ id1.cost }}</td>
+            </tr>
+            <tr>
+                <td>{{ id2.name }}</td>
+                <td>{{ id2.description }}</td>
+                <td>{{ id2.cost }}</td>
+            </tr>
+            <tr>
+                <td>{{ id3.name }}</td>
+                <td>{{ id3.description }}</td>
+                <td>{{ id3.cost }}</td>
+            </tr>
+            <tr>
+                <td>{{ id4.name }}</td>
+                <td>{{ id4.description }}</td>
+                <td>{{ id4.cost }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

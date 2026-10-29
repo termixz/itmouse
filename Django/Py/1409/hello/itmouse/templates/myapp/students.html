@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Погода в {{ city }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        div {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 320px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 16px;
+            font-weight: normal;
+            background: #f8f9fa;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <h2>Ученик {{ student.name }} {{ student.lname }}</h2>
+
+        <h3><b>Возраст:</b> {{ student.age }}</h3>
+        <h3><b>Класс:</b> {{ student.grade }}</h3>
+        <h3><b>Любимые предметы:</b> {{ student.subjects }}</h3>
+        <h3><b>Хобби:</b> {{ student.hobbies }}</h3>
+        <h3><b>Средний балл:</b> {{student.gpa}}</h3>
+
+        <a href="http://127.0.0.1:8000/">На главную</a>
+    </div>
+
+</body>
+</html>

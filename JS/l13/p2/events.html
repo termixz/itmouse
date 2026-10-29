@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript События</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #3498db;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .example {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .exercise {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #4caf50;
+        }
+        .note {
+            background-color: #fff8e1;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .output {
+            min-height: 30px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript События</h1>
+    
+    <h2>Введение в События JavaScript</h2>
+    <p>
+        События в JavaScript представляют собой действия или происшествия, которые происходят в браузере и на которые 
+        JavaScript может реагировать. События позволяют создавать интерактивные веб-страницы, реагирующие на действия пользователя.
+    </p>
+    <p>
+        События могут быть вызваны различными способами:
+    </p>
+    <ul>
+        <li>Действиями пользователя (щелчок мыши, нажатие клавиши, прокрутка)</li>
+        <li>Изменениями в DOM (загрузка страницы, изменение формы)</li>
+        <li>Программно (через JavaScript)</li>
+    </ul>
+
+    <h2>Основные Типы Событий</h2>
+    <table>
+        <tr>
+            <th>Категория</th>
+            <th>События</th>
+            <th>Описание</th>
+        </tr>
+        <tr>
+            <td>События мыши</td>
+            <td>click, dblclick, mousedown, mouseup, mousemove, mouseover, mouseout</td>
+            <td>Реагируют на действия мыши пользователя</td>
+        </tr>
+        <tr>
+            <td>События клавиатуры</td>
+            <td>keydown, keyup, keypress</td>
+            <td>Реагируют на нажатия клавиш</td>
+        </tr>
+        <tr>
+            <td>События формы</td>
+            <td>submit, change, focus, blur</td>
+            <td>Реагируют на взаимодействие с формами</td>
+        </tr>
+        <tr>
+            <td>События документа</td>
+            <td>DOMContentLoaded, load, resize, scroll</td>
+            <td>Реагируют на изменения в документе/окне</td>
+        </tr>
+    </table>
+
+    <h2>Методы Обработки Событий</h2>
+    <p>Существует три основных способа добавления обработчиков событий:</p>
+
+    <h3>1. HTML-атрибуты (не рекомендуется)</h3>
+    <div class="example">
+        <pre><code>&lt;button onclick="alert('Кнопка нажата!')">Нажми меня&lt;/button></code></pre>
+    </div>
+    
+    <h3>2. Свойства объекта DOM</h3>
+    <div class="example">
+        <pre><code>let button = document.querySelector('button');
+button.onclick = function() {
+    alert('Кнопка нажата!');
+};</code></pre>
+        <p>Демонстрация:</p>
+        <button id="demoButton1">Нажми меня</button>
+        <script>
+            document.getElementById('demoButton1').onclick = function() {
+                alert('Кнопка нажата через свойство onclick!');
+            };
+        </script>
+    </div>
+    
+    <div class="note">
+        <p><strong>Важно:</strong> Используя свойства объекта DOM, мы можем назначить только один обработчик для каждого типа события на элементе.</p>
+    </div>
+
+    <h3>3. Метод addEventListener (рекомендуется)</h3>
+    <div class="example">
+        <pre><code>let button = document.querySelector('button');
+button.addEventListener('click', function() {
+    alert('Кнопка нажата!');
+});
+
+// Можно добавить несколько обработчиков
+button.addEventListener('click', function() {
+    console.log('Еще один обработчик для того же события');
+});</code></pre>
+        <p>Демонстрация:</p>
+        <button id="demoButton2">Нажми меня</button>
+        <div class="output" id="output1"></div>
+        <script>
+            document.getElementById('demoButton2').addEventListener('click', function() {
+                document.getElementById('output1').innerHTML += 'Первый обработчик выполнен<br>';
+            });
+            document.getElementById('demoButton2').addEventListener('click', function() {
+                document.getElementById('output1').innerHTML += 'Второй обработчик выполнен<br>';
+            });
+        </script>
+    </div>
+
+    <h2>Объект Event</h2>
+    <p>
+        При возникновении события создается объект <code>Event</code>, который содержит детали о произошедшем событии 
+        и автоматически передается в функцию-обработчик.
+    </p>
+    <div class="example">
+        <pre><code>button.addEventListener('click', function(event) {
+    console.log(event.type);      // "click"
+    console.log(event.target);    // элемент, на котором произошло событие
+    console.log(event.clientX);   // X-координата клика (для событий мыши)
+    console.log(event.clientY);   // Y-координата клика (для событий мыши)
+});</code></pre>
+        <p>Демонстрация:</p>
+        <button id="demoButton3">Нажми меня</button>
+        <div class="output" id="output2"></div>
+        <script>
+            document.getElementById('demoButton3').addEventListener('click', function(event) {
+                document.getElementById('output2').innerHTML = 
+                    'Тип события: ' + event.type + '<br>' +
+                    'Целевой элемент: ' + event.target.tagName + '<br>' +
+                    'Координаты клика: X=' + event.clientX + ', Y=' + event.clientY;
+            });
+        </script>
+    </div>
+
+    <h2>Распространение Событий (Event Propagation)</h2>
+    <p>
+        В JavaScript события распространяются через DOM-дерево в три фазы:
+    </p>
+    <ol>
+        <li><strong>Фаза захвата (Capturing phase)</strong> - событие спускается от корневого элемента к цели</li>
+        <li><strong>Фаза цели (Target phase)</strong> - событие достигает целевого элемента</li>
+        <li><strong>Фаза всплытия (Bubbling phase)</strong> - событие поднимается от цели к корневому элементу</li>
+    </ol>
+
+    <div class="example">
+        <div id="outer" style="background-color: #ddd; padding: 20px;">
+            Внешний элемент
+            <div id="middle" style="background-color: #aaa; padding: 20px; margin: 10px;">
+                Средний элемент
+                <div id="inner" style="background-color: #777; padding: 20px; margin: 10px; color: white;">
+                    Внутренний элемент
+                </div>
+            </div>
+        </div>
+        <div class="output" id="output3"></div>
+
+        <script>
+            const outer = document.getElementById('outer');
+            const middle = document.getElementById('middle');
+            const inner = document.getElementById('inner');
+            const output = document.getElementById('output3');
+
+            outer.addEventListener('click', function() {
+                output.innerHTML += 'Клик на внешнем элементе (всплытие)<br>';
+            });
+
+            middle.addEventListener('click', function() {
+                output.innerHTML += 'Клик на среднем элементе (всплытие)<br>';
+            });
+
+            inner.addEventListener('click', function() {
+                output.innerHTML += 'Клик на внутреннем элементе (цель)<br>';
+            });
+            
+            // Для демонстрации фазы захвата
+            outer.addEventListener('click', function() {
+                output.innerHTML = 'Клик на внешнем элементе (захват)<br>';
+            }, true);
+
+            middle.addEventListener('click', function() {
+                output.innerHTML += 'Клик на среднем элементе (захват)<br>';
+            }, true);
+        </script>
+        <button onclick="document.getElementById('output3').innerHTML = ''">Очистить результат</button>
+    </div>
+
+    <div class="note">
+        <p>
+            <strong>event.preventDefault()</strong> отменяет действие по умолчанию (например, переход по ссылке).
+        </p>
+    </div>
+
+    <h2>Делегирование Событий</h2>
+    <p>
+        Делегирование событий - это техника, которая использует всплытие событий для обработки событий на 
+        родительском элементе вместо установки обработчиков на каждый дочерний элемент.
+    </p>
+    <div class="example">
+        <pre><code>// Вместо установки обработчиков на каждую кнопку
+document.getElementById('buttonContainer').addEventListener('click', function(event) {
+    if (event.target.tagName === 'BUTTON') {
+        alert('Кнопка ' + event.target.textContent + ' была нажата!');
+    }
+});</code></pre>
+
+        <div id="buttonContainer">
+            <button>Кнопка 1</button>
+            <button>Кнопка 2</button>
+            <button>Кнопка 3</button>
+        </div>
+        <script>
+            document.getElementById('buttonContainer').addEventListener('click', function(event) {
+                if (event.target.tagName === 'BUTTON') {
+                    alert('Кнопка "' + event.target.textContent + '" была нажата!');
+                }
+            });
+        </script>
+    </div>
+
+    <h2>События Мыши</h2>
+    <p>
+        События мыши позволяют отслеживать движение курсора и взаимодействие пользователя с мышью.
+    </p>
+    
+    <h3>Основные события мыши:</h3>
+    <ul>
+        <li><strong>click</strong> - возникает при клике мышью (нажатие и отпускание)</li>
+        <li><strong>dblclick</strong> - возникает при двойном клике</li>
+        <li><strong>mousedown</strong> - возникает при нажатии кнопки мыши</li>
+        <li><strong>mouseup</strong> - возникает при отпускании кнопки мыши</li>
+        <li><strong>mousemove</strong> - возникает при движении мыши</li>
+        <li><strong>mouseover</strong> - возникает при наведении курсора на элемент</li>
+        <li><strong>mouseout</strong> - возникает при уходе курсора с элемента</li>
+        <li><strong>mouseenter</strong> - возникает при входе курсора в элемент (не всплывает)</li>
+        <li><strong>mouseleave</strong> - возникает при выходе курсора из элемента (не всплывает)</li>
+        <li><strong>contextmenu</strong> - возникает при вызове контекстного меню (правый клик)</li>
+        <li><strong>wheel</strong> - возникает при использовании колеса мыши</li>
+    </ul>
+    
+    <h3>Свойства объекта события мыши:</h3>
+    <table>
+        <tr>
+            <th>Свойство</th>
+            <th>Описание</th>
+        </tr>
+        <tr>
+            <td>clientX, clientY</td>
+            <td>Координаты относительно окна браузера</td>
+        </tr>
+        <tr>
+            <td>pageX, pageY</td>
+            <td>Координаты относительно документа</td>
+        </tr>
+        <tr>
+            <td>screenX, screenY</td>
+            <td>Координаты относительно экрана</td>
+        </tr>
+        <tr>
+            <td>offsetX, offsetY</td>
+            <td>Координаты относительно элемента, на котором произошло событие</td>
+        </tr>
+        <tr>
+            <td>button</td>
+            <td>Какая кнопка мыши была нажата (0 - левая, 1 - средняя, 2 - правая)</td>
+        </tr>
+        <tr>
+            <td>buttons</td>
+            <td>Битовая маска нажатых кнопок мыши во время события</td>
+        </tr>
+    </table>
+    
+    <div class="example">
+        <h4>Пример отслеживания координат мыши:</h4>
+        
+        <div id="mouseTracker" style="width: 100%; height: 250px; background-color: #e0f7fa; position: relative; overflow: hidden; border: 2px solid #26c6da; border-radius: 5px;">
+            <div id="mousePointer" style="width: 16px; height: 16px; background-color: #f44336; border-radius: 50%; position: absolute; transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(0,0,0,0.3);"></div>
+            <div style="position: absolute; top: 10px; left: 10px; background-color: rgba(255,255,255,0.7); padding: 5px; border-radius: 3px;">Двигайте мышью внутри этой области</div>
+        </div>
+        <div class="output" id="mouseOutput" style="font-weight: bold; margin-top: 15px; font-family: monospace; font-size: 16px; background-color: #f5f5f5; padding: 10px; border-left: 4px solid #26c6da;"></div>
+        
+        <script>
+            // Добавим крестик к указателю для более точного отображения позиции
+            const crosshair = document.createElement('div');
+            crosshair.style.position = 'absolute';
+            crosshair.style.width = '20px';
+            crosshair.style.height = '20px';
+            crosshair.style.top = '50%';
+            crosshair.style.left = '50%';
+            crosshair.style.transform = 'translate(-50%, -50%)';
+            crosshair.style.pointerEvents = 'none';
+            
+            // Горизонтальная линия
+            const hLine = document.createElement('div');
+            hLine.style.position = 'absolute';
+            hLine.style.width = '20px';
+            hLine.style.height = '1px';
+            hLine.style.backgroundColor = 'black';
+            hLine.style.top = '50%';
+            hLine.style.left = '0';
+            
+            // Вертикальная линия
+            const vLine = document.createElement('div');
+            vLine.style.position = 'absolute';
+            vLine.style.width = '1px';
+            vLine.style.height = '20px';
+            vLine.style.backgroundColor = 'black';
+            vLine.style.top = '0';
+            vLine.style.left = '50%';
+            
+            crosshair.appendChild(hLine);
+            crosshair.appendChild(vLine);
+            document.getElementById('mousePointer').appendChild(crosshair);
+            
+            // Основной код для отслеживания движения мыши
+            const tracker = document.getElementById('mouseTracker');
+            const pointer = document.getElementById('mousePointer');
+            const mouseOutput = document.getElementById('mouseOutput');
+            
+            tracker.addEventListener('mousemove', function(event) {
+                // Перемещаем указатель мыши
+                pointer.style.left = event.offsetX + 'px';
+                pointer.style.top = event.offsetY + 'px';
+                
+                // Обновляем информацию о координатах
+                mouseOutput.innerHTML = 
+                    '📍 Координаты относительно окна: X=' + event.clientX + ', Y=' + event.clientY + '<br>' +
+                    '📌 Координаты внутри элемента: X=' + event.offsetX + ', Y=' + event.offsetY + '<br>' +
+                    '🖥️ Координаты относительно экрана: X=' + event.screenX + ', Y=' + event.screenY;
+            });
+            
+            // Скрываем указатель, когда мышь выходит за пределы трекера
+            tracker.addEventListener('mouseleave', function() {
+                pointer.style.display = 'none';
+            });
+            
+            // Показываем указатель, когда мышь входит в трекер
+            tracker.addEventListener('mouseenter', function() {
+                pointer.style.display = 'block';
+            });
+        </script>
+        <h3>Подробное описание кода отслеживания координат</h3>
+        <p>
+            Код выше демонстрирует следующие концепции:
+        </p>
+        <ol>
+            <li><strong>Создание элемента-индикатора</strong> - мы создаем видимый указатель, который следует за мышью</li>
+            <li><strong>Получение различных типов координат</strong> - мы показываем разные типы координат (client, offset, screen)</li>
+            <li><strong>Обработка событий входа и выхода</strong> - мы используем mouseenter и mouseleave для управления видимостью указателя</li>
+        </ol>
+        
+        <pre><code>// Объяснение основных элементов кода
+    // 1. Получаем ссылки на DOM-элементы
+    const tracker = document.getElementById('mouseTracker'); // Контейнер для отслеживания
+    const pointer = document.getElementById('mousePointer'); // Визуальный указатель
+    const output = document.getElementById('mouseOutput');   // Элемент для вывода информации
+    
+    // 2. Добавляем обработчик события движения мыши
+    tracker.addEventListener('mousemove', function(event) {
+        // Обновляем позицию указателя, используя offsetX/Y (координаты относительно элемента)
+        pointer.style.left = event.offsetX + 'px';
+        pointer.style.top = event.offsetY + 'px';
+        
+        // Выводим различные типы координат:
+        // - clientX/Y: координаты относительно видимой области окна браузера
+        // - offsetX/Y: координаты относительно элемента, на котором произошло событие
+        // - screenX/Y: координаты относительно экрана устройства
+        output.innerHTML = `
+            clientX/Y: ${event.clientX}, ${event.clientY}
+            offsetX/Y: ${event.offsetX}, ${event.offsetY}
+            screenX/Y: ${event.screenX}, ${event.screenY}
+        `;
+    });</code></pre>
+        
+        <h3>Пример: Рисование с использованием координат мыши</h3>
+        <p>
+            Этот пример демонстрирует, как использовать координаты мыши для создания простого инструмента рисования.
+            Удерживайте кнопку мыши и перемещайте её внутри холста, чтобы рисовать.
+        </p>
+        
+        <div class="example">
+            <div style="margin-bottom: 10px;">
+                <label for="colorPicker">Выберите цвет: </label>
+                <input type="color" id="colorPicker" value="#3498db">
+                <label for="brushSize">Размер кисти: </label>
+                <input type="range" id="brushSize" min="1" max="50" value="5">
+                <span id="brushSizeValue">5px</span>
+                <button id="clearCanvas">Очистить холст</button>
+            </div>
+            
+            <canvas id="drawingCanvas" width="600" height="300" style="border: 1px solid #ccc; display: block; background-color: #fff;"></canvas>
+            
+            <div class="output" id="drawingOutput" style="margin-top: 10px;">Координаты указателя появятся здесь</div>
+            
+            <pre><code>// Код для рисования на холсте
+    const canvas = document.getElementById('drawingCanvas');
+    const ctx = canvas.getContext('2d');
+    const colorPicker = document.getElementById('colorPicker');
+    const brushSize = document.getElementById('brushSize');
+    const output = document.getElementById('drawingOutput');
+    
+    // Настройки
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    
+    // Обработчики событий мыши
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+    
+    function startDrawing(e) {
+        isDrawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+    
+    function draw(e) {
+        if (!isDrawing) return;
+        
+        // Вывод координат
+        output.textContent = `Рисование на X: ${e.offsetX}, Y: ${e.offsetY}`;
+        
+        // Настройка контекста рисования
+        ctx.lineWidth = brushSize.value;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = colorPicker.value;
+        
+        // Рисование линии
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        
+        // Обновление координат
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+    
+    function stopDrawing() {
+        isDrawing = false;
+    }
+    
+    // Очистка холста
+    document.getElementById('clearCanvas').addEventListener('click', function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });</code></pre>
+            
+            <script>
+                // Реализация рисования на холсте
+                const canvas = document.getElementById('drawingCanvas');
+                const ctx = canvas.getContext('2d');
+                const colorPicker = document.getElementById('colorPicker');
+                const brushSize = document.getElementById('brushSize');
+                const brushSizeValue = document.getElementById('brushSizeValue');
+                const drawingOutput = document.getElementById('drawingOutput');
+                
+                // Обновление отображаемого размера кисти
+                brushSize.addEventListener('input', function() {
+                    brushSizeValue.textContent = this.value + 'px';
+                });
+                
+                // Настройки
+                let isDrawing = false;
+                let lastX = 0;
+                let lastY = 0;
+                
+                // Обработчики событий мыши
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+                
+                function startDrawing(e) {
+                    isDrawing = true;
+                    [lastX, lastY] = [e.offsetX, e.offsetY];
+                }
+                
+                function draw(e) {
+                    // Всегда обновляем вывод координат
+                    drawingOutput.innerHTML = `
+                        <b>Текущая позиция:</b> X=${e.offsetX}, Y=${e.offsetY} | 
+                        <b>Относительно страницы:</b> X=${e.pageX}, Y=${e.pageY}
+                    `;
+                    
+                    if (!isDrawing) return;
+                    
+                    // Настройка контекста рисования
+                    ctx.lineWidth = brushSize.value;
+                    ctx.lineCap = 'round';
+                    ctx.strokeStyle = colorPicker.value;
+                    
+                    // Рисование линии
+                    ctx.beginPath();
+                    ctx.moveTo(lastX, lastY);
+                    ctx.lineTo(e.offsetX, e.offsetY);
+                    ctx.stroke();
+                    
+                    // Обновление координат
+                    [lastX, lastY] = [e.offsetX, e.offsetY];
+                }
+                
+                function stopDrawing() {
+                    isDrawing = false;
+                }
+                
+                // Очистка холста
+                document.getElementById('clearCanvas').addEventListener('click', function() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                });
+            </script>
+        </div>
+    </div>
+    
+    <h2>Drag and Drop (Перетаскивание)</h2>
+    <p>
+        HTML5 предоставляет встроенный API для реализации операций перетаскивания элементов. Этот API позволяет создавать
+        интерактивные интерфейсы с возможностью перемещения элементов.
+    </p>
+    
+    <h3>Основные события Drag and Drop:</h3>
+    <ul>
+        <li><strong>dragstart</strong> - возникает, когда пользователь начинает перетаскивание элемента</li>
+        <li><strong>drag</strong> - возникает каждые несколько миллисекунд во время перетаскивания</li>
+        <li><strong>dragenter</strong> - возникает, когда перетаскиваемый элемент входит в целевую область</li>
+        <li><strong>dragover</strong> - возникает при перетаскивании элемента над целевой областью</li>
+        <li><strong>dragleave</strong> - возникает, когда перетаскиваемый элемент покидает целевую область</li>
+        <li><strong>drop</strong> - возникает, когда элемент брошен в целевую область</li>
+        <li><strong>dragend</strong> - возникает после завершения операции перетаскивания</li>
+    </ul>
+    
+    <h3>Как реализовать Drag and Drop:</h3>
+    <ol>
+        <li>Добавьте атрибут <code>draggable="true"</code> к элементам, которые нужно перетаскивать.</li>
+        <li>Добавьте обработчик события <code>dragstart</code> для этих элементов.</li>
+        <li>Используйте <code>dataTransfer</code> для хранения данных во время перетаскивания.</li>
+        <li>Добавьте обработчики событий <code>dragover</code> и <code>drop</code> к целевым элементам.</li>
+    </ol>
+    
+    <div class="example">
+        <h4>Пример простой реализации Drag and Drop:</h4>
+        
+        <pre><code>// Для перетаскиваемого элемента
+element.addEventListener('dragstart', function(event) {
+    // Сохраняем ID или другие данные элемента
+    event.dataTransfer.setData('text/plain', event.target.id);
+    // Можно установить изображение перетаскивания
+    event.dataTransfer.setDragImage(image, xOffset, yOffset);
+});
+
+// Для зоны сброса (drop zone)
+dropZone.addEventListener('dragover', function(event) {
+    // Разрешаем сброс на этот элемент
+    event.preventDefault();
+});
+
+dropZone.addEventListener('drop', function(event) {
+    event.preventDefault();
+    
+    // Получаем ID перетаскиваемого элемента
+    const id = event.dataTransfer.getData('text/plain');
+    const draggedElement = document.getElementById(id);
+    
+    // Добавляем элемент в зону сброса
+    event.target.appendChild(draggedElement);
+});</code></pre>
+        
+        <div style="margin-top: 20px;">
+            <div id="dragDemo" style="display: flex; gap: 20px;">
+                <div id="dragContainer" style="width: 200px; min-height: 200px; padding: 10px; background-color: #f0f7ff; border: 1px solid #ccc;">
+                    <p>Элементы для перетаскивания:</p>
+                    <div class="draggable" draggable="true" style="padding: 10px; margin: 5px; background-color: #3498db; color: white; cursor: move;">Элемент 1</div>
+                    <div class="draggable" draggable="true" style="padding: 10px; margin: 5px; background-color: #e74c3c; color: white; cursor: move;">Элемент 2</div>
+                    <div class="draggable" draggable="true" style="padding: 10px; margin: 5px; background-color: #2ecc71; color: white; cursor: move;">Элемент 3</div>
+                </div>
+                
+                <div id="dropZone" style="width: 200px; min-height: 200px; padding: 10px; background-color: #f5f5f5; border: 1px dashed #999;">
+                    <p>Зона для сброса:</p>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            // Получаем все перетаскиваемые элементы и зону сброса
+            const draggables = document.querySelectorAll('.draggable');
+            const dropZone = document.getElementById('dropZone');
+            
+            // Добавляем обработчики к каждому перетаскиваемому элементу
+            draggables.forEach(item => {
+                item.addEventListener('dragstart', function(event) {
+                    // Устанавливаем данные и прозрачность при начале перетаскивания
+                    event.dataTransfer.setData('text/plain', event.target.innerHTML);
+                    this.style.opacity = '0.4';
+                });
+                
+                item.addEventListener('dragend', function() {
+                    // Восстанавливаем прозрачность после завершения
+                    this.style.opacity = '1';
+                });
+            });
+            
+            // Обработчики для зоны сброса
+            dropZone.addEventListener('dragover', function(event) {
+                // Предотвращаем действие по умолчанию для разрешения сброса
+                event.preventDefault();
+                this.style.background = '#e8f5e9';
+            });
+            
+            dropZone.addEventListener('dragleave', function() {
+                // Возвращаем исходный фон при выходе
+                this.style.background = '#f5f5f5';
+            });
+            
+            dropZone.addEventListener('drop', function(event) {
+                // Предотвращаем действие по умолчанию
+                event.preventDefault();
+                this.style.background = '#f5f5f5';
+                
+                // Получаем данные и создаем новый элемент
+                const data = event.dataTransfer.getData('text/plain');
+                const newElement = document.createElement('div');
+                newElement.innerHTML = data;
+                newElement.style.padding = '10px';
+                newElement.style.margin = '5px';
+                newElement.style.color = 'white';
+                
+                // Устанавливаем цвет фона в зависимости от текста
+                if (data.includes('Элемент 1')) {
+                    newElement.style.backgroundColor = '#3498db';
+                } else if (data.includes('Элемент 2')) {
+                    newElement.style.backgroundColor = '#e74c3c';
+                } else {
+                    newElement.style.backgroundColor = '#2ecc71';
+                }
+                
+                // Добавляем новый элемент в зону сброса
+                this.appendChild(newElement);
+            });
+        </script>
+    </div>
+   
+    <footer>
+        <p>&copy; 2024 JavaScript Events Tutorial</p>
+    </footer>
+</body>
+</html> 

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="./IMG/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <title>Профиль</title>
+</head>
+<body>
+    <header>
+        <h2>ДОМА НЕДОРОГО.by</h2>
+        <button id="back" style="margin-right: 20px; padding: 5px 15px;">На главную</button>
+    </header>
+
+    <main style="padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 30px;">
+        <div style="background: #fff; padding: 30px; border-radius: 12px; width: 100%; max-width: 500px; text-align: center;">
+            <img id="profile-avatar" class="profile-avatar" src="./IMG/avatar.png" style="width: 120px; height: 120px; object-fit: cover;">
+            <h2 id="name" style="margin-top: 0;">Загрузка...</h2>
+            <h3 style="color: #28a745;">Баланс: <span id="balance">0</span> BYN</h3>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <input type="text" id="url" placeholder="Ссылка на фото...">
+                <button id="save" style="padding: 12px; background: #17a2b8; color: white; border: none; border-radius: 8px;">Обновить аватар</button>
+                <button id="topup" style="padding: 12px; background: #ffc107; color: black; border: none; border-radius: 8px;">Пополнить баланс</button>
+                <button id="exit" style="padding: 12px; background: #dc3545; color: white; border: none; border-radius: 8px;">Выйти из аккаунта</button>
+            </div>
+        </div>
+
+        <div style="width: 100%; max-width: 1000px;">
+            <h3>Мои дома</h3>
+            <div id="list" class="houses" style="margin-top: 20px;"></div>
+        </div>
+    </main>
+
+    <div id="modal" class="filter-popup">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3>Пополнение</h3>
+            <button id="close" style="background: none; border: none; font-size: 24px;">&times;</button>
+        </div>
+        
+        <div style="padding: 15px; border: 1px solid #ddd; border-radius: 8px; opacity: 0.6;">
+            💳 Банковская карта (Недоступно)
+        </div>
+        <div style="padding: 15px; border: 1px solid #ddd; border-radius: 8px; opacity: 0.6;">
+            📱 ЕРИП (Недоступно)
+        </div>
+        <div style="padding: 15px; border: 1px solid #ddd; border-radius: 8px; opacity: 0.6;">
+            🪙 Криптовалюта (Недоступно)
+        </div>
+        
+        <div style="margin-top: 25px; padding-top: 20px; border-top: 1px dashed #ccc;">
+            <h5 style="color: #d63384;">[DEV] Тест:</h5>
+            <input type="number" id="sum" placeholder="Сумма..." style="width:100%; padding:10px; margin-bottom:10px;">
+            <button id="cheat" style="width:100%; padding:15px; background:#d63384; color:white; border:none; border-radius:8px;">Зачислить</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script src="profile.js"></script>
+</body>
+</html>

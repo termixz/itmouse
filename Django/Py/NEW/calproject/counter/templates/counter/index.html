@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Счётчик калорий</title>
+  <link rel="stylesheet" href="{% static 'counter/style.css' %}">
+</head>
+<body>
+<div class="wrap">
+  <header class="head">
+    <h1>🍎 Счётчик калорий</h1>
+    <div class="date-nav">
+      <a class="btn btn-nav" href="/?date={{ prev_date }}">←</a>
+      <span class="date-label">{{ date|date:"d.m.Y (D)" }}{% if is_today %} — сегодня{% endif %}</span>
+      <a class="btn btn-nav" href="/?date={{ next_date }}">→</a>
+    </div>
+  </header>
+
+  <section class="card summary">
+    <div class="ring">
+      <svg viewBox="0 0 120 120">
+        <circle class="ring-bg" cx="60" cy="60" r="52"/>
+        <circle class="ring-fg" cx="60" cy="60" r="52"
+                stroke-dasharray="{{ progress }} {{ 100|add:"-1" }}" stroke-dashoffset="0"/>
+      </svg>
+      <div class="ring-text">
+        <b>{{ total }}</b>
+        <span>/ {{ goal }} ккал</span>
+      </div>
+    </div>
+    <div class="summary-info">
+      {% if over > 0 %}
+        <p class="warn">Превышение на <b>{{ over }}</b> ккал</p>
+      {% else %}
+        <p>Осталось: <b>{{ left }}</b> ккал</p>
+      {% endif %}
+      <form method="post" action="{% url 'set_goal' %}" class="goal-form">
+        {% csrf_token %}
+        <input type="hidden" name="date" value="{{ date|date:'Y-m-d' }}">
+        {{ goal_form.goal }}
+        <button class="btn" type="submit">Цель</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Добавить запись</h2>
+    <form method="post" action="{% url 'add' %}" class="add-form">
+      {% csrf_token %}
+      {{ form.name }}
+      {{ form.grams }}
+      {{ form.calories }}
+      {{ form.meal }}
+      <input class="inp inp-sm" type="date" name="date" value="{{ date|date:'Y-m-d' }}">
+      <button class="btn btn-add" type="submit">+ Добавить</button>
+    </form>
+  </section>
+
+  {% for meal in by_meal %}
+    <section class="card">
+      <h2>{{ meal.label }} <span class="meal-total">{{ meal.total }} ккал</span></h2>
+      {% if meal.entries %}
+        <table>
+          <tr><th>Продукт</th><th>Г</th><th>Ккал</th><th></th></tr>
+          {% for e in meal.entries %}
+            <tr>
+              <td>{{ e.name }}</td>
+              <td>{{ e.grams }}</td>
+              <td>{{ e.calories }}</td>
+              <td>
+                <form method="post" action="{% url 'delete' e.pk %}">
+                  {% csrf_token %}
+                  <button class="btn btn-del" type="submit">✕</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      {% else %}
+        <p class="empty">Нет записей</p>
+      {% endif %}
+    </section>
+  {% endfor %}
+
+  <section class="card">
+    <h2>Неделя</h2>
+    <div class="week">
+      {% for w in week %}
+        <a class="day {% if w.date == date %}sel{% endif %} {% if w.total > 0 %}has{% endif %}"
+           href="/?date={{ w.date|date:'Y-m-d' }}">
+          <span class="day-name">{{ w.date|date:"D" }}</span>
+          <span class="day-total">{{ w.total }}</span>
+        </a>
+      {% endfor %}
+    </div>
+    <div class="week-chart">
+      {% for w in week %}
+        <div class="bar-wrap" title="{{ w.date|date:'d.m.Y' }}: {{ w.total }} ккал">
+          <div class="bar" style="height: {% widthratio w.total goal 120 %}px"></div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <footer class="foot">
+    <a href="/admin/">Админка</a>
+  </footer>
+</div>
+</body>
+</html>

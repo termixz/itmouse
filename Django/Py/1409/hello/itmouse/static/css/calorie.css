@@ -1,0 +1,184 @@
+/* Счётчик калорий */
+.cal-counter {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.cal-title {
+    font-size: 2.2rem;
+    margin-bottom: 6px;
+    color: #2c3e50;
+}
+
+.cal-subtitle {
+    color: #7f8c8d;
+    margin-bottom: 24px;
+}
+
+.cal-error {
+    background: #fdecea;
+    border: 1px solid #e74c3c;
+    color: #c0392b;
+    border-radius: 10px;
+    padding: 10px 14px;
+}
+
+.cal-summary {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 20px 26px;
+    margin-bottom: 26px;
+}
+
+.cal-ring {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.cal-ring-text {
+    width: 90px;
+    height: 90px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.cal-total {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.cal-of {
+    font-size: 0.75rem;
+    color: #95a5a6;
+}
+
+.cal-info p {
+    margin: 6px 0;
+}
+
+.cal-over {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+.cal-ok {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.cal-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: flex-end;
+    background: #fff;
+    border: 1px solid #ecf0f1;
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .06);
+    margin-bottom: 30px;
+}
+
+.cal-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: .85rem;
+    color: #34495e;
+    min-width: 160px;
+    flex: 1;
+}
+
+.cal-form select,
+.cal-form input {
+    padding: 9px 12px;
+    border: 1px solid #dfe6e9;
+    border-radius: 8px;
+    font-size: .95rem;
+}
+
+.cal-btn {
+    padding: 10px 26px;
+    border: none;
+    border-radius: 8px;
+    background: #2ecc71;
+    color: #fff;
+    font-size: .95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.cal-btn:hover {
+    background: #27ae60;
+}
+
+.cal-h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.cal-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, .06);
+}
+
+.cal-table th,
+.cal-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid #f1f2f6;
+    text-align: left;
+}
+
+.cal-table th {
+    background: #2c3e50;
+    color: #fff;
+    font-weight: 600;
+}
+
+.cal-table tr:last-child td {
+    border-bottom: none;
+}
+
+.cal-delform {
+    display: inline;
+    margin: 0;
+}
+
+.cal-del {
+    border: none;
+    background: none;
+    color: #e74c3c;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.cal-del:hover {
+    color: #c0392b;
+}
+
+.cal-empty {
+    color: #95a5a6;
+    text-align: center;
+    padding: 26px 0;
+}

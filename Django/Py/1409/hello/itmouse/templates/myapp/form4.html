@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles6.css' %}">
+    <title>Форма про учебу</title>
+</head>
+<body>
+    <div class="card">
+        <h2>Форма про учебу</h2>
+        <form method="post">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                </div>
+            {% endfor %}
+
+            <button type="submit">Отправить</button>
+
+            <h2>Результаты</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Любимые предметы</th>
+                        <th>Увлечения</th>
+                        <th>Любимые книги</th>
+                        <th>Любимые авторы</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% if data %}
+                            <td>{{ data.subjects }}</td>
+                            <td>{{ data.hobbies }}</td>
+                            <td>{{ data.books }}</td>
+                            <td>{{ data.authors }}</td>
+                        {% else %}
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

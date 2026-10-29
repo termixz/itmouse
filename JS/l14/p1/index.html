@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root{
+            --bg-color: #f4f4f4;
+            --text-color: #000000;
+        }
+        .dark-theme {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+        }
+        body{
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        ul{
+            content: '•';
+        }
+    </style>
+	<title></title>
+</head>
+<body class="body">
+    <input id="name" type="text">
+    <select id="theme">
+        <option value="Светлая тема">Светлая тема</option>
+        <option value="Темная тема">Темная тема</option>
+    </select>
+    <button id="saver" type="submit">Сохранить настройки</button>
+    <p id="current">Текущее настройки: Имя: , Тема: </p>
+    <button id="tea">Чай - 100р</button>
+    <button id="coffee">Кофе - 200р</button>
+    <button id="biscuits">Печенье - 150р</button>
+    <h3>Корзина</h3>
+    <ul>
+        <li>Чай - 100р х 0 = 0р</li>
+        <li>Кофе - 100р х 0 = 0р</li>
+        <li>Печенье - 100р х 0 = 0р</li>
+    </ul>
+    <h5>Итого: 0р</p>
+	<script type="text/javascript" src="scripts.js"></script>
+	
+</body>
+</html>

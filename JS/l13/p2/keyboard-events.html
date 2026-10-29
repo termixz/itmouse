@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>События Клавиатуры в JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>События Клавиатуры</h1>
+    
+    <div class="navigation">
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="intro.html">Введение</a></li>
+            <li><a href="event-handlers.html">Методы обработки</a></li>
+            <li><a href="event-object.html">Объект Event</a></li>
+            <li><a href="mouse-events.html">События мыши</a></li>
+            <li><a href="keyboard-events.html" class="active">События клавиатуры</a></li>
+            <li><a href="form-events.html">События форм</a></li>
+            <li><a href="load-events.html">События загрузки</a></li>
+            <li><a href="drag-drop.html">Drag and Drop</a></li>
+        </ul>
+    </div>
+
+    <h2>События Клавиатуры</h2>
+    <p>
+        События клавиатуры возникают при взаимодействии пользователя с клавиатурой. Они позволяют обрабатывать нажатия клавиш 
+        и создавать различные интерактивные элементы управления.
+    </p>
+    
+    <h3>Основные события клавиатуры:</h3>
+    <ul>
+        <li><strong>keydown</strong> - возникает при нажатии клавиши</li>
+        <li><strong>keyup</strong> - возникает при отпускании клавиши</li>
+        <li><strong>keypress</strong> - возникает при нажатии клавиши, которая производит символ (устаревшее, рекомендуется использовать keydown)</li>
+    </ul>
+    
+    <div class="note">
+        <p><strong>Важно:</strong> Событие <code>keypress</code> считается устаревшим. В современном коде рекомендуется использовать <code>keydown</code> и <code>keyup</code>.</p>
+    </div>
+    
+    <h3>Свойства объекта события клавиатуры:</h3>
+    <table>
+        <tr>
+            <th>Свойство</th>
+            <th>Описание</th>
+        </tr>
+        <tr>
+            <td>key</td>
+            <td>Значение нажатой клавиши ("a", "Enter", "ArrowUp", и т.д.)</td>
+        </tr>
+        <tr>
+            <td>code</td>
+            <td>Физический код клавиши ("KeyA", "Enter", "ArrowUp", и т.д.)</td>
+        </tr>
+        <tr>
+            <td>keyCode</td>
+            <td>Числовой код клавиши (устаревшее)</td>
+        </tr>
+        <tr>
+            <td>altKey, ctrlKey, shiftKey, metaKey</td>
+            <td>Был ли нажат Alt, Ctrl, Shift или Meta (Windows/Command) во время события</td>
+        </tr>
+        <tr>
+            <td>repeat</td>
+            <td>Булево значение, указывающее на повторное срабатывание события при удержании клавиши</td>
+        </tr>
+    </table>
+    
+    <div class="example">
+        <h4>Пример отслеживания нажатия клавиш:</h4>
+        <div style="margin-top: 10px; border: 1px solid #ddd; padding: 15px; position: relative;">
+            <p>Нажмите любую клавишу (фокус должен быть на странице):</p>
+            <div class="output" id="keyboardOutput"></div>
+            <div style="position: absolute; top: 10px; right: 10px; font-size: 12px; color: #777;">клик в эту область для активации</div>
+        </div>
+        
+        <script>
+            document.addEventListener('keydown', function(event) {
+                const keyboardOutput = document.getElementById('keyboardOutput');
+                
+                keyboardOutput.innerHTML = 
+                    '<strong>Клавиша:</strong> ' + event.key + '<br>' +
+                    '<strong>Код:</strong> ' + event.code + '<br>' +
+                    '<strong>Alt:</strong> ' + event.altKey + '<br>' +
+                    '<strong>Ctrl:</strong> ' + event.ctrlKey + '<br>' +
+                    '<strong>Shift:</strong> ' + event.shiftKey + '<br>';
+                
+                if (event.code === 'Space') {
+                    keyboardOutput.style.backgroundColor = '#ffeb3b';
+                    setTimeout(() => keyboardOutput.style.backgroundColor = '', 300);
+                }
+                
+                if (event.code === 'KeyR' && event.ctrlKey) {
+                    event.preventDefault();
+                    keyboardOutput.innerHTML += '<br><b>Предотвращено обновление страницы!</b>';
+                }
+            });
+        </script>
+        
+        <pre><code>// Код для отслеживания нажатий клавиш
+document.addEventListener('keydown', function(event) {
+    // Получаем элемент для вывода информации
+    const output = document.getElementById('keyboardOutput');
+    
+    // Обновляем содержимое с информацией о нажатой клавише
+    output.innerHTML = 
+        'Клавиша: ' + event.key + '<br>' +
+        'Код: ' + event.code + '<br>' +
+        'Alt: ' + event.altKey + '<br>' +
+        'Ctrl: ' + event.ctrlKey + '<br>' +
+        'Shift: ' + event.shiftKey;
+    
+    // Можно добавить разные действия для конкретных клавиш
+    if (event.code === 'Space') {
+        output.style.backgroundColor = '#ffeb3b';
+        setTimeout(() => output.style.backgroundColor = '', 300);
+    }
+    
+    if (event.code === 'KeyR' && event.ctrlKey) {
+        // Предотвращаем перезагрузку страницы по Ctrl+R
+        event.preventDefault();
+        output.innerHTML += '<br><b>Предотвращено обновление страницы!</b>';
+    }
+});</code></pre>
+    </div>
+
+    <h3>Различие между key и code</h3>
+    <div class="example">
+        <p>
+            <code>event.key</code> - возвращает символ, соответствующий нажатой клавише, с учетом раскладки клавиатуры и регистра.<br>
+            <code>event.code</code> - возвращает физическое положение клавиши на клавиатуре, независимо от раскладки.
+        </p>
+        <table>
+            <tr>
+                <th>Действие</th>
+                <th>key</th>
+                <th>code</th>
+            </tr>
+            <tr>
+                <td>Нажата латинская буква "a"</td>
+                <td>"a"</td>
+                <td>"KeyA"</td>
+            </tr>
+            <tr>
+                <td>Нажата латинская буква "A" (с Shift)</td>
+                <td>"A"</td>
+                <td>"KeyA"</td>
+            </tr>
+            <tr>
+                <td>Нажата кириллическая буква "ф" (на месте "a")</td>
+                <td>"ф"</td>
+                <td>"KeyA"</td>
+            </tr>
+            <tr>
+                <td>Нажата стрелка вверх</td>
+                <td>"ArrowUp"</td>
+                <td>"ArrowUp"</td>
+            </tr>
+        </table>
+    </div>
+
+    <h3>Пример: Простой игровой контроллер</h3>
+    <div class="example">
+        <div style="width: 300px; height: 300px; background-color: #f5f5f5; 
+        border: 1px solid #ddd; position: relative; margin: 0 auto;">
+            <div id="player" style="width: 30px; height: 30px; 
+            background-color: #e91e63; 
+            position: absolute; top: 135px; left: 135px; 
+            transition: all 0.1s ease-out;"></div>
+        </div>
+        <div class="output" id="gameOutput">Используйте клавиши WASD для перемещения объекта</div>
+        
+        <script>
+            const player = document.getElementById('player');
+            const gameOutput = document.getElementById('gameOutput');
+            let playerX = 135;
+            let playerY = 135;
+            const step = 10;
+            
+            document.addEventListener('keydown', function(event) {
+                // Обновляем информацию о нажатой клавише
+                if (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd') {
+                    gameOutput.textContent = 'Нажата клавиша: ' + event.key;
+                }
+                
+                // Перемещаем игрока в зависимости от нажатой клавиши
+                switch(event.key.toLowerCase()) {
+                    case 'w':
+                        playerY = Math.max(0, playerY - step);
+                        break;
+                    case 's':
+                        playerY = Math.min(270, playerY + step);
+                        break;
+                    case 'a':
+                        playerX = Math.max(0, playerX - step);
+                        break;
+                    case 'd':
+                        playerX = Math.min(270, playerX + step);
+                        break;
+                }
+                
+                // Обновляем позицию игрока
+                player.style.top = playerY + 'px';
+                player.style.left = playerX + 'px';
+            });
+        </script>
+        
+        <pre><code>// Код для управления элементом с помощью клавиш WASD
+const player = document.getElementById('player');
+let playerX = 135;
+let playerY = 135;
+const step = 10;
+
+document.addEventListener('keydown', function(event) {
+    // Перемещаем игрока в зависимости от нажатой клавиши
+    switch(event.key.toLowerCase()) {
+        case 'w':
+            playerY = Math.max(0, playerY - step);
+            break;
+        case 's':
+            playerY = Math.min(270, playerY + step);
+            break;
+        case 'a':
+            playerX = Math.max(0, playerX - step);
+            break;
+        case 'd':
+            playerX = Math.min(270, playerX + step);
+            break;
+    }
+    
+    // Обновляем позицию игрока
+    player.style.top = playerY + 'px';
+    player.style.left = playerX + 'px';
+});</code></pre>
+    </div>
+
+
+
+    <h3>Дополнительные примеры использования событий клавиатуры</h3>
+
+    <div class="example">
+        <h4>1. Простое отслеживание нажатий клавиш</h4>
+        <p>
+            Этот пример демонстрирует, как отслеживать нажатия отдельных клавиш и отображать их на экране.
+            Нажмите любую клавишу на клавиатуре для проверки.
+        </p>
+        
+        <div style="width: 100%; padding: 10px; border: 1px solid #ddd; margin: 10px 0; min-height: 60px; font-family: monospace; text-align: center;" id="keysPressed">Нажатые клавиши будут отображаться здесь</div>
+        
+        <script>
+            const keysPressed = document.getElementById('keysPressed');
+            const pressedKeys = new Set();
+            
+            document.addEventListener('keydown', function(event) {
+                pressedKeys.add(event.key);
+                updateDisplay();
+            });
+            
+            document.addEventListener('keyup', function(event) {
+                pressedKeys.delete(event.key);
+                updateDisplay();
+            });
+            
+            function updateDisplay() {
+                if (pressedKeys.size === 0) {
+                    keysPressed.innerHTML = 'Нажатые клавиши будут отображаться здесь';
+                } else {
+                    keysPressed.innerHTML = '<strong>Сейчас нажаты:</strong> ' + 
+                        Array.from(pressedKeys).map(key => {
+                            return `<span style="display: inline-block; padding: 2px 8px; background-color: #e0f7fa; border: 1px solid #80deea; border-radius: 4px; margin: 2px;">${key === ' ' ? 'Space' : key}</span>`;
+                        }).join(' ');
+                }
+            }
+        </script>
+        
+        <pre><code>const keysPressed = document.getElementById('keysPressed');
+const pressedKeys = new Set();
+
+// Обработчик нажатия клавиши
+document.addEventListener('keydown', function(event) {
+    pressedKeys.add(event.key);
+    updateDisplay();
+});
+
+// Обработчик отпускания клавиши
+document.addEventListener('keyup', function(event) {
+    pressedKeys.delete(event.key);
+    updateDisplay();
+});
+
+function updateDisplay() {
+    if (pressedKeys.size === 0) {
+        keysPressed.innerHTML = 'Нажатые клавиши будут отображаться здесь';
+    } else {
+        keysPressed.innerHTML = '<strong>Сейчас нажаты:</strong> ' + 
+            Array.from(pressedKeys).join(' + ');
+    }
+}</code></pre>
+    </div>
+
+    <div class="example">
+        <h4>2. Интерактивная игра с клавиатурным управлением</h4>
+        <p>
+            Этот пример демонстрирует простую игру "Поймай квадрат", в которой нужно поймать 
+            красный квадрат, управляя синим кругом с помощью клавиш WASD.
+        </p>
+        
+        <div style="position: relative; width: 400px; height: 300px; border: 2px solid #333; overflow: hidden; margin: 0 auto; background-color: #f5f5f5;">
+            <div id="gamePlayer" style="width: 30px; height: 30px; background-color: #2196f3; position: absolute; left: 50px; top: 50px; border-radius: 50%; transition: transform 0.05s linear;"></div>
+            <div id="gameTarget" style="width: 25px; height: 25px; background-color: #f44336; position: absolute; right: 70px; top: 100px;"></div>
+            <div id="gameScore" style="position: absolute; top: 10px; right: 10px; font-weight: bold;">Счет: 0</div>
+            <div style="position: absolute; bottom: 10px; left: 10px; font-size: 12px; opacity: 0.7;">Используйте клавиши WASD для движения</div>
+        </div>
+        <div id="gameStatus" style="margin: 10px 0; text-align: center; font-weight: bold;">Нажмите любую клавишу WASD для начала игры</div>
+        
+        <script>
+            // Инициализация игровых элементов
+            const game_player = document.getElementById('gamePlayer');
+            const game_target = document.getElementById('gameTarget');
+            const game_scoreDisplay = document.getElementById('gameScore');
+            const game_status = document.getElementById('gameStatus');
+            const game_area = game_player.parentElement;
+            
+            // Игровые переменные
+            let game_playerX = 50;
+            let game_playerY = 50;
+            let game_targetX = parseInt(game_target.style.right || '70');
+            let game_targetY = parseInt(game_target.style.top || '100');
+            let game_score = 0;
+            let game_started = false;
+            let game_playerSpeed = 5;
+            
+            // Функция для обновления позиции игрока
+            function game_updatePlayerPosition() {
+                // Ограничиваем движение границами игрового поля
+                const maxX = game_area.clientWidth - game_player.clientWidth;
+                const maxY = game_area.clientHeight - game_player.clientHeight;
+                
+                game_playerX = Math.max(0, Math.min(game_playerX, maxX));
+                game_playerY = Math.max(0, Math.min(game_playerY, maxY));
+                
+                game_player.style.left = game_playerX + 'px';
+                game_player.style.top = game_playerY + 'px';
+                
+                // Проверяем столкновение с целью
+                game_checkCollision();
+            }
+            
+            // Функция для перемещения цели в случайное место
+            function game_moveTarget() {
+                const maxX = game_area.clientWidth - game_target.clientWidth;
+                const maxY = game_area.clientHeight - game_target.clientHeight;
+                
+                game_targetX = Math.floor(Math.random() * maxX);
+                game_targetY = Math.floor(Math.random() * maxY);
+                
+                game_target.style.left = game_targetX + 'px';
+                game_target.style.top = game_targetY + 'px';
+            }
+            
+            // Функция для проверки столкновений
+            function game_checkCollision() {
+                // Получаем границы игрока и цели
+                const playerRect = game_player.getBoundingClientRect();
+                const targetRect = game_target.getBoundingClientRect();
+                
+                // Проверяем пересечение
+                if (
+                    playerRect.left < targetRect.right &&
+                    playerRect.right > targetRect.left &&
+                    playerRect.top < targetRect.bottom &&
+                    playerRect.bottom > targetRect.top
+                ) {
+                    // Столкновение произошло!
+                    game_score++;
+                    game_scoreDisplay.textContent = 'Счет: ' + game_score;
+                    
+                    // Меняем позицию цели
+                    game_moveTarget();
+                    
+                    // Показываем эффект столкновения
+                    game_status.textContent = 'Поймал! +1 очко';
+                    game_status.style.color = '#4caf50';
+                    
+                    // Увеличиваем скорость игрока каждые 5 очков
+                    if (game_score % 5 === 0) {
+                        game_playerSpeed += 1;
+                        game_status.textContent = 'Скорость увеличена! Текущий счет: ' + game_score;
+                    }
+                    
+                    setTimeout(() => {
+                        game_status.textContent = 'Используйте WASD для движения';
+                        game_status.style.color = '';
+                    }, 1000);
+                }
+            }
+            
+            // Обработчик клавиатурных событий
+            document.addEventListener('keydown', function(event) {
+                if (!game_started) {
+                    game_started = true;
+                    game_status.textContent = 'Игра началась! Используйте WASD для движения';
+                    // Устанавливаем начальную позицию цели
+                    game_moveTarget();
+                    setTimeout(() => {
+                        game_status.textContent = 'Поймайте красный квадрат';
+                    }, 1500);
+                }
+                
+                // Определяем, какая клавиша нажата, и перемещаем игрока
+                switch(event.key.toLowerCase()) {
+                    case 'w':
+                        game_playerY -= game_playerSpeed;
+                        game_player.style.transform = 'translateY(-3px)';
+                        break;
+                    case 's':
+                        game_playerY += game_playerSpeed;
+                        game_player.style.transform = 'translateY(3px)';
+                        break;
+                    case 'a':
+                        game_playerX -= game_playerSpeed;
+                        game_player.style.transform = 'translateX(-3px)';
+                        break;
+                    case 'd':
+                        game_playerX += game_playerSpeed;
+                        game_player.style.transform = 'translateX(3px)';
+                        break;
+                }
+                
+                game_updatePlayerPosition();
+            });
+            
+            // Сбрасываем трансформацию при отпускании клавиши
+            document.addEventListener('keyup', function(event) {
+                if (['w', 'a', 's', 'd'].includes(event.key.toLowerCase())) {
+                    game_player.style.transform = 'translate(0, 0)';
+                }
+            });
+            
+            // Инициализация начальных позиций
+            game_player.style.left = game_playerX + 'px';
+            game_player.style.top = game_playerY + 'px';
+            game_target.style.left = 'auto';
+            game_target.style.right = '70px';
+            game_target.style.top = '100px';
+        </script>
+        
+        <pre><code>// Инициализация игровых элементов
+const game_player = document.getElementById('gamePlayer');
+const game_target = document.getElementById('gameTarget');
+const game_scoreDisplay = document.getElementById('gameScore');
+const game_status = document.getElementById('gameStatus');
+const game_area = game_player.parentElement;
+
+// Игровые переменные
+let game_playerX = 50;
+let game_playerY = 50;
+let game_targetX = parseInt(game_target.style.right || '70');
+let game_targetY = parseInt(game_target.style.top || '100');
+let game_score = 0;
+let game_started = false;
+let game_playerSpeed = 5;
+
+// Функция для обновления позиции игрока
+function game_updatePlayerPosition() {
+    // Ограничиваем движение границами игрового поля
+    const maxX = game_area.clientWidth - game_player.clientWidth;
+    const maxY = game_area.clientHeight - game_player.clientHeight;
+    
+    game_playerX = Math.max(0, Math.min(game_playerX, maxX));
+    game_playerY = Math.max(0, Math.min(game_playerY, maxY));
+    
+    game_player.style.left = game_playerX + 'px';
+    game_player.style.top = game_playerY + 'px';
+    
+    // Проверяем столкновение с целью
+    game_checkCollision();
+}
+
+// Функция для перемещения цели в случайное место
+function game_moveTarget() {
+    const maxX = game_area.clientWidth - game_target.clientWidth;
+    const maxY = game_area.clientHeight - game_target.clientHeight;
+    
+    game_targetX = Math.floor(Math.random() * maxX);
+    game_targetY = Math.floor(Math.random() * maxY);
+    
+    game_target.style.left = game_targetX + 'px';
+    game_target.style.top = game_targetY + 'px';
+}
+
+// Функция для проверки столкновений
+function game_checkCollision() {
+    // Получаем границы игрока и цели
+    const playerRect = game_player.getBoundingClientRect();
+    const targetRect = game_target.getBoundingClientRect();
+    
+    // Проверяем пересечение
+    if (
+        playerRect.left < targetRect.right &&
+        playerRect.right > targetRect.left &&
+        playerRect.top < targetRect.bottom &&
+        playerRect.bottom > targetRect.top
+    ) {
+        // Столкновение произошло!
+        game_score++;
+        game_scoreDisplay.textContent = 'Счет: ' + game_score;
+        
+        // Меняем позицию цели
+        game_moveTarget();
+        
+        // Показываем эффект столкновения
+        game_status.textContent = 'Поймал! +1 очко';
+        game_status.style.color = '#4caf50';
+        
+        // Увеличиваем скорость игрока каждые 5 очков
+        if (game_score % 5 === 0) {
+            game_playerSpeed += 1;
+            game_status.textContent = 'Скорость увеличена! Текущий счет: ' + game_score;
+        }
+        
+        setTimeout(() => {
+            game_status.textContent = 'Используйте WASD для движения';
+            game_status.style.color = '';
+        }, 1000);
+    }
+}
+
+// Обработчик клавиатурных событий
+document.addEventListener('keydown', function(event) {
+    if (!game_started) {
+        game_started = true;
+        game_status.textContent = 'Игра началась! Используйте WASD для движения';
+        // Устанавливаем начальную позицию цели
+        game_moveTarget();
+        setTimeout(() => {
+            game_status.textContent = 'Поймайте красный квадрат';
+        }, 1500);
+    }
+    
+    // Определяем, какая клавиша нажата, и перемещаем игрока
+    switch(event.key.toLowerCase()) {
+        case 'w':
+            game_playerY -= game_playerSpeed;
+            game_player.style.transform = 'translateY(-3px)';
+            break;
+        case 's':
+            game_playerY += game_playerSpeed;
+            game_player.style.transform = 'translateY(3px)';
+            break;
+        case 'a':
+            game_playerX -= game_playerSpeed;
+            game_player.style.transform = 'translateX(-3px)';
+            break;
+        case 'd':
+            game_playerX += game_playerSpeed;
+            game_player.style.transform = 'translateX(3px)';
+            break;
+    }
+    
+    game_updatePlayerPosition();
+});
+
+// Сбрасываем трансформацию при отпускании клавиши
+document.addEventListener('keyup', function(event) {
+    if (['w', 'a', 's', 'd'].includes(event.key.toLowerCase())) {
+        game_player.style.transform = 'translate(0, 0)';
+    }
+});
+
+// Инициализация начальных позиций
+game_player.style.left = game_playerX + 'px';
+game_player.style.top = game_playerY + 'px';
+game_target.style.left = 'auto';
+game_target.style.right = '70px';
+game_target.style.top = '100px';
+</code></pre>
+    </div>
+
+    <div class="example">
+        <h4>3. Управление объектом с помощью стрелок</h4>
+        <p>
+            Этот пример демонстрирует управление элементом с помощью клавиш стрелок, а также обработку 
+            одновременного нажатия нескольких клавиш и разную скорость движения в зависимости от нажатия Shift.
+        </p>
+        
+        <div style="width: 300px; height: 300px; border: 2px solid #555; position: relative; margin: 20px auto; background-color: #f9f9f9;">
+            <div id="arrowBox" style="width: 40px; height: 40px; background-color: #ff5722; position: absolute; top: 130px; left: 130px; transition: box-shadow 0.2s ease;"></div>
+        </div>
+        <div style="text-align: center; font-family: monospace; margin: 10px 0;" id="arrowStatus">Используйте стрелки для перемещения объекта.<br>Зажмите Shift для ускорения.</div>
+        
+        <script>
+            const arrowBox = document.getElementById('arrowBox');
+            const arrowStatus = document.getElementById('arrowStatus');
+            const arrowKeysPressed = new Set();
+            
+            let boxX = 130;
+            let boxY = 130;
+            let isMoving = false;
+            
+            // Функция для обновления положения
+            function updatePosition() {
+                const speed = arrowKeysPressed.has('Shift') ? 5 : 2; // Больше скорость с Shift
+                
+                if (arrowKeysPressed.has('ArrowUp')) {
+                    boxY = Math.max(0, boxY - speed);
+                }
+                if (arrowKeysPressed.has('ArrowDown')) {
+                    boxY = Math.min(260, boxY + speed);
+                }
+                if (arrowKeysPressed.has('ArrowLeft')) {
+                    boxX = Math.max(0, boxX - speed);
+                }
+                if (arrowKeysPressed.has('ArrowRight')) {
+                    boxX = Math.min(260, boxX + speed);
+                }
+                
+                arrowBox.style.top = boxY + 'px';
+                arrowBox.style.left = boxX + 'px';
+                
+                // Визуальная индикация скорости
+                if (arrowKeysPressed.has('Shift')) {
+                    arrowBox.style.boxShadow = '0 0 10px 2px rgba(255, 87, 34, 0.7)';
+                    arrowStatus.innerHTML = '<strong>Режим ускорения!</strong><br>Координаты: x=' + boxX + ', y=' + boxY;
+                } else {
+                    arrowBox.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.3)';
+                    arrowStatus.innerHTML = 'Координаты: x=' + boxX + ', y=' + boxY + '<br>Зажмите Shift для ускорения';
+                }
+                
+                // Продолжаем движение, пока нажаты клавиши
+                if (arrowKeysPressed.size > 0 && (arrowKeysPressed.has('ArrowUp') || arrowKeysPressed.has('ArrowDown') || 
+                    arrowKeysPressed.has('ArrowLeft') || arrowKeysPressed.has('ArrowRight'))) {
+                    isMoving = true;
+                    requestAnimationFrame(updatePosition);
+                } else {
+                    isMoving = false;
+                }
+            }
+            
+            // Обработчик нажатия клавиши
+            document.addEventListener('keydown', function(event) {
+                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Shift'].includes(event.key)) {
+                    // Предотвращаем прокрутку страницы при нажатии на стрелки
+                    event.preventDefault();
+                    
+                    // Добавляем клавишу в множество нажатых клавиш
+                    arrowKeysPressed.add(event.key);
+                    
+                    // Если движение еще не запущено, запускаем
+                    if (!isMoving) {
+                        updatePosition();
+                    }
+                }
+            });
+            
+            // Обработчик отпускания клавиши
+            document.addEventListener('keyup', function(event) {
+                // Удаляем клавишу из множества нажатых клавиш
+                arrowKeysPressed.delete(event.key);
+                
+                // Если все стрелки отпущены, меняем статус
+                if (!arrowKeysPressed.has('ArrowUp') && !arrowKeysPressed.has('ArrowDown') && 
+                    !arrowKeysPressed.has('ArrowLeft') && !arrowKeysPressed.has('ArrowRight')) {
+                    arrowStatus.innerHTML = 'Используйте стрелки для перемещения объекта.<br>Зажмите Shift для ускорения.';
+                }
+            });
+        </script>
+        
+        <pre><code>const arrowBox = document.getElementById('arrowBox');
+const arrowStatus = document.getElementById('arrowStatus');
+const arrowKeysPressed = new Set();
+
+let boxX = 130;
+let boxY = 130;
+let isMoving = false;
+
+// Функция для обновления положения
+function updatePosition() {
+    const speed = arrowKeysPressed.has('Shift') ? 5 : 2; // Больше скорость с Shift
+    
+    if (arrowKeysPressed.has('ArrowUp')) {
+        boxY = Math.max(0, boxY - speed);
+    }
+    if (arrowKeysPressed.has('ArrowDown')) {
+        boxY = Math.min(260, boxY + speed);
+    }
+    if (arrowKeysPressed.has('ArrowLeft')) {
+        boxX = Math.max(0, boxX - speed);
+    }
+    if (arrowKeysPressed.has('ArrowRight')) {
+        boxX = Math.min(260, boxX + speed);
+    }
+    
+    arrowBox.style.top = boxY + 'px';
+    arrowBox.style.left = boxX + 'px';
+    
+    // Визуальная индикация скорости
+    if (arrowKeysPressed.has('Shift')) {
+        arrowBox.style.boxShadow = '0 0 10px 2px rgba(255, 87, 34, 0.7)';
+    } else {
+        arrowBox.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.3)';
+    }
+    
+    // Продолжаем движение, пока нажаты клавиши
+    if (arrowKeysPressed.size > 0 && (arrowKeysPressed.has('ArrowUp') || arrowKeysPressed.has('ArrowDown') || 
+        arrowKeysPressed.has('ArrowLeft') || arrowKeysPressed.has('ArrowRight'))) {
+        isMoving = true;
+        requestAnimationFrame(updatePosition);
+    } else {
+        isMoving = false;
+    }
+}
+
+// Обработчик нажатия клавиши
+document.addEventListener('keydown', function(event) {
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Shift'].includes(event.key)) {
+        // Предотвращаем прокрутку страницы при нажатии на стрелки
+        event.preventDefault();
+        
+        // Добавляем клавишу в множество нажатых клавиш
+        arrowKeysPressed.add(event.key);
+        
+        // Если движение еще не запущено, запускаем
+        if (!isMoving) {
+            updatePosition();
+        }
+    }
+});
+
+// Обработчик отпускания клавиши
+document.addEventListener('keyup', function(event) {
+    // Удаляем клавишу из множества нажатых клавиш
+    arrowKeysPressed.delete(event.key);
+});</code></pre>
+
+        <div class="explanation" style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #ff5722;">
+            <h4>Объяснение этого примера:</h4>
+            <ol>
+                <li><strong>Отслеживание нескольких клавиш</strong> - используется объект <code>Set</code> для хранения всех нажатых в данный момент клавиш, что позволяет обрабатывать несколько одновременных нажатий.</li>
+                <li><strong>Плавное движение</strong> - используется <code>requestAnimationFrame</code> для создания плавного движения, вместо резких перемещений при каждом нажатии.</li>
+                <li><strong>Клавиши стрелок</strong> - демонстрируется работа с клавишами навигации: <code>ArrowUp</code>, <code>ArrowDown</code>, <code>ArrowLeft</code>, <code>ArrowRight</code>.</li>
+                <li><strong>Модификаторы</strong> - использование клавиши <code>Shift</code> как модификатора, изменяющего параметры движения (скорость).</li>
+                <li><strong>Предотвращение стандартного поведения</strong> - использование <code>event.preventDefault()</code> для отключения прокрутки страницы при нажатии стрелок.</li>
+                <li><strong>Визуальная обратная связь</strong> - добавление эффекта тени при ускорении движения для лучшего пользовательского опыта.</li>
+            </ol>
+            <p>Этот пример хорошо демонстрирует более сложные сценарии обработки клавиатурных событий, когда требуется отслеживать одновременное нажатие нескольких клавиш и создавать плавную анимацию.</p>
+        </div>
+    </div>
+
+    <div class="note">
+        <p><strong>Следующий шаг:</strong> Теперь, когда вы знаете о событиях клавиатуры, давайте рассмотрим <a href="drag-drop.html">Drag and Drop</a> (перетаскивание элементов).</p>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
+
+    <script>
+        // Показать/скрыть кнопку "наверх" при прокрутке
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        // Прокрутка вверх при клике на кнопку
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html> 

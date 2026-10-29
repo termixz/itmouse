@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Погода</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <table class="weather-table">
+        <tr>
+            <td colspan="5" style="background-color: {{ id0.color }};">
+                <div class="city">{{ id0.city }}</div>
+                <div class="info">
+                    <span>{{ id0.temp }}</span>
+                    <img src="{% static 'images/'|add:id0.image %}" alt="weather">
+                </div>
+            </td>
+            <td colspan="3" style="background-color: {{ id1.color }};">
+                <div class="city">{{ id1.city }}</div>
+                <div class="info">
+                    <span>{{ id1.temp }}</span>
+                    <img src="{% static 'images/'|add:id1.image %}" alt="weather">
+                </div>
+            </td>
+            <td colspan="4" style="background-color: {{ id2.color }};">
+                <div class="city">{{ id2.city }}</div>
+                <div class="info">
+                    <span>{{ id2.temp }}</span>
+                    <img src="{% static 'images/'|add:id2.image %}" alt="weather">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="background-color: {{ id3.color }};">
+                <div class="city">{{ id3.city }}</div>
+                <div class="info">
+                    <span>{{ id3.temp }}</span>
+                    <img src="{% static 'images/'|add:id3.image %}" alt="weather">
+                </div>
+            </td>
+            <td colspan="3" style="background-color: {{ id4.color }};">
+                <div class="city">{{ id4.city }}</div>
+                <div class="info">
+                    <span>{{ id4.temp }}</span>
+                    <img src="{% static 'images/'|add:id4.image %}" alt="weather">
+                </div>
+            </td>
+            <td colspan="3" style="background-color: {{ id5.color }};">
+                <div class="city">{{ id5.city }}</div>
+                <div class="info">
+                    <span>{{ id5.temp }}</span>
+                    <img src="{% static 'images/'|add:id5.image %}" alt="weather">
+                </div>
+            </td>
+            <td colspan="3" style="background-color: {{ id6.color }};">
+                <div class="city">{{ id6.city }}</div>
+                <div class="info">
+                    <span>{{ id6.temp }}</span>
+                    <img src="{% static 'images/'|add:id6.image %}" alt="weather">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="background-color: {{ id7.color }};">
+                <div class="city">{{ id7.city }}</div>
+                <div class="info">
+                    <span>{{ id7.temp }}</span>
+                    <img src="{% static 'images/'|add:id7.image %}" alt="weather">
+                </div>
+            </td>
+            <td colspan="6" style="background-color: {{ id8.color }};">
+                <div class="city">{{ id8.city }}</div>
+                <div class="info">
+                    <span>{{ id8.temp }}</span>
+                    <img src="{% static 'images/'|add:id8.image %}" alt="weather">
+                </div>
+            </td>
+            <td colspan="3" style="background-color: {{ id9.color }};">
+                <div class="city">{{ id9.city }}</div>
+                <div class="info">
+                    <span>{{ id9.temp }}</span>
+                    <img src="{% static 'images/'|add:id9.image %}" alt="weather">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12" style="background-color: {{ id10.color }};">
+                <div class="city">{{ id10.city }}</div>
+                <div class="info">
+                    <span>{{ id10.temp }}</span>
+                    <img src="{% static 'images/'|add:id10.image %}" alt="weather">
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

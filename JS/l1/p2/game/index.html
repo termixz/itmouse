@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+	<div class="container">
+        <h1>Игра: Камень, Ножницы, Бумага</h1>
+        <p>Выберите один из вариантов:</p>
+        <div class="button-container">
+            <button onclick="play('камень')">🗿 Камень</button>
+            <button onclick="play('ножницы')">✂️ Ножницы</button>
+            <button onclick="play('бумага')">📄 Бумага</button>
+        </div>
+
+        <div class="choice">
+            <h2>Ваш выбор: <span id="user-choice" class="circle"></span></h2>
+            <h2>Выбор компьютера: <span id="computer-choice" class="circle"></span></h2>
+        </div>
+
+        <h2 id="result"></h2>
+    </div>
+	<script type="text/javascript" src="scripts.js"></script>
+	
+</body>
+</html>

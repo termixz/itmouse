@@ -1,0 +1,83 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block title %}Счётчик калорий{% endblock %}
+
+{% block content %}
+<section class="cal-counter">
+    <h1 class="cal-title">🍏 Счётчик калорий</h1>
+    <p class="cal-subtitle">Выберите продукт, укажите вес — итог сохраняется в базе данных.</p>
+
+    {% if message %}
+    <p class="cal-error">{{ message }}</p>
+    {% endif %}
+
+    <div class="cal-summary">
+        <div class="cal-ring" style="background: conic-gradient({% if overspent %}#e74c3c{% else %}#2ecc71{% endif %} {{ progress }}%, #eee 0);">
+            <div class="cal-ring-text">
+                <span class="cal-total">{{ today_kcal }}</span>
+                <span class="cal-of">/ {{ daily_limit }} ккал</span>
+            </div>
+        </div>
+        <div class="cal-info">
+            {% if overspent %}
+            <p class="cal-over">Лимит превышен на <strong>{{ over_by }}</strong> ккал</p>
+            {% else %}
+            <p class="cal-ok">Осталось: <strong>{{ left_kcal }}</strong> ккал</p>
+            <p class="cal-ok">Норма не превышена ✓</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <form method="post" class="cal-form" action="{% url 'calorie_counter' %}">
+        {% csrf_token %}
+        <label>
+            Продукт
+            <select name="product" required>
+                <option value="">— выберите —</option>
+                {% for name, kcal in products.items %}
+                <option value="{{ name }}">{{ name }} ({{ kcal }} ккал / 100 г)</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            Вес, г
+            <input type="number" name="grams" min="1" max="5000" placeholder="100" required>
+        </label>
+        <label>
+            Дневной лимит, ккал
+            <input type="number" name="daily_limit" min="500" max="10000" value="{{ daily_limit }}">
+        </label>
+        <button type="submit" class="cal-btn">Добавить</button>
+    </form>
+
+    {% if meals %}
+    <h2 class="cal-h2">Дневник за {{ meals.first.created_at|date:'d.m.Y' }}</h2>
+    <table class="cal-table">
+        <tr>
+            <th>Продукт</th>
+            <th>Вес</th>
+            <th>Ккал</th>
+            <th></th>
+        </tr>
+        {% for meal in meals %}
+        <tr>
+            <td>{{ meal.product }}</td>
+            <td>{{ meal.grams }} г</td>
+            <td>{{ meal.kcal }} ккал</td>
+            <td>
+                <form method="post" action="{% url 'calorie_counter' %}" class="cal-delform">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="meal_id" value="{{ meal.id }}">
+                    <button type="submit" class="cal-del" title="Удалить">✕</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p class="cal-empty">Сегодня продуктов ещё не добавлено.</p>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Методы Обработки Событий JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Методы Обработки Событий</h1>
+    
+    <div class="navigation">
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="intro.html">Введение</a></li>
+            <li><a href="event-handlers.html" class="active">Методы обработки</a></li>
+            <li><a href="event-object.html">Объект Event</a></li>
+            <li><a href="mouse-events.html">События мыши</a></li>
+            <li><a href="keyboard-events.html">События клавиатуры</a></li>
+            <li><a href="form-events.html">События форм</a></li>
+            <li><a href="load-events.html">События загрузки</a></li>
+            <li><a href="drag-drop.html">Drag and Drop</a></li>
+        </ul>
+    </div>
+
+    <h2>Методы Обработки Событий</h2>
+    <p>Существует три основных способа добавления обработчиков событий:</p>
+
+    <h3>1. HTML-атрибуты (не рекомендуется)</h3>
+    <div class="example">
+        <pre><code>&lt;button onclick="alert('Кнопка нажата!')">Нажми меня&lt;/button></code></pre>
+        <p>Демонстрация:</p>
+        <button onclick="alert('Кнопка нажата через HTML-атрибут!')">Нажми меня</button>
+    </div>
+    
+    <div class="note">
+        <p><strong>Не рекомендуется</strong> использовать этот метод, так как он смешивает HTML и JavaScript, что затрудняет поддержку кода.</p>
+    </div>
+    
+    <h3>2. Свойства объекта DOM</h3>
+    <div class="example">
+        <pre><code>let button = document.querySelector('button');
+button.onclick = function() {
+    alert('Кнопка нажата!');
+};</code></pre>
+        <p>Демонстрация:</p>
+        <button id="demoButton1">Нажми меня</button>
+        <script>
+            document.getElementById('demoButton1').onclick = function() {
+                alert('Кнопка нажата через свойство onclick!');
+            };
+        </script>
+    </div>
+    
+    <div class="note">
+        <p><strong>Важно:</strong> Используя свойства объекта DOM, мы можем назначить только один обработчик для каждого типа события на элементе.</p>
+    </div>
+
+    <h3>3. Метод addEventListener (рекомендуется)</h3>
+    <div class="example">
+        <pre><code>let button = document.querySelector('button');
+button.addEventListener('click', function() {
+    alert('Кнопка нажата!');
+});
+
+// Можно добавить несколько обработчиков
+button.addEventListener('click', function() {
+    console.log('Еще один обработчик для того же события');
+});</code></pre>
+        <p>Демонстрация:</p>
+        <button id="demoButton2">Нажми меня</button>
+        <div class="output" id="output1"></div>
+        <script>
+            document.getElementById('demoButton2').addEventListener('click', function() {
+                document.getElementById('output1').innerHTML += 'Первый обработчик выполнен<br>';
+            });
+            document.getElementById('demoButton2').addEventListener('click', function() {
+                document.getElementById('output1').innerHTML += 'Второй обработчик выполнен<br>';
+            });
+        </script>
+    </div>
+
+    <h3>Удаление обработчиков событий</h3>
+    <div class="example">
+        <pre><code>// Для свойства объекта DOM
+element.onclick = null;
+
+// Для addEventListener
+function handler() {
+    console.log('Обработчик события');
+}
+element.addEventListener('click', handler);
+element.removeEventListener('click', handler);</code></pre>
+
+        <p>Демонстрация удаления обработчика:</p>
+        <button id="addButton">Добавить обработчик</button>
+        <button id="removeButton">Удалить обработчик</button>
+        <button id="testButton">Тестовая кнопка</button>
+        <div class="output" id="output2"></div>
+
+        <script>
+            const testButton = document.getElementById('testButton');
+            const outputDiv = document.getElementById('output2');
+            
+            function clickHandler() {
+                outputDiv.textContent = 'Обработчик сработал!';
+                setTimeout(() => {
+                    outputDiv.textContent = '';
+                }, 2000);
+            }
+            
+            document.getElementById('addButton').addEventListener('click', function() {
+                testButton.addEventListener('click', clickHandler);
+                outputDiv.textContent = 'Обработчик добавлен!';
+                setTimeout(() => {
+                    outputDiv.textContent = '';
+                }, 2000);
+            });
+            
+            document.getElementById('removeButton').addEventListener('click', function() {
+                testButton.removeEventListener('click', clickHandler);
+                outputDiv.textContent = 'Обработчик удален!';
+                setTimeout(() => {
+                    outputDiv.textContent = '';
+                }, 2000);
+            });
+        </script>
+    </div>
+
+    <div class="note">
+        <p><strong>Следующий шаг:</strong> Теперь, когда вы знаете методы обработки событий, давайте рассмотрим <a href="event-object.html">объект Event</a>, который содержит информацию о произошедшем событии.</p>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
+
+    <script>
+        // Показать/скрыть кнопку "наверх" при прокрутке
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        // Прокрутка вверх при клике на кнопку
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html> 

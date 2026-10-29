@@ -1,0 +1,150 @@
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #74ebd5, #9face6);
+    margin: 0;
+    padding: 40px 0;
+    color: #2d3436;
+}
+
+.container {
+    width: 90%;
+    max-width: 640px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 32px 36px;
+}
+
+h1 {
+    margin: 0 0 8px;
+    text-align: center;
+    color: #27ae60;
+}
+
+.subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 24px;
+}
+
+.result {
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+}
+
+.result.ok {
+    background: #eafaf1;
+    border: 2px solid #2ecc71;
+}
+
+.result.over {
+    background: #fdedec;
+    border: 2px solid #e74c3c;
+}
+
+.result table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.result th,
+.result td {
+    padding: 6px 8px;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.result .total-row td {
+    border-top: 2px solid #34495e;
+    font-size: 16px;
+}
+
+.verdict {
+    margin: 12px 0 0;
+    font-weight: 600;
+    text-align: center;
+}
+
+.calorie-form .limit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #dfe6e9;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+}
+
+.calorie-form .limit input {
+    width: 110px;
+    padding: 8px;
+    border: 1px solid #b2bec3;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.products {
+    max-height: 340px;
+    overflow-y: auto;
+    border: 1px solid #ecf0f1;
+    border-radius: 10px;
+    padding: 8px 12px;
+}
+
+.product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 4px;
+    border-bottom: 1px dashed #ecf0f1;
+}
+
+.product:last-child {
+    border-bottom: none;
+}
+
+.product small {
+    color: #95a5a6;
+}
+
+.product input {
+    width: 110px;
+    padding: 7px;
+    border: 1px solid #b2bec3;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    background: #27ae60;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #2ecc71;
+}
+
+.back-link {
+    display: block;
+    margin-top: 16px;
+    text-align: center;
+    color: #6c5ce7;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}

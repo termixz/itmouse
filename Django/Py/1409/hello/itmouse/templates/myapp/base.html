@@ -1,0 +1,60 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ItMouse{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'css/styles3.css' %}">
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo"><a href="{% url 'hero' %}">ItMouse</a></div>
+
+            <ul class="links">
+                <li><a href="{% url 'hero' %}">Домой</a></li>
+                <li><a href="{% url 'about1' %}">О нас</a></li>
+                <li><a href="{% url 'services' %}">Сервисы</a></li>
+                <li><a href="{% url 'calorie_counter' %}">Счётчик калорий</a></li>
+                <li><a href="{% url 'contacts' %}">Контакты</a></li>
+            </ul>
+
+            <a href="{% url 'hero' %}" class="action_btn">Начать</a>
+
+            <div class="toggle_btn">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+
+        <div class="dropdown_menu">
+            <li><a href="{% url 'hero' %}">Домой</a></li>
+            <li><a href="{% url 'about1' %}">О нас</a></li>
+            <li><a href="{% url 'services' %}">Сервисы</a></li>
+            <li><a href="{% url 'calorie_counter' %}">Счётчик калорий</a></li>
+            <li><a href="{% url 'contacts' %}">Контакты</a></li>
+            <li><a href="{% url 'hero' %}" class="action_btn">Начать</a></li>
+        </div>
+
+        <script>
+            const toggleBtn = document.querySelector('.toggle_btn')
+            const toggleBtnIcon = document.querySelector('.toggle_btn i')
+            const toggleDownMenu = document.querySelector('.dropdown_menu')
+
+            toggleBtn.onclick = function() {
+                toggleDownMenu.classList.toggle('open')
+                const isOpen = toggleDownMenu.classList.contains('open')
+                toggleBtnIcon.classList = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'
+            }
+        </script>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+
+</html>

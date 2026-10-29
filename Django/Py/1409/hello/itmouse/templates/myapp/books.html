@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles8.css' %}">
+    <title>Форма про учебу</title>
+</head>
+<body>
+    <div class="card">
+        <h2>Добавить книгу</h2>
+        <form method="post" action="/create/">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Добавить">
+        </form>
+        <div>
+            <h1>Список книг</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Автор</th>
+                        <th>Дата публикации</th>
+                        <th>ISBN</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                        {% if books.count > 0 %}
+                        {% for book in books %}
+                        <tr>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.author }}</td>
+                            <td>{{ book.published_date }}</td>
+                            <td>{{ book.isbn }}</td>
+                            <td>{{ book.summary }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="5">Нет книг для отображения</td>
+                        </tr>
+                        {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>События загрузки документа в JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .timeline {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .timeline-event {
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 3px solid #3498db;
+            background-color: #f8f9fa;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .timeline-event.active {
+            opacity: 1;
+            border-left-color: #2ecc71;
+        }
+
+        .event-time {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .resource-load {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .resource-load img {
+            width: 300px;
+            height: 100px;
+            border: 1px solid #ddd;
+        }
+
+        .resource-status {
+            flex-grow: 1;
+        }
+
+        .warning-demo {
+            padding: 15px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .demo-button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .demo-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>События загрузки документа</h1>
+    
+    <div class="navigation">
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="intro.html">Введение</a></li>
+            <li><a href="event-handlers.html">Методы обработки</a></li>
+            <li><a href="event-object.html">Объект Event</a></li>
+            <li><a href="mouse-events.html">События мыши</a></li>
+            <li><a href="keyboard-events.html">События клавиатуры</a></li>
+            <li><a href="form-events.html">События форм</a></li>
+            <li><a href="load-events.html" class="active">События загрузки</a></li>
+            <li><a href="drag-drop.html">Drag and Drop</a></li>
+        </ul>
+    </div>
+
+    <h2>События загрузки документа</h2>
+    <p>
+        События загрузки позволяют отслеживать различные этапы загрузки веб-страницы и её ресурсов.
+        Понимание этих событий критически важно для правильной инициализации скриптов и оптимизации производительности.
+    </p>
+
+    <h3>Основные события загрузки</h3>
+    <div class="example">
+        <table>
+            <tr>
+                <th>Событие</th>
+                <th>Описание</th>
+                <th>Использование</th>
+            </tr>
+            <tr>
+                <td>DOMContentLoaded</td>
+                <td>DOM-дерево построено</td>
+                <td>Инициализация UI, навешивание обработчиков</td>
+            </tr>
+            <tr>
+                <td>load</td>
+                <td>Загружены все ресурсы</td>
+                <td>Работа с изображениями, стилями</td>
+            </tr>
+            <tr>
+                <td>beforeunload</td>
+                <td>Перед закрытием страницы</td>
+                <td>Предупреждения о несохраненных данных</td>
+            </tr>
+            <tr>
+                <td>unload</td>
+                <td>Страница закрывается</td>
+                <td>Финальная отправка данных</td>
+            </tr>
+        </table>
+    </div>
+
+    <h3>Демонстрация загрузки страницы</h3>
+    <div class="example">
+        <div class="timeline" id="loadTimeline">
+            <div class="timeline-event" id="pageLoad">
+                Ожидание полной загрузки страницы...
+            </div>
+        </div>
+
+        <div class="resource-load">
+            <img src="logo1.png" alt="Тестовое изображение" id="testImage">
+            <div class="resource-status" id="imageStatus">Загрузка изображения...</div>
+        </div>
+
+        <script>
+            const pageLoadEvent = document.getElementById('pageLoad');
+            const testImage = document.getElementById('testImage');
+            const imageStatus = document.getElementById('imageStatus');
+
+            // Отслеживаем полную загрузку страницы
+            window.addEventListener('load', function() {
+                pageLoadEvent.style.borderLeftColor = '#2ecc71';
+                pageLoadEvent.innerHTML = `
+                    Страница и все ресурсы загружены!
+                    <div class="event-time">Время: ${performance.now().toFixed(2)}ms</div>
+                `;
+            });
+
+            // Отслеживаем загрузку изображения
+            testImage.addEventListener('load', function() {
+                imageStatus.textContent = 'Изображение загружено';
+                imageStatus.style.color = '#2ecc71';
+            });
+
+            testImage.addEventListener('error', function() {
+                imageStatus.textContent = 'Ошибка загрузки изображения';
+                imageStatus.style.color = '#e74c3c';
+            });
+        </script>
+    </div>
+
+    <h3>Предупреждение перед закрытием</h3>
+    <div class="example">
+        <div class="warning-demo">
+            <p>Нажмите кнопку, чтобы активировать предупреждение при попытке закрыть страницу:</p>
+            <button class="demo-button" id="activateWarning">Активировать предупреждение</button>
+            <div class="output" id="warningStatus"></div>
+        </div>
+
+        <script>
+            const warningBtn = document.getElementById('activateWarning');
+            const warningStatus = document.getElementById('warningStatus');
+            let warningActive = false;
+
+            warningBtn.addEventListener('click', function() {
+                warningActive = !warningActive;
+                warningStatus.textContent = warningActive ? 
+                    'Предупреждение активно. Попробуйте закрыть страницу.' : 
+                    'Предупреждение отключено';
+                warningBtn.textContent = warningActive ? 
+                    'Деактивировать предупреждение' : 
+                    'Активировать предупреждение';
+            });
+
+            window.addEventListener('beforeunload', function(e) {
+                if (warningActive) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                }
+            });
+        </script>
+    </div>
+
+    <h3>Примеры кода</h3>
+    <div class="example">
+        <pre><code>// 1. DOMContentLoaded - DOM построен
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM готов к использованию');
+    // Теперь можно безопасно работать с DOM
+    const element = document.getElementById('myElement');
+});
+
+// 2. load - страница и ресурсы загружены
+window.addEventListener('load', function() {
+    console.log('Страница полностью загружена');
+    // Доступны все ресурсы: картинки, стили, скрипты
+});
+
+// 3. beforeunload - перед закрытием страницы
+window.addEventListener('beforeunload', function(e) {
+    // Показать предупреждение перед закрытием
+    e.preventDefault();
+    e.returnValue = '';
+});
+
+// 4. unload - закрытие страницы
+window.addEventListener('unload', function() {
+    // Последние действия перед закрытием
+    navigator.sendBeacon('/api/log', 'Пользователь ушел');
+});</code></pre>
+    </div>
+
+    <div class="note">
+        <h4>Важные моменты при работе с событиями загрузки:</h4>
+        <ul>
+            <li>DOMContentLoaded срабатывает раньше, чем load</li>
+            <li>Используйте DOMContentLoaded для работы с DOM</li>
+            <li>Используйте load, когда нужны все ресурсы</li>
+            <li>beforeunload позволяет предотвратить случайное закрытие</li>
+            <li>В unload можно отправить только асинхронные запросы</li>
+            <li>Порядок загрузки: DOMContentLoaded → load → beforeunload → unload</li>
+        </ul>
+    </div>
+
+    <h3>Практический пример инициализации скриптов</h3>
+    <div class="example">
+        <p>
+            При разработке веб-приложений важно правильно инициализировать скрипты. 
+            Рассмотрим пример, демонстрирующий разницу между правильным и неправильным подходом:
+        </p>
+
+        <div class="demo-container" style="margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 4px;">
+            <div class="form-group">
+                <label for="demoInput">Тестовое поле:</label>
+                <input type="text" id="demoInput">
+                <button id="demoButton">Нажми меня</button>
+            </div>
+            <div id="demoOutput" style="margin-top: 10px; color: #666;"></div>
+        </div>
+
+        <div class="code-comparison" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+            <div class="wrong-approach" style="background: #fff5f5; padding: 15px; border-radius: 4px;">
+                <h4>❌ Неправильный подход</h4>
+                <pre><code>// Может вызвать ошибку, если DOM ещё не загружен
+const button = document.getElementById('demoButton');
+const input = document.getElementById('demoInput');
+
+button.addEventListener('click', () => {
+    input.value = 'Нажата кнопка';
+});</code></pre>
+            </div>
+
+            <div class="correct-approach" style="background: #f0fff4; padding: 15px; border-radius: 4px;">
+                <h4>✅ Правильный подход</h4>
+                <pre><code>document.addEventListener('DOMContentLoaded', () => {
+    const button = document.getElementById('demoButton');
+    const input = document.getElementById('demoInput');
+    
+    button.addEventListener('click', () => {
+        input.value = 'Нажата кнопка';
+    });
+});</code></pre>
+            </div>
+        </div>
+
+        <script>
+            // Демонстрация правильного подхода
+            document.addEventListener('DOMContentLoaded', () => {
+                const button = document.getElementById('demoButton');
+                const input = document.getElementById('demoInput');
+                const output = document.getElementById('demoOutput');
+                
+                // Устанавливаем начальное значение
+                output.textContent = 'DOM загружен, скрипты инициализированы';
+                
+                button.addEventListener('click', () => {
+                    input.value = 'Кнопка нажата!';
+                    output.textContent = 'Обработчик события успешно сработал';
+                    output.style.color = '#2ecc71';
+                });
+            });
+        </script>
+
+        <div class="note" style="margin-top: 20px;">
+            <h4>Преимущества использования DOMContentLoaded:</h4>
+            <ul>
+                <li>Гарантирует доступность всех DOM-элементов</li>
+                <li>Предотвращает ошибки "Cannot read property of null"</li>
+                <li>Позволяет структурировать код инициализации</li>
+                <li>Работает независимо от расположения скрипта в документе</li>
+            </ul>
+        </div>
+
+        <div class="warning-demo">
+            <p><strong>Важно:</strong> Если вам нужно работать с ресурсами (изображения, стили), 
+            используйте событие <code>load</code> вместо <code>DOMContentLoaded</code>:</p>
+            <pre><code>window.addEventListener('load', () => {
+    // Теперь доступны все ресурсы
+    const images = document.getElementsByTagName('img');
+    console.log('Загружено изображений:', images.length);
+});</code></pre>
+        </div>
+    </div>
+
+    <a href="#" class="back-to-top">↑</a>
+
+    <script>
+        // Показать/скрыть кнопку "наверх" при прокрутке
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+
+        // Прокрутка вверх при клике на кнопку
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html> 

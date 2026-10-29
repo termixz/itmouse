@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Калькулятор расходов</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card main">
+            <h1>Калькулятор расходов</h1>
+            
+            <div class="form">
+                <div class="row">
+                    <select id="tip">
+                        <option value="expense">Расход</option>
+                        <option value="income">Доход</option>
+                    </select>
+                    <input type="text" id="desc" placeholder="Описание">
+                </div>
+                <div class="row">
+                    <input type="number" id="sum" placeholder="Сумма">
+                    <input type="date" id="day">
+                </div>
+                <button id="add">Добавить</button>
+            </div>
+
+            <div class="stats">
+                <div>Итого доход: <span id="in">0.00</span> ₽</div>
+                <div>Итого расходы: <span id="out">0.00</span> ₽</div>
+                <div>Баланс: <span id="total">0.00</span> ₽</div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Тип</th>
+                        <th>Описание</th>
+                        <th>Сумма (₽)</th>
+                        <th>Дата</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="list"></tbody>
+            </table>
+        </div>
+
+        <div class="card side">
+            <h3>Соотношение</h3>
+            <div class="chart">
+                <svg viewBox="0 0 42 42" class="donut">
+                    <circle class="hole" cx="21" cy="21" r="15.9155" fill="#fff"></circle>
+                    <circle class="ring" cx="21" cy="21" r="15.9155" fill="transparent" stroke="#eee" stroke-width="6"></circle>
+                    <circle id="seg-in" cx="21" cy="21" r="15.9155" fill="transparent" stroke="#2ecc71" stroke-width="6" stroke-dasharray="0 100" stroke-dashoffset="25"></circle>
+                    <circle id="seg-out" cx="21" cy="21" r="15.9155" fill="transparent" stroke="#e74c3c" stroke-width="6" stroke-dasharray="0 100" stroke-dashoffset="0"></circle>
+                </svg>
+            </div>
+            <div class="info">
+                Доход: <b id="val-in">0</b> Расход: <b id="val-out">0</b>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>

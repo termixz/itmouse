@@ -1,0 +1,16 @@
+const num1 = +prompt('Введите число: ');
+alert(`Число положительное?${num1 > 0}`);
+alert(`Число отрицательное?${num1 < 0}`);
+alert(`Число ноль?${num1 == 0}`);
+const num2 = +prompt('Введите число: ');
+console.log(`Число четное?${num2 % 2 == 0}`);
+console.log(`Число нечетное?${num2 % 2 != 0}`);
+console.log((5 > 3), (2 < 4),(3 > 1),(1 < 4),(312 < 41551));
+const grade1 = +prompt('Введите оценку математики: ');
+const grade2 = +prompt('Введите оценку естествознания: ');
+console.log("=== ШКОЛЬНЫЕ ОЦЕНКИ ===");
+console.log("РЕЗУЛЬТАТ СРАВНЕНИЯ:");
+console.log(`Оценки одинаковые: ${grade1 == grade2}`);
+console.log(`Математика лучше: ${grade1 > grade2}`);
+console.log(`Естествознание лучше: ${grade1 < grade2}`);
+console.log(`Нет двоек: ${grade1 != 2 && grade2 != 2}`);

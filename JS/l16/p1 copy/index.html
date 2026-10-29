@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Мой список задач</title>
+</head>
+<body>
+    <form id="mainForm">
+        <h4>Личная информация</h4>
+        <label for="name">Name:</label>
+        <input id="name" name="userName" required minlength="2">
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="userEmail" required>
+        <label for="birthday">Birthday:</label>
+        <input type="date" id="birthday" name="userBirthday" required>
+        <div class="questions">
+            <h4>Question 1:What is HTML?</h4>
+            <div class="radio-group">
+                <input type="radio" name="htmlis" value="wrong" id="programming" required>
+                <label for="programming">Programming language</label>
+                <br>
+                <input type="radio" name="htmlis" value="correct" id="markup">
+                <label for="Markup">Markup</label>
+                <br>
+                <input type="radio" name="htmlis" value="wrong" id="db">
+                <label for="Database">Database</label>
+                <br>
+                <input type="radio" name="htmlis" value="wrong" id="fw">
+                <label for="Framework">Framework</label>
+            </div>
+            
+            <h4>Question 2: Tags for headers</h4>
+            <div id="headers">
+                 <input type="checkbox" name="headers" value="correct" id="h1">
+                <label for="h1">h1</label>
+                
+                <input type="checkbox" name="headers" value="correct" id="h2">
+                <label for="h2">h2</label>
+                
+                <input type="checkbox" name="headers" value="correct" id="h3">
+                <label for="h3">h3</label>
+                
+                <input type="checkbox" name="headers" value="wrong" id="p">
+                <label for="p">p</label>
+            </div>
+            <h4>Question 4: What mean CSS</h4>
+            <select name="css" required>
+                <option value="">-- Choose correct variant --</option>
+                <option value="correct">Cascading Style Sheets </option>
+                <option value="wrong">Creative Style System </option>
+                <option value="wrong">Computer Sheet Styles </option>
+                <option value="wrong">Color Style Sheets </option>
+            </select>
+            <h4>Question 4: What Atribute is using for creating link in HTML?</h4>
+            <div class="radio-group">
+                <input type="radio" name="link" value="wrong" id="src" required>
+                <label for="src">src</label>
+                <br>
+                <input type="radio" name="link" value="correct" id="href">
+                <label for="href">href</label>
+                <br>
+                <input type="radio" name="link" value="wrong" id="link">
+                <label for="link">link</label>
+                <br>
+                <input type="radio" name="link" value="wrong" id="url">
+                <label for="url">url</label>
+            </div>
+            <h4>Question 5: What Tag is using for creating paragraph in HTML?</h4>
+            <div class="radio-group">
+                <input type="radio" name="paragraph" value="wrong" id="paragraph" required>
+                <label for="paragraph">paragraph</label>
+                <br>
+                <input type="radio" name="paragraph" value="correct" id="p">
+                <label for="p">p</label>
+                <br>
+                <input type="radio" name="paragraph" value="wrong" id="text">
+                <label for="text">text</label>
+                <br>
+                <input type="radio" name="paragraph" value="wrong" id="div">
+                <label for="div">div</label>
+            </div>
+        </div>
+        
+        <button type="submit">Send form</button>
+        <button type="reset">Clear form</button>
+    </form>
+
+    <div id="resultContainer"></div>
+
+    <script type="text/javascript" src="scripts.js"></script>
+</body>
+</html>

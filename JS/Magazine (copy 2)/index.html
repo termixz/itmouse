@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href="./IMG/favicon.png" type="image/png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Дома недорого</title>
+</head>
+<body>
+    <header> 
+        <h2 id="title">ДОМА НЕДОРОГО.by</h2>
+        <select id="valuta">
+            <option value="BYN">BYN</option>
+            <option value="EUR">EUR</option>
+            <option value="RUB">RUB</option>
+            <option value="USD">USD</option>
+        </select>
+        <button id="avatar"><img src="./IMG/avatar.png"> Вход</button>
+    </header>
+    <nav>
+        <img id="logo" src="./IMG/bum-logo.png"> 
+        <ul>
+            <li><button class="addann" id="new">Разместить объявление</button></li>
+        </ul>
+        <img class="filter" src="./IMG/filter.png">
+    </nav>
+    <div class="houses">
+        
+    </div>
+    <footer>
+        <div class="footercont">
+            <div class="footersect">
+                <h3>ДОМА НЕДОРОГО.by</h3>
+                <p>Ваш надежный гид в мире доступной недвижимости. Помогаем находить уютные дома по честным ценам с 2000 года.</p>
+            </div>
+            
+            <div class="footersect footerlinks">
+                <h3>Навигация</h3>
+                <a href="index.html">Главная страница</a>
+                <a href="profile.html">Личный кабинет</a>
+                <button id="help-btn" class="addann help-btn">Помощь ИИ</button>
+            </div>
+
+            <div class="footersect">
+                <h3>Контакты</h3>
+                <p>Email: centr@mmcgrodno.by</p>
+                <p>Тел: +8 (0152) 65 63 75</p>
+                <p>улица Обухова 15, Гродна, Гродзенская вобласць 230003</p>
+                <a href="https://t.me/Sigmadigma_bot"><img style="width: 50px; height: 50px;" src="./IMG/Telegram.png"></a> 
+            </div>
+        </div>
+        <div class="footersect">
+            <h3>Поддержка</h3>
+            <p>Локальный сервер: 127.0.0.1:11435</p>
+        </div>
+        <div class="footerb">
+            &copy; 2026 ДОМА НЕДОРОГО.by. Все права защищены.
+        </div>
+    </footer>
+    
+    <div id="first" class="addHouse">
+        <h3>Добавление объявления</h3>
+        <h5>Укажите название объявления:</h5>
+        <input type="text" id="nameann" placeholder="Введите название здесь...">
+        <p class="error-msg"></p>
+
+        <h5>Укажите адрес вашего дома:</h5>
+        <input type="text" id="address" placeholder="Введите адрес здесь...">
+        <p class="error-msg"></p>
+
+        <h5>Укажите цену вашего дома в BYN:</h5>
+        <input type="text" id="price" placeholder="Введите цену здесь...">
+        <p class="error-msg"></p>
+
+        <h5>Укажите описание вашего дома:</h5>
+        <textarea id="last" placeholder="Введите информацию о размере и состоянии дома здесь..."></textarea>
+        <p class="error-msg lst"></p>
+
+        <button class="next" id="next">Продолжить</button>
+    </div>
+
+    <div id="second" class="addHouse">
+        <h3>Добавление объявления</h3>
+        <h5>Укажите размер участка:</h5>
+        <input type="text" id="square1" placeholder="Введите размер участка здесь...">
+        <p class="error-msg"></p>
+
+        <h5>Укажите размер вашего дома:</h5>
+        <input type="text" id="square2" placeholder="Введите размер дома здесь...">
+        <p class="error-msg"></p>
+
+        <h5>Укажите год постройки вашего дома:</h5>
+        <input type="text" id="year" placeholder="Введите год постройки здесь...">
+        <p class="error-msg"></p>
+
+        <h5>Укажите материал стен вашего дома (опционально):</h5>
+        <input type="text" id="m1" placeholder="Введите материал стен здесь...">
+        <p class="error-msg"></p>
+
+        <h5>Укажите материал крыши вашего дома (опционально):</h5>
+        <input style="margin-bottom: 10px;" type="text" id="m2" placeholder="Введите материал крыши здесь...">
+        <p class="error-msg lst"></p>
+
+        <button class="next">Продолжить</button>
+    </div>
+
+    <div id="third" class="addHouse">
+        <h3>Добавление объявления</h3>
+        <h5>Укажите ваше ФИО:</h5>
+        <input type="text" id="name" placeholder="Введите ваше имя здесь...">
+        <p class="error-msg"></p>
+
+        <h5>Укажите ваш номер телефона:</h5>
+        <input type="text" id="ph" placeholder="Введите ваш номер телефона здесь...">
+        <p class="error-msg"></p>
+
+        <h5>Укажите ваш адрес электронной почты:</h5>
+        <input type="text" id="em" placeholder="Введите email здесь...">
+        <p class="error-msg"></p>
+
+        <h5>Укажите ваше агентство (опционально):</h5>
+        <input style="margin-bottom: 10px;" type="text" id="ag" placeholder="Введите название агентства здесь...">
+        <p class="error-msg lst"></p>
+
+        <button class="next">Продолжить</button>
+    </div>
+    <div id="fourth" class="addHouse">
+        <h3>Добавление объявления</h3>
+        <h5>Выберите фотографии вашего дома:</h5>
+        <input type="file" id="photos" accept="image/*" multiple>
+        <p class="error-msg"></p>
+        
+        <div id="image-preview" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
+
+        <button class="next">Опубликовать</button>
+    </div>
+    <div id="auth-modal" class="filter-popup">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 id="auth-title" style="margin: 0;">Вход</h3>
+            <button id="close-auth">&times;</button>
+        </div>
+        
+        <h5 class="lst">Логин:</h5>
+        <input type="text" id="auth-login" placeholder="Введите логин...">
+
+        <h5 class="lst">Пароль:</h5>
+        <input type="password" id="auth-password" placeholder="Введите пароль...">
+        
+        <p class="error-msg" id="auth-error-general" style="margin-top: 10px; color: red;"></p>
+        <p id="auth-toggle" style="color: #007bff; cursor: pointer; font-size: 12px; margin-top: 10px;">Нет аккаунта? Зарегистрироваться</p>
+
+        <button id="auth-submit" style="margin-top: 10px; padding: 15px; background: #007bff; color: white; border: none; border-radius: 8px; width: 100%;">Войти</button>
+    </div>
+    <div id="filter-modal" class="filter-popup">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="margin: 0;">Фильтры</h3>
+        <button id="close-filter">&times;</button>
+    </div>
+    
+    <div style="overflow-y: auto; flex-grow: 1; padding-right: 5px;">
+        <h5>Поиск по названию:</h5>
+        <input type="text" id="filter-search" placeholder="Напр. Дача...">
+
+        <h5>Максимальная цена (BYN):</h5>
+        <input type="number" id="filter-price" placeholder="Напр. 50000">
+        
+        <h5>Материал стен:</h5>
+        <input type="text" id="filter-material" placeholder="Кирпич, дерево...">
+
+        <h5>Минимальный год постройки:</h5>
+        <input type="number" id="filter-year" placeholder="Напр. 2010">
+
+        <h5>Мин. площадь участка (соток):</h5>
+        <input type="number" id="filter-plot" placeholder="Напр. 10">
+
+        <h5>Мин. площадь дома (м²):</h5>
+        <input type="number" id="filter-house-size" placeholder="Напр. 80">
+        </div>
+
+            <button id="reset-filter" style="margin-top: 10px; padding: 10px; background: #6c757d;">Сбросить всё</button>
+            <button id="apply-filter" style="margin-top: 10px; padding: 15px; background: #007bff; color: white; border: none; border-radius: 8px;">
+                Применить фильтры
+        </button>
+    </div>
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script type="text/javascript" src="scripts.js"></script>
+</body>
+</html>

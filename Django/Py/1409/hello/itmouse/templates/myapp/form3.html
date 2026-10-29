@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        div{
+            margin: 5px;
+        }
+        form{
+            width: 250px;
+        }
+    </style>
+    <title>form3</title>
+</head>
+<body>
+    <h2>Personal information</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <div>
+            {{ form.fname.label_tag }}
+            {{ form.fname }}
+            {{ form.fname.errors }}
+        </div>
+
+        <div>
+            {{ form.lname.label_tag }}
+            {{ form.lname }}
+            {{ form.lname.errors }}
+        </div>
+
+        <fieldset>
+            <legend>{{ form.date.label }}</legend>
+            {{ form.date }}
+            {{ form.date.errors }}
+        </fieldset>
+
+        <div>
+            {{ form.gender.label_tag }}
+            {{ form.gender }}
+            {{ form.gender.errors }}
+        </div>
+
+        <h2>Account details</h2>
+
+        <div>
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+
+        <div>
+            {{ form.reemail.label_tag }}
+            <div>{{ form.reemail.help_text }}</div>
+            {{ form.reemail }}
+            {{ form.reemail.errors }}
+        </div>
+
+        <div>
+            {{ form.password.label_tag }}
+            {{ form.password }}
+            {{ form.password.errors }}
+        </div>
+
+        <h2>Address details</h2>
+
+        <div>
+            {{ form.address.label_tag }}
+            {{ form.address }}
+            {{ form.address.errors }}
+        </div>
+
+        <div>
+            {{ form.city.label_tag }}
+            {{ form.city }}
+            {{ form.city.errors }}
+        </div>
+
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>
