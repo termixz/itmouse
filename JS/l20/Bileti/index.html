@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ж/Д билеты</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 40px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f6f9;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .container {
+        width: 900px;
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+
+      h1 {
+        grid-column: 1 / -1;
+        margin: 0 0 10px 0;
+        font-size: 28px;
+        color: #1a1a1a;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 15px;
+      }
+
+      .formSection {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      label {
+        font-weight: 600;
+        font-size: 14px;
+        color: #4a5568;
+        margin-bottom: 5px;
+        display: block;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 15px;
+        box-sizing: border-box;
+        transition: border-color 0.2s;
+      }
+
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #3b82f6;
+      }
+
+      select {
+        width: 100%;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 15px;
+        outline: none;
+        box-sizing: border-box;
+      }
+
+      select option {
+        padding: 12px;
+        border-bottom: 1px solid #f1f5f9;
+      }
+
+      select option:last-child {
+        border-bottom: none;
+      }
+
+      fieldset {
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 0;
+      }
+
+      legend {
+        font-weight: 600;
+        font-size: 14px;
+        color: #4a5568;
+        padding: 0 10px;
+      }
+
+      .checkboxLabel {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-weight: normal;
+      }
+
+      .checkboxLabel:last-child {
+        margin-bottom: 0;
+      }
+
+      .checkboxLabel input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+      }
+
+      .dateWrap {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: #f8fafc;
+        padding: 15px;
+        border-radius: 6px;
+        border: 1px dashed #cbd5e1;
+      }
+
+      #pickDateBtn {
+        background-color: #3b82f6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      #pickDateBtn:hover {
+        background-color: #2563eb;
+      }
+
+      #tripDateText {
+        font-size: 15px;
+        color: #64748b;
+      }
+
+      .summarySection {
+        background-color: #f8fafc;
+        border-radius: 8px;
+        padding: 30px;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .summaryRow {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 12px;
+      }
+
+      .summaryRow:last-of-type {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .summaryLabel {
+        font-weight: 500;
+        color: #64748b;
+      }
+
+      .summaryValue {
+        font-weight: 600;
+        color: #0f172a;
+        text-align: right;
+      }
+
+      .totalRow {
+        margin-top: auto;
+        padding-top: 20px;
+        border-top: 2px dashed #cbd5e1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .totalLabel {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0f172a;
+      }
+
+      #outTotal {
+        font-size: 28px;
+        font-weight: 800;
+        color: #10b981;
+      }
+
+      .srOnly {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .actionsRow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+      }
+
+      .btn {
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .btnPrimary {
+        background-color: #10b981;
+        color: white;
+        padding: 12px 24px;
+        font-size: 16px;
+      }
+
+      .btnPrimary:hover {
+        background-color: #059669;
+      }
+
+      .btnSmall {
+        background-color: #475569;
+        color: white;
+        padding: 10px 16px;
+        font-size: 13px;
+        width: 100%;
+      }
+
+      .btnSmall:hover {
+        background-color: #334155;
+      }
+
+      .dateValue {
+        font-size: 14px;
+        color: #64748b;
+      }
+
+      .errText {
+        color: #ef4444;
+        font-size: 14px;
+        font-weight: 600;
+        display: none;
+      }
+
+      .errText.show {
+        display: block;
+      }
+
+      .ticketCard {
+        width: 900px;
+        background-color: #111a2e;
+        color: #e8eefc;
+        padding: 30px;
+        border-radius: 14px;
+        box-sizing: border-box;
+        border: 1px solid #223054;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .ticketTitle {
+        font-size: 20px;
+        font-weight: 700;
+        color: #6aa7ff;
+      }
+
+      .ticketId {
+        font-family: monospace;
+        font-size: 16px;
+        color: #a9b7df;
+        margin-top: 4px;
+      }
+
+      .ticketWrap {
+        display: grid;
+        grid-template-columns: 1fr 200px;
+        gap: 25px;
+      }
+
+      .ticket {
+        background: rgba(9, 14, 28, 0.55);
+        border: 1px solid #223054;
+        border-radius: 12px;
+        padding: 25px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .ticketFullRow {
+        grid-column: 1 / -1;
+      }
+
+      .ticketBlockTitle {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #a9b7df;
+        margin-bottom: 5px;
+      }
+
+      .ticketBlockValue {
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .sideBtns {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Расчет стоимости Ж/Д билетов</h1>
+      
+      <div class="formSection">
+        <form id="ticketForm" onsubmit="return false;">
+          <div style="margin-bottom: 20px;">
+            <label for="fromCity">Город отправления</label>
+            <input id="fromCity" type="text" placeholder="Например: Москва" />
+          </div>
+
+          <div>
+            <label for="toCity">Город прибытия</label>
+            <input id="toCity" type="text" placeholder="Например: Санкт‑Петербург" />
+          </div>
+        </form>
+
+        <div>
+          <label for="wagonType">Тип вагона</label>
+          <select id="wagonType" size="3">
+            <option value="platzkart" data-mult="1" selected>Плацкарт (базовый тариф)</option>
+            <option value="coupe" data-mult="1.1">Купе (+10%)</option>
+            <option value="sv" data-mult="1.2">СВ (+20%)</option>
+          </select>
+        </div>
+
+        <fieldset>
+          <legend>Дополнительные услуги</legend>
+          <label class="checkboxLabel">
+            <input id="svcTeaCoffee" type="checkbox" data-price="5" />
+            <span>Чай / кофе — 5 BYN</span>
+          </label>
+          <label class="checkboxLabel">
+            <input id="svcLinen" type="checkbox" data-price="3" />
+            <span>Постельное бельё — 3 BYN</span>
+          </label>
+        </fieldset>
+
+        <div class="dateWrap">
+          <button id="pickDateBtn" type="button">Выбрать дату</button>
+          <span id="tripDateText">не выбрана</span>
+          <input id="tripDate" type="date" class="srOnly" />
+        </div>
+      </div>
+
+      <div class="summarySection">
+        <div class="summaryRow">
+          <span class="summaryLabel">Маршрут</span>
+          <span id="outRoute" class="summaryValue">—</span>
+        </div>
+        <div class="summaryRow">
+          <span class="summaryLabel">Тип вагона</span>
+          <span id="outWagon" class="summaryValue">—</span>
+        </div>
+        <div class="summaryRow">
+          <span class="summaryLabel">Услуги</span>
+          <span id="outServices" class="summaryValue">—</span>
+        </div>
+        <div class="summaryRow">
+          <span class="summaryLabel">Дата поездки</span>
+          <span id="outDate" class="summaryValue">—</span>
+        </div>
+        <div class="totalRow">
+          <span class="totalLabel">Итого:</span>
+          <span id="outTotal">—</span>
+        </div>
+        <div class="actionsRow" style="margin-top: 10px">
+          <button id="payBtn" class="btn btnPrimary" type="button">Оплатить</button>
+          <span class="dateValue">После оплаты появится билет</span>
+        </div>
+        <div id="payError" class="errText">Заполни “Откуда”, “Куда” и выбери дату.</div>
+      </div>
+    </div>
+
+    <div id="ticketSection" class="ticketCard" hidden>
+      <div class="actionsRow" style="margin-bottom: 20px;">
+        <div>
+          <div class="ticketTitle">Ваш билет</div>
+          <div class="ticketId" id="ticketId">—</div>
+        </div>
+        <div class="dateValue" id="ticketPaidAt">—</div>
+      </div>
+
+      <div class="ticketWrap">
+        <div class="ticket" id="ticketNode">
+          <div class="ticketFullRow">
+            <div class="ticketBlockTitle">Маршрут</div>
+            <div id="tRoute" class="ticketBlockValue">—</div>
+          </div>
+          <div>
+            <div class="ticketBlockTitle">Дата</div>
+            <div id="tDate" class="ticketBlockValue">—</div>
+          </div>
+          <div>
+            <div class="ticketBlockTitle">Тип вагона</div>
+            <div id="tWagon" class="ticketBlockValue">—</div>
+          </div>
+          <div>
+            <div class="ticketBlockTitle">Расстояние</div>
+            <div id="tDistance" class="ticketBlockValue">—</div>
+          </div>
+          <div>
+            <div class="ticketBlockTitle">Стоимость</div>
+            <div id="tPrice" class="ticketBlockValue">—</div>
+          </div>
+          <div class="ticketFullRow">
+            <div class="ticketBlockTitle">Услуги</div>
+            <div id="tServices" class="ticketBlockValue">—</div>
+          </div>
+        </div>
+
+        <div class="sideBtns">
+          <button id="savePngBtn" class="btn btnSmall" type="button">Сохранить как PNG</button>
+          <button id="saveTxtBtn" class="btn btnSmall" type="button">Сохранить как TXT</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        const fromCity = document.getElementById('fromCity');
+        const toCity = document.getElementById('toCity');
+        const wagonType = document.getElementById('wagonType');
+        const svcTeaCoffee = document.getElementById('svcTeaCoffee');
+        const svcLinen = document.getElementById('svcLinen');
+        const pickDateBtn = document.getElementById('pickDateBtn');
+        const tripDateText = document.getElementById('tripDateText');
+        const tripDate = document.getElementById('tripDate');
+        const outRoute = document.getElementById('outRoute');
+        const outWagon = document.getElementById('outWagon');
+        const outServices = document.getElementById('outServices');
+        const outDate = document.getElementById('outDate');
+        const outTotal = document.getElementById('outTotal');
+
+        const els = {
+            payBtn: document.getElementById("payBtn"),
+            payError: document.getElementById("payError"),
+            ticketSection: document.getElementById("ticketSection"),
+            ticketNode: document.getElementById("ticketNode"),
+            savePngBtn: document.getElementById("savePngBtn"),
+            saveTxtBtn: document.getElementById("saveTxtBtn"),
+            ticketId: document.getElementById("ticketId"),
+            ticketPaidAt: document.getElementById("ticketPaidAt"),
+            tRoute: document.getElementById("tRoute"),
+            tDate: document.getElementById("tDate"),
+            tWagon: document.getElementById("tWagon"),
+            tDistance: document.getElementById("tDistance"),
+            tPrice: document.getElementById("tPrice"),
+            tServices: document.getElementById("tServices")
+        };
+
+        async function update() {
+            const city1 = fromCity.value;
+            const city2 = toCity.value;
+
+            if (!city1 || !city2) {
+                return;
+            }
+
+            try {
+                const response1 = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city1)}&limit=1`);
+                const data1 = await response1.json();
+
+                if (data1.length === 0) {
+                    throw new Error(`город не найден: ${city1}`);
+                }
+
+                const coords1 = {
+                    lat: parseFloat(data1[0].lat),
+                    lon: parseFloat(data1[0].lon)
+                };
+
+                const response2 = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city2)}&limit=1`);
+                const data2 = await response2.json();
+
+                if (data2.length === 0) {
+                    throw new Error(`город не найден: ${city2}`);
+                }
+
+                const coords2 = {
+                    lat: parseFloat(data2[0].lat),
+                    lon: parseFloat(data2[0].lon)
+                };
+
+                const R = 6371;
+                const dLat = (coords2.lat - coords1.lat) * Math.PI / 180;
+                const dLon = (coords2.lon - coords1.lon) * Math.PI / 180;
+                const a = 
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(coords1.lat * Math.PI / 180) * Math.cos(coords2.lat * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                const straightDistance = R * c;
+
+                const routeResponse = await fetch(`https://routing.openstreetmap.de/routed-car/route/v1/driving/${coords1.lon},${coords1.lat};${coords2.lon},${coords2.lat}?overview=false`);
+                const routeData = await routeResponse.json();
+
+                if (routeData.code === 'NoRoute') {
+                    throw new Error('Поезда туда не ходят: нет сухопутного пути');
+                }
+
+                if (routeData.code !== 'Ok') {
+                    throw new Error('Ошибка связи с сервером маршрутов');
+                }
+
+                const roadDistance = routeData.routes[0].distance / 1000;
+
+                if (roadDistance < straightDistance - 10) {
+                    throw new Error('Поезда туда не ходят: путь прерывается морем');
+                }
+
+                outRoute.textContent = `${city1} — ${city2} (${roadDistance.toFixed(1)} км)`;
+
+                const selectedOption = wagonType.options[wagonType.selectedIndex];
+                const mult = parseFloat(selectedOption.getAttribute('data-mult'));
+                outWagon.textContent = selectedOption.textContent.split(' (')[0];
+
+                let basePrice = roadDistance * 0.1;
+                let totalPrice = basePrice * mult;
+
+                let servicesList = [];
+                if (svcTeaCoffee.checked) {
+                    totalPrice += parseFloat(svcTeaCoffee.getAttribute('data-price'));
+                    servicesList.push('Чай/кофе');
+                }
+                if (svcLinen.checked) {
+                    totalPrice += parseFloat(svcLinen.getAttribute('data-price'));
+                    servicesList.push('Бельё');
+                }
+
+                if (servicesList.length > 0) {
+                    outServices.textContent = servicesList.join(', ');
+                } else {
+                    outServices.textContent = 'Нет';
+                }
+
+                if (tripDate.value) {
+                    outDate.textContent = tripDate.value;
+                    tripDateText.textContent = tripDate.value;
+                } else {
+                    outDate.textContent = 'Не выбрана';
+                }
+
+                outTotal.textContent = `${totalPrice.toFixed(2)} BYN`;
+
+            } catch (err) {
+                console.error(err);
+                outRoute.textContent = 'Поезда туда не ходят';
+                outWagon.textContent = '—';
+                outServices.textContent = '—';
+                outDate.textContent = '—';
+                outTotal.textContent = '—';
+            }
+        }
+
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        }
+
+        function makeTicketId() {
+            const dt = new Date();
+            const yyyy = dt.getFullYear();
+            const mm = String(dt.getMonth() + 1).padStart(2, "0");
+            const dd = String(dt.getDate()).padStart(2, "0");
+            const rnd = Math.floor(1000 + Math.random() * 9000);
+            return `ITM-${yyyy}${mm}${dd}-${rnd}`;
+        }
+
+        function collectTicketData() {
+            const from = fromCity.value.trim();
+            const to = toCity.value.trim();
+            const dateIso = tripDate.value;
+            const selectedOption = wagonType.options[wagonType.selectedIndex];
+            const wagonText = selectedOption.textContent.split(' (')[0];
+            
+            let servicesList = [];
+            if (svcTeaCoffee.checked) servicesList.push('Чай/кофе');
+            if (svcLinen.checked) servicesList.push('Бельё');
+            const servicesText = servicesList.length > 0 ? servicesList.join(', ') : 'Нет';
+
+            const dt = new Date();
+            const paidAtText = `${String(dt.getDate()).padStart(2, '0')}.${String(dt.getMonth() + 1).padStart(2, '0')}.${dt.getFullYear()} ${String(dt.getHours()).padStart(2, '0')}:${String(dt.getMinutes()).padStart(2, '0')}`;
+
+            if (!els.currentTicketId) {
+                els.currentTicketId = makeTicketId();
+                els.currentPaidAt = paidAtText;
+            }
+
+            return {
+                ticketId: els.currentTicketId,
+                paidAt: els.currentPaidAt,
+                route: `${from} — ${to}`,
+                date: dateIso,
+                wagon: wagonText,
+                distance: document.getElementById('outRoute').textContent.includes('(') ? document.getElementById('outRoute').textContent.split('(')[1].replace(')', '') : '—',
+                services: servicesText,
+                price: outTotal.textContent
+            };
+        }
+
+        function showTicket(data) {
+            els.ticketSection.hidden = false;
+            els.ticketId.textContent = data.ticketId;
+            els.ticketPaidAt.textContent = `Оплачено: ${data.paidAt}`;
+            els.tRoute.textContent = data.route;
+            els.tDate.textContent = data.date;
+            els.tWagon.textContent = data.wagon;
+            els.tDistance.textContent = data.distance;
+            els.tPrice.textContent = data.price;
+            els.tServices.textContent = data.services;
+        }
+
+        els.payBtn.addEventListener("click", () => {
+            const from = fromCity.value.trim();
+            const to = toCity.value.trim();
+            const dateIso = tripDate.value;
+
+            if (!from || !to || !dateIso) {
+                els.payError.classList.add("show");
+                return;
+            }
+
+            els.payError.classList.remove("show");
+            const data = collectTicketData();
+            showTicket(data);
+        });
+
+        function buildTicketText(data) {
+            return [
+                `БИЛЕТ ${data.ticketId}`,
+                `Оплачено: ${data.paidAt}`,
+                ``,
+                `Маршрут: ${data.route}`,
+                `Дата: ${data.date}`,
+                `Тип вагона: ${data.wagon}`,
+                `Расстояние: ${data.distance}`,
+                `Услуги: ${data.services}`,
+                `Стоимость: ${data.price}`,
+            ].join("\n");
+        }
+
+        els.saveTxtBtn.addEventListener("click", () => {
+            const data = collectTicketData();
+            const text = buildTicketText(data);
+            const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+            downloadBlob(blob, `${data.ticketId}.txt`);
+        });
+
+        function renderTicketToCanvas(data) {
+            const w = 1100;
+            const h = 620;
+            const canvas = document.createElement("canvas");
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext("2d");
+
+            ctx.fillStyle = "#0b1220";
+            ctx.fillRect(0, 0, w, h);
+
+            const x = 50;
+            const y = 50;
+            const cw = w - 100;
+            const ch = h - 100;
+            const r = 22;
+            ctx.fillStyle = "rgba(17, 26, 46, 0.95)";
+            ctx.strokeStyle = "rgba(106, 167, 255, 0.55)";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.arcTo(x + cw, y, x + cw, y + ch, r);
+            ctx.arcTo(x + cw, y + ch, x, y + ch, r);
+            ctx.arcTo(x, y + ch, x, y, r);
+            ctx.arcTo(x, y, x + cw, y, r);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.save();
+            ctx.globalAlpha = 0.08;
+            ctx.fillStyle = "#e8eefc";
+            for (let i = -ch; i < cw; i += 18) {
+                ctx.fillRect(x + i, y + 80, 10, ch - 140);
+            }
+            ctx.restore();
+
+            const pad = 34;
+            let ty = y + pad + 6;
+
+            ctx.fillStyle = "#a9b7df";
+            ctx.font = "600 22px system-ui, Segoe UI, Arial";
+            ctx.fillText("Электронный билет", x + pad, ty);
+            ty += 34;
+
+            ctx.fillStyle = "#e8eefc";
+            ctx.font = "800 34px system-ui, Segoe UI, Arial";
+            ctx.fillText(data.ticketId, x + pad, ty);
+
+            ctx.fillStyle = "#a9b7df";
+            ctx.font = "500 18px system-ui, Segoe UI, Arial";
+            const paidAtWidth = ctx.measureText(data.paidAt).width;
+            ctx.fillText(data.paidAt, x + cw - pad - paidAtWidth, y + pad + 36);
+
+            ty += 44;
+            ctx.fillStyle = "#e8eefc";
+            ctx.font = "800 30px system-ui, Segoe UI, Arial";
+            ctx.fillText(data.route, x + pad, ty);
+
+            const boxY = ty + 26;
+            const boxX = x + pad;
+            const boxW = cw - pad * 2 - 160;
+            const boxH = ch - (boxY - y) - pad;
+
+            const qx = x + cw - pad - 120;
+            const qy = boxY;
+            ctx.strokeStyle = "rgba(34, 48, 84, 1)";
+            ctx.fillStyle = "rgba(9, 14, 28, 0.55)";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(qx, qy, 120, 120, 18);
+            ctx.fill();
+            ctx.stroke();
+            ctx.save();
+            ctx.globalAlpha = 0.25;
+            ctx.fillStyle = "#e8eefc";
+            for (let i = 0; i < 12; i++) {
+                ctx.fillRect(qx + 14 + i * 8, qy + 14, 3, 92);
+            }
+            ctx.restore();
+            ctx.fillStyle = "#a9b7df";
+            ctx.font = "700 16px system-ui, Segoe UI, Arial";
+            ctx.fillText("QR", qx + 48, qy + 72);
+
+            function drawKV(k, v, col, row) {
+                const cols = 2;
+                const gap = 16;
+                const cellW = (boxW - gap) / cols;
+                const cellH = 92;
+                const cx = boxX + col * (cellW + gap);
+                const cy = boxY + row * (cellH + gap);
+
+                ctx.fillStyle = "rgba(9, 14, 28, 0.45)";
+                ctx.strokeStyle = "rgba(34, 48, 84, 1)";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.roundRect(cx, cy, cellW, cellH, 18);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = "#a9b7df";
+                ctx.font = "600 16px system-ui, Segoe UI, Arial";
+                ctx.fillText(k, cx + 18, cy + 30);
+
+                ctx.fillStyle = "#e8eefc";
+                ctx.font = "800 20px system-ui, Segoe UI, Arial";
+                ctx.fillText(v, cx + 18, cy + 62);
+            }
+
+            drawKV("Дата", data.date, 0, 0);
+            drawKV("Тип вагона", data.wagon, 1, 0);
+            drawKV("Расстояние", data.distance, 0, 1);
+            drawKV("Стоимость", data.price, 1, 1);
+
+            const sx = boxX;
+            const sy = boxY + (92 + 16) * 2;
+            const sw = boxW;
+            const sh = Math.max(96, boxH - (92 + 16) * 2);
+            ctx.fillStyle = "rgba(9, 14, 28, 0.45)";
+            ctx.strokeStyle = "rgba(34, 48, 84, 1)";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(sx, sy, sw, sh, 18);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = "#a9b7df";
+            ctx.font = "600 16px system-ui, Segoe UI, Arial";
+            ctx.fillText("Услуги", sx + 18, sy + 30);
+            ctx.fillStyle = "#e8eefc";
+            ctx.font = "700 18px system-ui, Segoe UI, Arial";
+
+            const maxWidth = sw - 36;
+            const words = String(data.services || "—").split(" ");
+            let line = "";
+            let yy = sy + 60;
+            for (const word of words) {
+                const test = line ? `${line} ${word}` : word;
+                if (ctx.measureText(test).width > maxWidth) {
+                    ctx.fillText(line, sx + 18, yy);
+                    line = word;
+                    yy += 26;
+                } else {
+                    line = test;
+                }
+            }
+            if (line) ctx.fillText(line, sx + 18, yy);
+
+            return canvas;
+        }
+
+        els.savePngBtn.addEventListener("click", () => {
+            const data = collectTicketData();
+            const canvas = renderTicketToCanvas(data);
+            canvas.toBlob((blob) => {
+                if (!blob) return;
+                downloadBlob(blob, `${data.ticketId}.png`);
+            }, "image/png");
+        });
+
+        fromCity.addEventListener('change', () => { els.currentTicketId = null; update(); });
+        toCity.addEventListener('change', () => { els.currentTicketId = null; update(); });
+        wagonType.addEventListener('change', update);
+        svcTeaCoffee.addEventListener('change', update);
+        svcLinen.addEventListener('change', update);
+        tripDate.addEventListener('change', update);
+
+        pickDateBtn.addEventListener('click', function() {
+            tripDate.showPicker();
+        });
+    </script>
+  </body>
+</html>
